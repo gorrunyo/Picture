@@ -1,9 +1,8 @@
 import vs
-from _picture import *
+from _picture import PictureParameters
 from vs_constants import *
 
 import pydevd_pycharm
-
 pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
 
