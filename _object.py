@@ -1,180 +1,28 @@
 import vs
 from vs_constants import *
-import kWidgetID
+from _picture_oip import PictureOIP
 
 import pydevd_pycharm
 pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
 
 def execute():
+    oip = PictureOIP()
     _, param_name, param_handle, param_rec_handle, wall_handle = vs.GetCustomObjectInfo()
 
     the_event, the_button = vs.vsoGetEventInfo()
 
     if the_event == kObjOnInitXProperties:
-        # Enable custom shape pane
-        _ = vs.SetObjPropVS(kObjXPropHasUIOverride, True)
-        _ = vs.SetObjPropVS(kObjXHasCustomWidgetVisibilities, True)
-        vs.SetPrefInt(varParametricEnableStateEventing, 1)
-        _ = vs.SetObjPropVS(kObjXPropAcceptStates, True)
-        _ = vs.SetObjPropVS(kObjXPropAcceptStatesInternal, True)
-        init_oip_layout()
-
+        oip.create()
     elif the_event == kObjOnWidgetPrep:
-        update_parameters_state(param_handle)
-
-    elif the_event == kObjOnObjectUIButtonHit:
-        if the_button == kWidgetID.ImageEditButton:
-            on_edit_image_button(param_handle)
-        elif the_button == kWidgetID.NameEditButton:
-            on_change_picture_name_button(param_handle)
-
+        oip.update_parameters_state(param_handle)
     elif the_event == kParametricRecalculate:
         reset_event_handler(param_handle)
         vs.vsoStateClear(param_handle)
-
     elif the_event == kObjOnAddState:
         _ = vs.vsoStateAddCurrent(param_handle, the_button)
 
 
-# this function is executed once and
-# it defines the shape pane of the parametric object
-#
-# The shape pane is composed of widgets
-# it is a widget connected to a parameter or it is a button widget
-def init_oip_layout():
-    # the following line will add all parameters as widgets
-    # but we dont want that
-    # we would like to set it up ourselves
-    # ok = vs.vsoInsertAllParams()
-
-    _ = vs.vsoAddParamWidget(kWidgetID.PictureName, 'PictureName', '')
-
-    _ = vs.vsoAddWidget(kWidgetID.ImageSeparator, 100, "Image")
-    _ = vs.vsoAddParamWidget(kWidgetID.WithImage, 'WithImage', '')
-    _ = vs.vsoAddParamWidget(kWidgetID.ImageWidth, 'ImageWidth', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.ImageWidth, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.ImageHeight, 'ImageHeight', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.ImageHeight, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.ImagePosition, 'ImagePosition', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.ImagePosition, 1)
-
-    _ = vs.vsoAddWidget(kWidgetID.FrameSeparator, 100, "Frame")
-    _ = vs.vsoAddParamWidget(kWidgetID.WithFrame, 'WithFrame', '')
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameWidth, 'FrameWidth', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameWidth, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameHeight, 'FrameHeight', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameHeight, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameThickness, 'FrameThickness', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameThickness, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameDepth, 'FrameDepth', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameDepth, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameClass, 'FrameClass', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameClass, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameTextureScale, 'FrameTextureScale', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameTextureScale, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.FrameTextureRotation, 'FrameTextureRotation', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.FrameTextureRotation, 1)
-
-    _ = vs.vsoAddWidget(kWidgetID.MatboardSeparator, 100, "Matboard")
-    _ = vs.vsoAddParamWidget(kWidgetID.WithMatboard, 'WithMatboard', '')
-    _ = vs.vsoAddParamWidget(kWidgetID.MatboardPosition, 'MatboardPosition', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.MatboardPosition, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.MatboardClass, 'MatboardClass', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.MatboardClass, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.MatboardTextureScale, 'MatboardTextureScale', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.MatboardTextureScale, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.MatboardTextureRotation, 'MatboardTextureRotat', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.MatboardTextureRotation, 1)
-
-    _ = vs.vsoAddWidget(kWidgetID.GlassSeparator, 100, "Glass")
-    _ = vs.vsoAddParamWidget(kWidgetID.WithGlass, 'WithGlass', '')
-    _ = vs.vsoAddParamWidget(kWidgetID.GlassPosition, 'GlassPosition', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.GlassPosition, 1)
-    _ = vs.vsoAddParamWidget(kWidgetID.GlassClass, 'GlassClass', '')
-    vs.vsoWidgetSetIndLvl(kWidgetID.GlassClass, 1)
-
-
-# this function updates the visibility or enable/disable state of the widgets
-# note: keep this one fast, it is called often
-def update_parameters_state(param_handle):
-    vs.vsoWidgetSetVisible(kWidgetID.PictureName, param_handle == vs.Handle(0))
-    vs.vsoWidgetSetVisible(kWidgetID.NameEditButton, param_handle != vs.Handle(0))
-
-    vs.vsoWidgetSetEnable(kWidgetID.ImageWidth, vs.PWithImage)
-    vs.vsoWidgetSetEnable(kWidgetID.ImageHeight, vs.PWithImage)
-    vs.vsoWidgetSetEnable(kWidgetID.ImagePosition, vs.PWithImage)
-    #    vs.vsoWidgetSetVisible( picture.kWidgetID_ImageTexture, paramHandle != vs.Handle(0))
-    vs.vsoWidgetSetEnable(kWidgetID.ImageTexture, vs.PWithImage)
-    vs.vsoWidgetSetEnable(kWidgetID.ImageEditButton, vs.PWithImage)
-
-    vs.vsoWidgetSetEnable(kWidgetID.MatboardPosition, vs.PWithMatboard)
-    vs.vsoWidgetSetEnable(kWidgetID.MatboardClass, vs.PWithMatboard)
-    vs.vsoWidgetSetEnable(kWidgetID.MatboardTextureScale, vs.PWithMatboard)
-    vs.vsoWidgetSetEnable(kWidgetID.MatboardTextureRotation, vs.PWithMatboard)
-
-    vs.vsoWidgetSetEnable(kWidgetID.FrameWidth, vs.PWithFrame)
-    vs.vsoWidgetSetEnable(kWidgetID.FrameHeight, vs.PWithFrame)
-    vs.vsoWidgetSetEnable(kWidgetID.FrameThickness, vs.PWithFrame)
-    vs.vsoWidgetSetEnable(kWidgetID.FrameDepth, vs.PWithFrame)
-    vs.vsoWidgetSetEnable(kWidgetID.FrameClass, vs.PWithFrame)
-    vs.vsoWidgetSetEnable(kWidgetID.FrameTextureScale, vs.PWithFrame)
-    vs.vsoWidgetSetEnable(kWidgetID.FrameTextureRotation, vs.PWithFrame)
-
-    vs.vsoWidgetSetEnable(kWidgetID.GlassPosition, vs.PWithGlass)
-    vs.vsoWidgetSetEnable(kWidgetID.GlassClass, vs.PWithGlass)
-
-    # this is very important! this is how the system knows we've handled this
-    vs.vsoSetEventResult(kObjectEventHandled)
-
-
-def on_change_picture_name_button(param_handle):
-    new_name = vs.StrDialog("New Picture Name", vs.PPictureName)
-    if new_name != "":
-        if new_name != vs.PPictureName:
-            if vs.GetObject(new_name) != 0:
-                vs.AlertInform("An Object with That name already exists", "Please, select a different name", True)
-            else:
-                vs.PPictureName = new_name
-                vs.SetRField(param_handle, "Picture", "PictureName", vs.PPictureName)
-                vs.SetName(param_handle, vs.PPictureName)
-                texture = vs.GetObject(vs.PImageTexture)
-                if texture != 0:
-                    vs.PImageTexture = "{} Prop Texture".format(vs.PPictureName)
-                    vs.SetRField(param_handle, "Picture", "ImageTexture", vs.PImageTexture)
-                    vs.SetName(texture, vs.PImageTexture)
-                    vs.ResetObject(param_handle)
-
-
-def on_edit_image_button(param_handle):
-    texture = vs.GetObject(vs.PImageTexture)
-    if texture == vs.Handle(0):
-        texture = vs.CreateTexture()
-
-    vs.EditTexture(texture)
-    shader = vs.GetShaderRecord(texture, 1)
-    bitmap = vs.GetTextureBitmap(shader)
-    if not bitmap:
-        vs.DelObject(shader)
-        vs.DelObject(texture)
-        vs.PImageTexture = ""
-        vs.SetRField(param_handle, "Picture", "ImageTexture", vs.PImageTexture)
-        vs.PWithImage = False
-        vs.SetRField(param_handle, "Picture", "WithImage", vs.PWithImage)
-
-    else:
-        vs.PImageTexture = "{} Prop Texture".format(vs.PPictureName)
-        vs.SetRField(param_handle, "Picture", "ImageTexture", vs.PImageTexture)
-        vs.SetName(texture, vs.PImageTexture)
-        vs.ResetObject(param_handle)
-        vs.SetTexBitRepHoriz(bitmap, False)
-        vs.SetTexBitRepVert(bitmap, False)
-
-
-# this function is executed when a parameter changes
-# it will define the contents of the parametric object
-# everything is created around (0,0) which will appear
-# at the insertion point of the parametric object in Vectorworks
 def reset_event_handler(rename_handle):
     # Create the Image
     if vs.PWithImage:
