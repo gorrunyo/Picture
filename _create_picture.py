@@ -9,6 +9,7 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 def execute() -> None:
     """ VectorWorks entry point """
 
-    dialog = CreatePictureDialog()
+    parameters = PictureParameters()
+    dialog = CreatePictureDialog(parameters)
     if dialog.result == kOK:
-        build_picture(dialog.parameters, None)
+        build_picture(parameters, None)

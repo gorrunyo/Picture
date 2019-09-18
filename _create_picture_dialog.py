@@ -8,7 +8,7 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 
 class CreatePictureDialog:
     """ Picture creation dialog object """
-    def __init__(self):
+    def __init__(self, parameters: PictureParameters):
         # Widget IDs
         ################################################################################################################
         self.kWidgetID_nameGroup = 10
@@ -59,32 +59,9 @@ class CreatePictureDialog:
         self.kWidgetID_glassClassLabel = 95
         self.kWidgetID_glassClass = 96
 
-        # Dialog parameters
+        # Dialog settings
         ################################################################################################################
-        self.parameters = PictureParameters()
-        # self.pictureName = "New Picture"
-        # self.createSymbol = "True"
-        # self.withImage = "False"
-        # self.imageWidth = "8\""
-        # self.imageHeight = "10\""
-        # self.imagePosition = "0.3\""
-        # self.imageTexture = ""
-        # self.withFrame = "True"
-        # self.frameWidth = "12\""
-        # self.frameHeight = "14\""
-        # self.frameThickness = "1\""
-        # self.frameDepth = "1\""
-        # self.frameClass = "None"
-        # self.frameTextureScale = "1"
-        # self.frameTextureRotation = "0"
-        # self.withMatboard = "True"
-        # self.matboardPosition = "0.25\""
-        # self.matboardClass = "None"
-        # self.matboardTextureScale = "1"
-        # self.matboardTextureRotat = "0"
-        # self.withGlass = "False"
-        # self.glassPosition = "0.75\""
-        # self.glassClass = "None"
+        self.parameters = parameters
 
         # Run the dialog
         ################################################################################################################
@@ -466,7 +443,7 @@ class CreatePictureDialog:
                 item = -1
             else:
                 self.parameters.createSymbol = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_createSymbol))
-                # Image parameters
+                # Image settings
                 # ===============================================================================================
                 self.parameters.withImage = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_withImage))
                 _, img_width = vs.GetEditReal(self.dialog, self.kWidgetID_imageWidth, 3)
@@ -479,7 +456,7 @@ class CreatePictureDialog:
                 if texture != 0:
                     self.parameters.imageTexture = "{} Prop Texture".format(self.parameters.pictureName)
                     vs.SetName(texture, self.parameters.imageTexture)
-                # Frame parameters
+                # Frame settings
                 # ===============================================================================================
                 self.parameters.withFrame = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_withFrame))
                 _, frm_width = vs.GetEditReal(self.dialog, self.kWidgetID_frameWidth, 3)
@@ -495,7 +472,7 @@ class CreatePictureDialog:
                 self.parameters.frameTextureScale = "{}".format(frm_texture_scale)
                 _, frm_texture_rotation = vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1)
                 self.parameters.frameTextureRotation = "{}".format(frm_texture_rotation)
-                # Matboard parameters
+                # Matboard settings
                 # ===============================================================================================
                 self.parameters.withMatboard = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_withMatboard))
                 _, matbrd_position = vs.GetEditReal(self.dialog, self.kWidgetID_matboardPosition, 3)
@@ -506,7 +483,7 @@ class CreatePictureDialog:
                 self.parameters.matboardTextureScale = "{}".format(matbrd_texture_scale)
                 _, matbrd_texture_rotation = vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1)
                 self.parameters.matboardTextureRotat = "{}".format(matbrd_texture_rotation)
-                # Glass parameters
+                # Glass settings
                 # ===============================================================================================
                 self.parameters.withGlass = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_withGlass))
                 _, self.parameters.glassPosition = vs.GetEditReal(self.dialog, self.kWidgetID_glassPosition, 3)

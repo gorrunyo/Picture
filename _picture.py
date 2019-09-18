@@ -1,59 +1,29 @@
 import vs
-
-
-class PictureParameters:
-    def __init__(self):
-        self.pictureName = "New Picture"
-        self.createSymbol = "True"
-        self.withImage = "False"
-        self.imageWidth = "8\""
-        self.imageHeight = "10\""
-        self.imagePosition = "0.3\""
-        self.imageTexture = ""
-        self.withFrame = "True"
-        self.frameWidth = "12\""
-        self.frameHeight = "14\""
-        self.frameThickness = "1\""
-        self.frameDepth = "1\""
-        self.frameClass = "None"
-        self.frameTextureScale = "1"
-        self.frameTextureRotation = "0"
-        self.withMatboard = "True"
-        self.matboardPosition = "0.25\""
-        self.matboardClass = "None"
-        self.matboardTextureScale = "1"
-        self.matboardTextureRotat = "0"
-        self.withGlass = "False"
-        self.glassPosition = "0.75\""
-        self.glassClass = "None"
-
-
-class PictureRecord:
-    def __init__(self):
-        self.artworkTitle = ""
-        self.authorName = ""
-        self.artworkCreationDate = ""
-        self.artworkMedia = ""
-        self.type = ""
-        self.roomLocation = ""
-        self.artworkSource = ""
-        self.registrationNumber = ""
-        self.authorBirthCountry = ""
-        self.authorBirthDate = ""
-        self.authorDeathDate = ""
-        self.designNotes = ""
-        self.exhibitionMedia = ""
+from _picture_settings import PictureParameters, PictureRecord
 
 
 def build_picture(parameters: PictureParameters, record: PictureRecord or None):
     active_class = vs.ActiveClass()
     vs.NameClass("Pictures")
+    folder = 0
+
     if record:
         creation_record = record
     else:
         creation_record = PictureRecord()
 
     if parameters.createSymbol == "True":
+        if parameters.symbolFolder:
+            folder = vs.GetObject(parameters.symbolFolder)
+            if folder:
+                if vs.ObjectType(folder) != 92:
+                    folder = 0
+            if not folder:
+                vs.NameObject(parameters.symbolFolder)
+                vs.BeginFolderN(16)
+                vs.EndFolder()
+                folder = vs.GetObject(parameters.symbolFolder)
+
         vs.BeginSym("{} Picture Symbol".format(parameters.pictureName))
     picture = vs.CreateCustomObjectN("Picture", (0, 0), 0, False)
     if parameters.withImage:
@@ -110,6 +80,13 @@ def build_picture(parameters: PictureParameters, record: PictureRecord or None):
         symbol_handle = vs.GetObject("{} Picture Symbol".format(parameters.pictureName))
         vs.Record(symbol_handle, "Object list data")
         vs.SetName(picture, parameters.pictureName)
+
+        symbol = vs.GetObject("{} Picture Symbol".format(parameters.pictureName))
+        vs.SetObjectVariableInt(symbol, 1152, 3)  # Thumbnail View - Front
+        vs.SetObjectVariableInt(symbol, 1153, 2)  # Thumbnail Render - OpenGL
+        if folder:
+            vs.InsertSymbolInFolder(folder, symbol)
+
     else:
         vs.Record(picture, "Object list data")
 
