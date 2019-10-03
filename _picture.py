@@ -16,7 +16,8 @@ def build_picture(parameters: PictureParameters, record: PictureRecord or None):
         if parameters.symbolFolder:
             folder = vs.GetObject(parameters.symbolFolder)
             if folder:
-                if vs.ObjectType(folder) != 92:
+                object_type = vs.GetTypeN(folder)
+                if object_type != 92:
                     folder = 0
             if not folder:
                 vs.NameObject(parameters.symbolFolder)

@@ -7,53 +7,77 @@ class ImportSettings:
         self.pictureParameters = PictureParameters()
         # self.errorString = ""
         # Picture parameters
+
         valid, self.pictureParameters.withImage = vs.GetSavedSetting("importPictures", "withImage")
-        valid, value = vs.GetSavedSetting("importPictures", "imageWidth")
-        if valid:
-            valid, self.pictureParameters.imageWidth = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "imageHeight")
-        if valid:
-            valid, self.pictureParameters.imageHeight = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "imagePosition")
-        if valid:
-            valid, self.pictureParameters.imagePosition = vs.ValidNumStr(value)
+        if not valid or (self.pictureParameters.withImage != "True" and self.pictureParameters.withImage != "False"):
+            self.pictureParameters.withImage = PictureParameters().withImage
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "imageWidth")[1])
+        self.pictureParameters.imageWidth = str(round(value, 3)) if valid else PictureParameters().imageWidth
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "imageHeight")[1])
+        self.pictureParameters.imageHeight = str(round(value, 3)) if valid else PictureParameters().imageHeight
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "imagePosition")[1])
+        self.pictureParameters.imagePosition = str(round(value, 3)) if valid else PictureParameters().imagePosition
+
         valid, self.pictureParameters.imageTexutre = vs.GetSavedSetting("importPictures", "imageTexutre")
+        if not valid:
+            self.pictureParameters.imageTexutre = PictureParameters().imageTexture
+
         valid, self.pictureParameters.withFrame = vs.GetSavedSetting("importPictures", "withFrame")
-        valid, value = vs.GetSavedSetting("importPictures", "frameWidth")
-        if valid:
-            valid, self.pictureParameters.frameWidth = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "frameHeight")
-        if valid:
-            valid, self.pictureParameters.frameHeight = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "frameThickness")
-        if valid:
-            valid, self.pictureParameters.frameThickness = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "frameDepth")
-        if valid:
-            valid, self.pictureParameters.frameDepth = vs.ValidNumStr(value)
+        if not valid or (self.pictureParameters.withFrame != "True" and self.pictureParameters.withFrame != "False"):
+            self.pictureParameters.withFrame = PictureParameters().withFrame
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "frameWidth")[1])
+        self.pictureParameters.frameWidth = str(round(value, 3)) if valid else PictureParameters().frameWidth
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "frameHeight")[1])
+        self.pictureParameters.frameHeight = str(round(value, 3)) if valid else PictureParameters().frameHeight
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "frameThickness")[1])
+        self.pictureParameters.frameThickness = str(round(value, 3)) if valid else PictureParameters().frameThickness
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "frameDepth")[1])
+        self.pictureParameters.frameDepth = str(round(value, 3)) if valid else PictureParameters().frameDepth
+
         valid, self.pictureParameters.frameClass = vs.GetSavedSetting("importPictures", "frameClass")
-        valid, value = vs.GetSavedSetting("importPictures", "frameTextureScale")
-        if valid:
-            valid, self.pictureParameters.frameTextureScale = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "frameTextureRotation")
-        if valid:
-            valid, self.pictureParameters.frameTextureRotation = vs.ValidNumStr(value)
+        if not valid:
+            self.pictureParameters.frameClass = PictureParameters().frameClass
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "frameTextureScale")[1])
+        self.pictureParameters.frameTextureScale = str(round(value, 3)) if valid else PictureParameters().frameTextureScale
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "frameTextureRotation")[1])
+        self.pictureParameters.frameTextureRotation = str(round(value, 3)) if valid else PictureParameters().frameTextureRotation
+
         valid, self.pictureParameters.withMatboard = vs.GetSavedSetting("importPictures", "withMatboard")
-        valid, value = vs.GetSavedSetting("importPictures", "matboardPosition")
-        if valid:
-            valid, self.pictureParameters.matboardPosition = vs.ValidNumStr(value)
+        if not valid or (self.pictureParameters.withMatboard != "True" and self.pictureParameters.withMatboard != "False"):
+            self.pictureParameters.withMatboard = PictureParameters().withMatboard
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "matboardPosition")[1])
+        self.pictureParameters.matboardPosition = str(round(value, 3)) if valid else PictureParameters().matboardPosition
+
         valid, self.pictureParameters.matboardClass = vs.GetSavedSetting("importPictures", "matboardClass")
-        valid, value = vs.GetSavedSetting("importPictures", "matboardTextureScale")
-        if valid:
-            valid, self.pictureParameters.matboardTextureScale = vs.ValidNumStr(value)
-        valid, value = vs.GetSavedSetting("importPictures", "matboardTextureRotat")
-        if valid:
-            valid, self.pictureParameters.matboardTextureRotat = vs.ValidNumStr(value)
+        if not valid:
+            self.pictureParameters.matboardClass = PictureParameters().matboardClass
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "matboardTextureScale")[1])
+        self.pictureParameters.matboardTextureScale = str(round(value, 3)) if valid else PictureParameters().matboardTextureScale
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "matboardTextureRotat")[1])
+        self.pictureParameters.matboardTextureRotat = str(round(value, 3)) if valid else PictureParameters().matboardTextureRotat
+
         valid, self.pictureParameters.withGlass = vs.GetSavedSetting("importPictures", "withGlass")
-        valid, value = vs.GetSavedSetting("importPictures", "glassPosition")
-        if valid:
-            valid, self.pictureParameters.glassPosition = vs.ValidNumStr(value)
+        if not valid or (self.pictureParameters.withGlass != "True" and self.pictureParameters.withGlass != "False"):
+            self.pictureParameters.withGlass = PictureParameters().withGlass
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "glassPosition")[1])
+        self.pictureParameters.glassPosition = str(round(value, 3)) if valid else PictureParameters().glassPosition
+
         valid, self.pictureParameters.glassClass = vs.GetSavedSetting("importPictures", "glassClass")
+        if not valid:
+            self.pictureParameters.glassClass = PictureParameters().glassClass
 
         # valid, self.pictureParameters.withImage = vs.GetSavedSetting("importPictures", "withImage")
         # if not valid:
@@ -242,6 +266,9 @@ class ImportSettings:
         valid, self.importIgnoreUnmodified = vs.GetSavedSetting("importPictures", "importIgnoreUnmodified")
         if not valid:
             self.importIgnoreUnmodified = "False"
+        valid, self.createMissingClasses = vs.GetSavedSetting("importPictures", "createMissingClasses")
+        if not valid:
+            self.createMissingClasses = "True"
 
     def save(self):
 
@@ -250,7 +277,7 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "imageWidth", str(self.pictureParameters.imageWidth))
         vs.SetSavedSetting("importPictures", "imageHeight", str(self.pictureParameters.imageHeight))
         vs.SetSavedSetting("importPictures", "imagePosition", str(self.pictureParameters.imagePosition))
-        vs.SetSavedSetting("importPictures", "imageTexutre", self.pictureParameters.imageTexutre)
+        vs.SetSavedSetting("importPictures", "imageTexutre", self.pictureParameters.imageTexture)
         vs.SetSavedSetting("importPictures", "withFrame", self.pictureParameters.withFrame)
         vs.SetSavedSetting("importPictures", "frameWidth", str(self.pictureParameters.frameWidth))
         vs.SetSavedSetting("importPictures", "frameHeight", str(self.pictureParameters.frameHeight))
@@ -301,3 +328,4 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "importIgnoreErrors", "{}".format(self.importIgnoreErrors))
         vs.SetSavedSetting("importPictures", "importIgnoreExisting", "{}".format(self.importIgnoreExisting))
         vs.SetSavedSetting("importPictures", "importIgnoreUnmodified", "{}".format(self.importIgnoreUnmodified))
+        vs.SetSavedSetting("importPictures", "createMissingClasses", "{}".format(self.createMissingClasses))

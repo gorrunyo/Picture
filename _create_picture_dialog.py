@@ -108,22 +108,30 @@ class CreatePictureDialog:
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_imageWidthLabel, "Image Width: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_withImage, self.kWidgetID_imageWidthLabel, 1, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_imageWidth, 3, self.parameters.imageWidth, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.imageWidth)
+        if not valid:
+            value = PictureParameters().imageWidth
+        vs.CreateEditReal(self.dialog, self.kWidgetID_imageWidth, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_imageWidthLabel, self.kWidgetID_imageWidth, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_imageWidth, "Enter the width of the image here.")
         # Image Height dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_imageHeightLabel, "Image Height: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_imageWidthLabel, self.kWidgetID_imageHeightLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_imageHeight, 3, self.parameters.imageHeight, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.imageHeight)
+        if not valid:
+            value = PictureParameters().imageHeight
+        vs.CreateEditReal(self.dialog, self.kWidgetID_imageHeight, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_imageHeightLabel, self.kWidgetID_imageHeight, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_imageHeight, "Enter the height of the image here.")
         # Image Position dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_imagePositionLabel, "Image Position: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_imageHeightLabel, self.kWidgetID_imagePositionLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_imagePosition, 3,
-                          self.parameters.imagePosition, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.imagePosition)
+        if not valid:
+            value = PictureParameters().imagePosition
+        vs.CreateEditReal(self.dialog, self.kWidgetID_imagePosition, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_imagePositionLabel, self.kWidgetID_imagePosition, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_imagePosition, "Enter the position (depth) of the image here.")
         # Image Edit button
@@ -146,29 +154,40 @@ class CreatePictureDialog:
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_frameWidthLabel, "Frame Width: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_withFrame, self.kWidgetID_frameWidthLabel, 1, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameWidth, 3, self.parameters.frameWidth, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.frameWidth)
+        if not valid:
+            value = PictureParameters().frameWidth
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameWidth, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameWidthLabel, self.kWidgetID_frameWidth, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameWidth, "Enter the width of the frame here.")
         # Frame Height dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_frameHeightLabel, "Frame Height: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_frameWidthLabel, self.kWidgetID_frameHeightLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameHeight, 3, self.parameters.frameHeight, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.frameHeight)
+        if not valid:
+            value = PictureParameters().frameHeight
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameHeight, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameHeightLabel, self.kWidgetID_frameHeight, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameHeight, "Enter the height of the frame here.")
         # Frame Thickness dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_frameThicknessLabel, "Frame Thickness: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_frameHeightLabel, self.kWidgetID_frameThicknessLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameThickness, 3,
-                          self.parameters.frameThickness, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.frameThickness)
+        if not valid:
+            value = PictureParameters().frameThickness
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameThickness, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameThicknessLabel, self.kWidgetID_frameThickness, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameThickness, "Enter the thickness of the frame here.")
         # Frame Depth dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_frameDepthLabel, "Frame Depth: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_frameThicknessLabel, self.kWidgetID_frameDepthLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameDepth, 3, self.parameters.frameDepth, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.frameDepth)
+        if not valid:
+            value = PictureParameters().frameDepth
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameDepth, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameDepthLabel, self.kWidgetID_frameDepth, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameDepth, "Enter the depth of the frame here.")
         # Frame Class
@@ -184,8 +203,10 @@ class CreatePictureDialog:
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_frameTextureScaleLabel, "Frame Texture Scale: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_frameClassLabel, self.kWidgetID_frameTextureScaleLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1,
-                          self.parameters.frameTextureScale, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.frameTextureScale)
+        if not valid:
+            value = PictureParameters().frameTextureScale
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameTextureScaleLabel, self.kWidgetID_frameTextureScale, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameTextureScale, "Enter the scale for the frame texture.")
         # Frame Texture rotation
@@ -194,8 +215,10 @@ class CreatePictureDialog:
                             "Frame Texture Rotation: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_frameTextureScaleLabel,
                         self.kWidgetID_frameTextureRotationLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1,
-                          self.parameters.frameTextureRotation, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.frameTextureRotation)
+        if not valid:
+            value = PictureParameters().frameTextureRotation
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameTextureRotationLabel,
                         self.kWidgetID_frameTextureRotation, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameTextureRotation, "Enter the scale for the frame texture.")
@@ -214,8 +237,10 @@ class CreatePictureDialog:
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_matboardPositionLabel, "Matboard Position: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_withMatboard, self.kWidgetID_matboardPositionLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardPosition, 3,
-                          self.parameters.matboardPosition, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.matboardPosition)
+        if not valid:
+            value = PictureParameters().matboardPosition
+        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardPosition, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_matboardPositionLabel, self.kWidgetID_matboardPosition, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardPosition, "Enter the position (depth) of the matboard here.")
         # Matboard Class
@@ -232,8 +257,10 @@ class CreatePictureDialog:
         vs.CreateStaticText(self.dialog, self.kWidgetID_matboardTextureScaleLabel,
                             "Matboard Texture Scale: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_matboardClassLabel, self.kWidgetID_matboardTextureScaleLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1,
-                          self.parameters.matboardTextureScale, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.matboardTextureScale)
+        if not valid:
+            value = PictureParameters().matboardTextureScale
+        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_matboardTextureScaleLabel,
                         self.kWidgetID_matboardTextureScale, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardTextureScale, "Enter the scale for the matboard texture.")
@@ -243,8 +270,10 @@ class CreatePictureDialog:
                             label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_matboardTextureScaleLabel,
                         self.kWidgetID_matboardTextureRotatLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1,
-                          self.parameters.matboardTextureRotat, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.matboardTextureRotat)
+        if not valid:
+            value = PictureParameters().matboardTextureRotat
+        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_matboardTextureRotatLabel,
                         self.kWidgetID_matboardTextureRotat, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardTextureRotat, "Enter the scale for the matboard texture.")
@@ -263,8 +292,10 @@ class CreatePictureDialog:
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_glassPositionLabel, "Glass Position: ", label_width)
         vs.SetBelowItem(self.dialog, self.kWidgetID_withGlass, self.kWidgetID_glassPositionLabel, 0, 0)
-        vs.CreateEditReal(self.dialog, self.kWidgetID_glassPosition, 3,
-                          self.parameters.glassPosition, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.glassPosition)
+        if not valid:
+            value = PictureParameters().glassPosition
+        vs.CreateEditReal(self.dialog, self.kWidgetID_glassPosition, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_glassPositionLabel, self.kWidgetID_glassPosition, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_glassPosition, "Enter the position (depth) of the glass here.")
         # Glass Class
@@ -451,7 +482,8 @@ class CreatePictureDialog:
                 _, img_height = vs.GetEditReal(self.dialog, self.kWidgetID_imageHeight, 3)
                 self.parameters.imageHeight = "{}\"".format(img_height)
                 _, img_position = vs.GetEditReal(self.dialog, self.kWidgetID_imagePosition, 3)
-                self.parameters.imagePosition = "{}\"".format(img_position)
+#                self.parameters.imagePosition = "{}\"".format(img_position)
+                self.parameters.imagePosition = str(img_position)
                 texture = vs.GetObject(self.parameters.imageTexture)
                 if texture != 0:
                     self.parameters.imageTexture = "{} Prop Texture".format(self.parameters.pictureName)
@@ -464,30 +496,38 @@ class CreatePictureDialog:
                 _, frm_height = vs.GetEditReal(self.dialog, self.kWidgetID_frameHeight, 3)
                 self.parameters.frameHeight = "{}".format(frm_height)
                 _, frm_thickness = vs.GetEditReal(self.dialog, self.kWidgetID_frameThickness, 3)
-                self.parameters.frameThickness = "{}".format(frm_thickness)
+#                self.parameters.frameThickness = "{}".format(frm_thickness)
+                self.parameters.frameThickness = str(frm_thickness)
                 _, frm_depth = vs.GetEditReal(self.dialog, self.kWidgetID_frameDepth, 3)
-                self.parameters.frameDepth = "{}".format(frm_depth)
+#                self.parameters.frameDepth = "{}".format(frm_depth)
+                self.parameters.frameDepth = str(frm_depth)
                 _, self.parameters.frameClass = vs.GetSelectedChoiceInfo(self.dialog, self.kWidgetID_frameClass, 0)
                 _, frm_texture_scale = vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1)
-                self.parameters.frameTextureScale = "{}".format(frm_texture_scale)
+#                self.parameters.frameTextureScale = "{}".format(frm_texture_scale)
+                self.parameters.frameTextureScale = str(frm_texture_scale)
                 _, frm_texture_rotation = vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1)
-                self.parameters.frameTextureRotation = "{}".format(frm_texture_rotation)
+#                self.parameters.frameTextureRotation = "{}".format(frm_texture_rotation)
+                self.parameters.frameTextureRotation = str(frm_texture_rotation)
                 # Matboard settings
                 # ===============================================================================================
                 self.parameters.withMatboard = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_withMatboard))
                 _, matbrd_position = vs.GetEditReal(self.dialog, self.kWidgetID_matboardPosition, 3)
-                self.parameters.matboardPosition = "{}".format(matbrd_position)
+#                self.parameters.matboardPosition = "{}".format(matbrd_position)
+                self.parameters.matboardPosition = str(matbrd_position)
                 _, self.parameters.matboardClass = vs.GetSelectedChoiceInfo(self.dialog,
                                                                             self.kWidgetID_matboardClass, 0)
                 _, matbrd_texture_scale = vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1)
-                self.parameters.matboardTextureScale = "{}".format(matbrd_texture_scale)
+#                self.parameters.matboardTextureScale = "{}".format(matbrd_texture_scale)
+                self.parameters.matboardTextureScale = str(matbrd_texture_scale)
                 _, matbrd_texture_rotation = vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1)
-                self.parameters.matboardTextureRotat = "{}".format(matbrd_texture_rotation)
+#                self.parameters.matboardTextureRotat = "{}".format(matbrd_texture_rotation)
+                self.parameters.matboardTextureRotat = str(matbrd_texture_rotation)
                 # Glass settings
                 # ===============================================================================================
                 self.parameters.withGlass = "{}".format(vs.GetBooleanItem(self.dialog, self.kWidgetID_withGlass))
                 _, self.parameters.glassPosition = vs.GetEditReal(self.dialog, self.kWidgetID_glassPosition, 3)
-                self.parameters.glassPosition = "{}".format(self.parameters.glassPosition)
+#                self.parameters.glassPosition = "{}".format(self.parameters.glassPosition)
+                self.parameters.glassPosition = str(self.parameters.glassPosition)
                 _, self.parameters.glassClass = vs.GetSelectedChoiceInfo(self.dialog, self.kWidgetID_glassClass, 0)
 
         elif item == kCancel:

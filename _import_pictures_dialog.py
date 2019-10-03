@@ -26,7 +26,6 @@ import pydevd_pycharm
 
 pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
-
 class ImportPicturesDialog:
     def __init__(self, settings: ImportSettings):
 
@@ -139,6 +138,7 @@ class ImportPicturesDialog:
         self.kWidgetID_importUpdatedCount = 306
         self.kWidgetID_importDeletedCount = 307
         self.kWidgetID_importErrorCount = 308
+        self.kWidgetID_createMissingClasses = 309
 
         ####################################################################################
         # Dialog Parameters
@@ -253,10 +253,9 @@ class ImportPicturesDialog:
 
         elif item == self.kWidgetID_withImageSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withImage, data == 0)
-            self.parameters.withImageSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_withImageSelector, data)
+            self.parameters.withImageSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withImageSelector, data)
         elif item == self.kWidgetID_withImage:
-            self.parameters.withImage = "{}".format(data is True)
+            self.parameters.pictureParameters.withImage = "{}".format(data != 0)
         # elif item == self.kWidgetID_imageFolderName:
         #     self.settings.imageFolderName = vs.GetItemText(
         #         self.dialog, self.kWidgetID_imageFolderName)
@@ -278,14 +277,14 @@ class ImportPicturesDialog:
             self.parameters.imagePositionSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_imagePositionSelector, data)
         elif item == self.kWidgetID_imagePosition:
-            _, self.parameters.imagePosition = vs.GetEditReal(
-                self.dialog, self.kWidgetID_imagePosition, 3)
+            _, self.parameters.pictureParameters.imagePosition = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_imagePosition, 3))
         elif item == self.kWidgetID_withFrameSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withFrame, data == 0)
             self.parameters.withFrameSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_withFrameSelector, data)
         elif item == self.kWidgetID_withFrame:
-            self.parameters.withFrame = "{}".format(data is True)
+            self.parameters.pictureParameters.withFrame = "{}".format(data != 0)
         elif item == self.kWidgetID_frameWidthSelector:
             self.parameters.frameWidthSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_frameWidthSelector, data)
@@ -297,15 +296,15 @@ class ImportPicturesDialog:
             self.parameters.frameThicknessSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_frameThicknessSelector, data)
         elif item == self.kWidgetID_frameThickness:
-            _, self.parameters.frameThickness = vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameThickness, 3)
+            _, self.parameters.pictureParameters.frameThickness = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_frameThickness, 3))
         elif item == self.kWidgetID_frameDepthSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameDepth, data == 0)
             self.parameters.frameDepthSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_frameDepthSelector, data)
         elif item == self.kWidgetID_frameDepth:
-            _, self.parameters.frameDepth = vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameDepth, 3)
+            _, self.parameters.pictureParameters.frameDepth = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_frameDepth, 3))
         elif item == self.kWidgetID_frameClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameClass, data == 0)
             self.parameters.frameClassSelector = vs.GetChoiceText(
@@ -318,28 +317,28 @@ class ImportPicturesDialog:
             self.parameters.frameTextureScaleSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_frameTextureScaleSelector, data)
         elif item == self.kWidgetID_frameTextureScale:
-            _, self.parameters.frameTextureScale = vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameTextureScale, 1)
+            _, self.parameters.pictureParameters.frameTextureScale = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_frameTextureScale, 1))
         elif item == self.kWidgetID_frameTextureRotationSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotation, data == 0)
             self.parameters.frameTextureRotationSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_frameTextureRotationSelector, data)
         elif item == self.kWidgetID_frameTextureRotation:
-            _, self.parameters.frameTextureRotation = vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameTextureRotation, 1)
+            _, self.parameters.pictureParameters.frameTextureRotation = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_frameTextureRotation, 1))
         elif item == self.kWidgetID_withMatboardSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withMatboard, data == 0)
             self.parameters.withMatboardSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_withMatboardSelector, data)
         elif item == self.kWidgetID_withMatboard:
-            self.parameters.withMatboard = "{}".format(data is True)
+            self.parameters.pictureParameters.withMatboard = "{}".format(data is True)
         elif item == self.kWidgetID_matboardPositionSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, data == 0)
             self.parameters.matboardPositionSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_matboardPositionSelector, data)
         elif item == self.kWidgetID_matboardPosition:
-            _, self.parameters.matboardPosition = vs.GetEditReal(
-                self.dialog, self.kWidgetID_matboardPosition, 3)
+            _, self.parameters.pictureParameters.matboardPosition = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_matboardPosition, 3))
         elif item == self.kWidgetID_matboardClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardClass, data == 0)
             self.parameters.matboardClassSelector = vs.GetChoiceText(
@@ -352,28 +351,28 @@ class ImportPicturesDialog:
             self.parameters.matboardTextureScaleSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_matboardTextureScaleSelector, data)
         elif item == self.kWidgetID_matboardTextureScale:
-            _, self.parameters.matboardTextureScale = vs.GetEditReal(
-                self.dialog, self.kWidgetID_matboardTextureScale, 1)
+            _, self.parameters.pictureParameters.matboardTextureScale = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_matboardTextureScale, 1))
         elif item == self.kWidgetID_matboardTextureRotatSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotat, data == 0)
             self.parameters.matboardTextureRotatSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_matboardTextureRotatSelector, data)
         elif item == self.kWidgetID_matboardTextureRotat:
-            _, self.parameters.matboardTextureRotat = vs.GetEditReal(
-                self.dialog, self.kWidgetID_matboardTextureRotat, 1)
+            _, self.parameters.pictureParameters.matboardTextureRotat = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_matboardTextureRotat, 1))
         elif item == self.kWidgetID_withGlassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withGlass, data == 0)
             self.parameters.withGlassSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_withGlassSelector, data)
         elif item == self.kWidgetID_withGlass:
-            self.parameters.withGlass = "{}".format(data is True)
+            self.parameters.pictureParameters.withGlass = "{}".format(data is True)
         elif item == self.kWidgetID_glassPositionSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_glassPosition, data == 0)
             self.parameters.glassPositionSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_glassPositionSelector, data)
         elif item == self.kWidgetID_glassPosition:
-            _, self.kWidgetID_glassPosition = vs.GetEditReal(
-                self.dialog, self.kWidgetID_glassPosition, 3)
+            _, self.parameters.pictureParameters.glassPosition = str(vs.GetEditReal(
+                self.dialog, self.kWidgetID_glassPosition, 3))
         elif item == self.kWidgetID_glassClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_glassClass, data == 0)
             self.parameters.glassClassSelector = vs.GetChoiceText(
@@ -418,6 +417,8 @@ class ImportPicturesDialog:
             self.parameters.importIgnoreExisting = "{}".format(data is True)
         elif item == self.kWidgetID_importIgnoreUnmodified:
             self.parameters.importIgnoreUnmodified = "{}".format(data is True)
+        elif item == self.kWidgetID_createMissingClasses:
+            self.parameters.createMissingClasses = "{}".format(data is True)
         elif item == self.kWidgetID_importButton:
             self.import_pictures()
             vs.SetItemText(self.dialog, self.kWidgetID_importNewCount,
@@ -517,25 +518,28 @@ class ImportPicturesDialog:
 
         # After the event has been handled, update some of the import validity settings accordingly
         self.parameters.imageValid = \
-            ((self.parameters.withImageSelector == "-- Manual" and self.parameters.withImage == "True") or
+            ((self.parameters.withImageSelector == "-- Manual" and
+              self.parameters.pictureParameters.withImage == "True") or
              self.parameters.withImageSelector != "-- Manual") and \
             (self.parameters.imageTextureSelector != "-- Select column ...") and \
             (self.parameters.imageWidthSelector != "-- Select column ...") and \
             (self.parameters.imageHeightSelector != "-- Select column ...")
 
         self.parameters.frameValid = \
-            ((self.parameters.withFrameSelector == "-- Manual" and self.parameters.withFrame == "True") or
+            ((self.parameters.withFrameSelector == "-- Manual" and
+              self.parameters.pictureParameters.withFrame == "True") or
              self.parameters.withFrameSelector != "-- Manual") and \
             (self.parameters.frameWidthSelector != "-- Select column ...") and \
             (self.parameters.frameHeightSelector != "-- Select column ...")
 
         self.parameters.matboardValid = \
             ((self.parameters.withMatboardSelector == "-- Manual" and
-              self.parameters.withMatboard == "True") or
+              self.parameters.pictureParameters.withMatboard == "True") or
              self.parameters.withMatboardSelector != "-- Manual")
 
         self.parameters.glassValid = \
-            ((self.parameters.withGlassSelector == "-- Manual" and self.parameters.withGlass == "True") or
+            ((self.parameters.withGlassSelector == "-- Manual" and
+              self.parameters.pictureParameters.withGlass == "True") or
              self.parameters.withGlassSelector != "-- Manual")
 
         self.parameters.criteriaValid = \
@@ -633,6 +637,7 @@ class ImportPicturesDialog:
         vs.ShowItem(self.dialog, self.kWidgetID_SymbolFolder, state)
 
         vs.ShowItem(self.dialog, self.kWidgetID_importGroup, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_createMissingClasses, state)
         vs.ShowItem(self.dialog, self.kWidgetID_importIgnoreErrors, state)
         vs.ShowItem(self.dialog, self.kWidgetID_importIgnoreExisting, state)
         vs.ShowItem(self.dialog, self.kWidgetID_importButton, state)
@@ -937,6 +942,8 @@ class ImportPicturesDialog:
                           self.parameters.importIgnoreExisting == "True")
         vs.SetBooleanItem(self.dialog, self.kWidgetID_importIgnoreUnmodified,
                           self.parameters.importIgnoreUnmodified == "True")
+        vs.SetBooleanItem(self.dialog, self.kWidgetID_createMissingClasses,
+                          self.parameters.createMissingClasses == "True")
 
     def remove_field_options(self, widget_id: int):
         while vs.GetChoiceCount(self.dialog, widget_id):
@@ -1012,7 +1019,7 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_withImageSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_withImageLabel, self.kWidgetID_withImageSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withImageSelector, "Select the column for the image creation")
-        vs.CreateCheckBox(self.dialog, self.kWidgetID_withImage, "Include Image")
+        vs.CreateCheckBox(self.dialog, self.kWidgetID_withImage, "Include Image   ")
         vs.SetBooleanItem(self.dialog, self.kWidgetID_withImage, self.parameters.pictureParameters.withImage == "True")
         vs.SetRightItem(self.dialog, self.kWidgetID_withImageSelector, self.kWidgetID_withImage, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withImage, "Choose the value for the image creation")
@@ -1032,7 +1039,8 @@ class ImportPicturesDialog:
         # Image Texture
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_imageTextureLabel, "Image name: ", label_width)
-        vs.SetBelowItem(self.dialog, self.kWidgetID_imageFolderNameLabel, self.kWidgetID_imageTextureLabel, 0, 0)
+        # vs.SetBelowItem(self.dialog, self.kWidgetID_imageFolderNameLabel, self.kWidgetID_imageTextureLabel, 0, 0)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_withImageLabel, self.kWidgetID_imageTextureLabel, 0, 0)
         vs.CreatePullDownMenu(self.dialog, self.kWidgetID_imageTextureSelector, input_field_width)
         selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_imageTextureSelector,
                                                 self.parameters.imageTextureSelector)
@@ -1069,8 +1077,11 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_imagePositionSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_imagePositionLabel, self.kWidgetID_imagePositionSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_imagePositionSelector, "Select the column for the image position")
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.imagePosition)
+        if not valid:
+            value = PictureParameters().imagePosition
         vs.CreateEditReal(self.dialog, self.kWidgetID_imagePosition,
-                          3, self.parameters.pictureParameters.imagePosition, input_field_width)
+                          3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_imagePositionSelector, self.kWidgetID_imagePosition, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_imagePosition, "Enter the position (depth) of the image here.")
 
@@ -1088,7 +1099,7 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_withFrameSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_withFrameLabel, self.kWidgetID_withFrameSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withFrameSelector, "Select the column for the frame creation")
-        vs.CreateCheckBox(self.dialog, self.kWidgetID_withFrame, "Include Frame")
+        vs.CreateCheckBox(self.dialog, self.kWidgetID_withFrame, "Include Frame    ")
         vs.SetBooleanItem(self.dialog, self.kWidgetID_withFrame, self.parameters.pictureParameters.withImage == "True")
         vs.SetRightItem(self.dialog, self.kWidgetID_withFrameSelector, self.kWidgetID_withFrame, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withFrame, "Choose the value for the frame creation")
@@ -1122,8 +1133,10 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_frameThicknessSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameThicknessLabel, self.kWidgetID_frameThicknessSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameThicknessSelector, "Select the column for the frame thickness")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameThickness, 3,
-                          self.parameters.pictureParameters.frameThickness, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.frameThickness)
+        if not valid:
+            value = PictureParameters().frameThickness
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameThickness, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameThicknessSelector, self.kWidgetID_frameThickness, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameThickness, "Enter the thickness of the frame here.")
         # Frame Depth dimension
@@ -1136,8 +1149,10 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_frameDepthSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameDepthLabel, self.kWidgetID_frameDepthSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameDepthSelector, "Select the column for the frame depth")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameDepth, 3,
-                          self.parameters.pictureParameters.frameDepth, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.frameDepth)
+        if not valid:
+            value = PictureParameters().frameDepth
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameDepth, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameDepthSelector, self.kWidgetID_frameDepth, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameDepth, "Enter the depth of the frame here.")
         # Frame Class
@@ -1168,8 +1183,10 @@ class ImportPicturesDialog:
                         self.kWidgetID_frameTextureScaleSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameTextureScaleSelector,
                        "Select the column for the frame texture scale")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1,
-                          self.parameters.pictureParameters.frameTextureScale, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.frameTextureScale)
+        if not valid:
+            value = PictureParameters().frameTextureScale
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameTextureScaleSelector, self.kWidgetID_frameTextureScale, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameTextureScale, "Enter the frame texture scale")
         # Frame Texture rotation
@@ -1186,8 +1203,10 @@ class ImportPicturesDialog:
                         self.kWidgetID_frameTextureRotationSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_frameTextureRotationSelector,
                        "Select the column for the frame texture rotation")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1,
-                          self.parameters.pictureParameters.frameTextureRotation, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.frameTextureRotation)
+        if not valid:
+            value = PictureParameters().frameTextureRotation
+        vs.CreateEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_frameTextureRotationSelector,
                         self.kWidgetID_frameTextureRotation,
                         0, 0)
@@ -1226,8 +1245,10 @@ class ImportPicturesDialog:
                         self.kWidgetID_matboardPositionSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardPositionSelector,
                        "Select the column for the matboard position")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardPosition, 3,
-                          self.parameters.pictureParameters.matboardPosition, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.matboardPosition)
+        if not valid:
+            value = PictureParameters().matboardPosition
+        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardPosition, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_matboardPositionSelector, self.kWidgetID_matboardPosition, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardPosition, "Enter the position (depth) of the matboard here.")
         # Matboard Class
@@ -1259,8 +1280,10 @@ class ImportPicturesDialog:
                         self.kWidgetID_matboardTextureScaleSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardTextureScaleSelector,
                        "Select the column for the matboard texture scale")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1,
-                          self.parameters.pictureParameters.matboardTextureScale, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.matboardTextureScale)
+        if not valid:
+            value = PictureParameters().matboardTextureScale
+        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_matboardTextureScaleSelector,
                         self.kWidgetID_matboardTextureScale, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardTextureScale, "Enter the matboard texture scale")
@@ -1278,8 +1301,10 @@ class ImportPicturesDialog:
                         self.kWidgetID_matboardTextureRotatSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardTextureRotatSelector,
                        "Select the column for the matboard texture rotation")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1,
-                          self.parameters.pictureParameters.matboardTextureRotat, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.matboardTextureRotat)
+        if not valid:
+            value = PictureParameters().matboardTextureRotat
+        vs.CreateEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_matboardTextureRotatSelector,
                         self.kWidgetID_matboardTextureRotat, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_matboardTextureRotat, "Enter the matboard texture scale")
@@ -1299,7 +1324,7 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_withGlassSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_withGlassLabel, self.kWidgetID_withGlassSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withGlassSelector, "Select the column for the Glass creation")
-        vs.CreateCheckBox(self.dialog, self.kWidgetID_withGlass, "Include Galss")
+        vs.CreateCheckBox(self.dialog, self.kWidgetID_withGlass, "Include Galss    ")
         vs.SetBooleanItem(self.dialog, self.kWidgetID_withGlass, self.parameters.pictureParameters.withGlass == "True")
         vs.SetRightItem(self.dialog, self.kWidgetID_withGlassSelector, self.kWidgetID_withGlass, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withGlass, "Choose the value for the Glass creation")
@@ -1314,8 +1339,10 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_glassPositionSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_glassPositionLabel, self.kWidgetID_glassPositionSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_glassPositionSelector, "Select the column for the glass position")
-        vs.CreateEditReal(self.dialog, self.kWidgetID_glassPosition, 3,
-                          self.parameters.pictureParameters.glassPosition, input_field_width)
+        valid, value = vs.ValidNumStr(self.parameters.pictureParameters.glassPosition)
+        if not valid:
+            value = PictureParameters().glassPosition
+        vs.CreateEditReal(self.dialog, self.kWidgetID_glassPosition, 3, value, input_field_width)
         vs.SetRightItem(self.dialog, self.kWidgetID_glassPositionSelector, self.kWidgetID_glassPosition, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_glassPosition, "Enter the position (depth) of the glass here.")
         # Glass Class
@@ -1386,12 +1413,19 @@ class ImportPicturesDialog:
         # =========================================================================================
         vs.CreateGroupBox(self.dialog, self.kWidgetID_importGroup, "Import", True)
         vs.SetBelowItem(self.dialog, self.kWidgetID_SymbolGroup, self.kWidgetID_importGroup, 0, 0)
+
+        # Create missing classes
+        # -----------------------------------------------------------------------------------------
+        vs.CreateCheckBox(self.dialog, self.kWidgetID_createMissingClasses, "Create missing classes")
+        vs.SetFirstGroupItem(self.dialog, self.kWidgetID_importGroup, self.kWidgetID_createMissingClasses)
+        vs.SetBooleanItem(self.dialog, self.kWidgetID_createMissingClasses, self.parameters.createMissingClasses == "True")
+        vs.SetHelpText(self.dialog, self.kWidgetID_createMissingClasses, "Create missing classes")
+
         # Ignore Existing
         # -----------------------------------------------------------------------------------------
         vs.CreateCheckBox(self.dialog, self.kWidgetID_importIgnoreExisting, "Ignore manual fields on existing Pictures")
-        vs.SetFirstGroupItem(self.dialog, self.kWidgetID_importGroup, self.kWidgetID_importIgnoreExisting)
-        vs.SetBooleanItem(self.dialog, self.kWidgetID_importIgnoreExisting,
-                          self.parameters.importIgnoreExisting == "True")
+        vs.SetBelowItem(self.dialog, self.kWidgetID_createMissingClasses, self.kWidgetID_importIgnoreExisting, 0, 0)
+        vs.SetBooleanItem(self.dialog, self.kWidgetID_importIgnoreExisting, self.parameters.importIgnoreExisting == "True")
         vs.SetHelpText(self.dialog, self.kWidgetID_importIgnoreExisting, "Ignore manual fields on existing Pictures")
         # Ignore Errors
         # -----------------------------------------------------------------------------------------
@@ -1641,7 +1675,8 @@ class ImportPicturesDialog:
             vs.ResetObject(existing_picture)
 
             log_message = "{} * [Modified] ".format(
-                picture_parameters.pictureName) + image_message + frame_message + matboard_message + glass_message + "\n"
+                picture_parameters.pictureName) +\
+                image_message + frame_message + matboard_message + glass_message + "\n"
             self.importUpdatedCount += 1
         else:
             if self.parameters.importIgnoreUnmodified != "True":
@@ -1655,10 +1690,35 @@ class ImportPicturesDialog:
                 or picture_parameters.withFrame == "True" \
                 or picture_parameters.withMatboard == "True" \
                 or picture_parameters.withGlass == "True":
-            # Create a new Picture Object
-            build_picture(picture_parameters, None)
-            log_message = "{} * [New] \n".format(picture_parameters.pictureName)
-            self.importNewCount += 1
+
+            texture = vs.GetObject("Arroway {}".format(picture_parameters.pictureName.replace('-', ' ').replace('_', ' ')))
+            if texture == 0:
+                for outer in range(0, 99):
+                    for inner in range(1, 99):
+                        if outer == 0:
+                            texture_name = "Arroway {}".format(picture_parameters.pictureName.replace('-', ' ').replace('_', ' ')) + ' ' + str(inner)
+                        else:
+                            texture_name = "Arroway {}".format(picture_parameters.pictureName.replace('-', ' ').replace('_', ' ')) + ' ' + str(inner) + ' ' + str(outer)
+                        texture = vs.GetObject(texture_name)
+                        if texture != 0:
+                            break
+                    if texture != 0:
+                        break
+            if texture == 0:
+                picture_parameters.imageTexture = ""
+                log_message = "{} * [Could not find texture] \n".format(picture_parameters.pictureName)
+                self.importErrorCount += 1
+            else:
+                # Create a new Picture Object
+                active_class = vs.ActiveClass()
+                vs.NameClass("Pictures")
+                picture_parameters.imageTexture = vs.GetName(texture)
+                build_picture(picture_parameters, None)
+
+                log_message = "{} * [New] \n".format(picture_parameters.pictureName)
+                self.importNewCount += 1
+                vs.NameClass(active_class)
+
             log_file.write(log_message)
 
     def import_pictures(self):
@@ -1672,19 +1732,32 @@ class ImportPicturesDialog:
         self.importErrorCount = 0
         document_file_name = vs.GetFPathName()
         document_folder = os.path.dirname(document_file_name)
+        if not document_folder:
+            document_folder = "C:/tmp"
         log_file_name = document_folder + "/" + "Import_Pictures_" + strftime("%y_%m_%d_%H_%M_%S", gmtime()) + ".log"
 
         log_file = open(log_file_name, "w")
 
         for picture_parameters in self.excel.get_worksheet_rows(log_file):
+
+            if vs.ProgressDlgHasCancel():
+                break
+            vs.ProgressDlgYield(1)
+            vs.ProgressDlgSetTopMsg("New Pictures: {}".format(self.importNewCount))
+            vs.ProgressDlgSetBotMsg("Modified Pictures: {}".format(self.importUpdatedCount))
+
             if picture_parameters.pictureName:
+                # self.set_texture(picture_parameters)
                 existing_picture = vs.GetObject(picture_parameters.pictureName)
                 if existing_picture:
                     self.update_picture(picture_parameters, log_file)
                 else:
-                    pass
+                    self.new_picture(picture_parameters, log_file)
             else:
                 pass
+
+        vs.ProgressDlgEnd()
+        vs.ProgressDlgClose()
 
         log_file.write("--------------------------------------------------------------------------\n")
         log_file.write("Total new Pictures: {}\n".format(self.importNewCount))
@@ -1694,3 +1767,26 @@ class ImportPicturesDialog:
             log_file.write("Total error Pictures: {}\n".format(self.importErrorCount))
         log_file.write("--------------------------------------------------------------------------\n")
         log_file.close()
+
+    # def set_texture(self, picture_parameters: PictureParameters):
+    #
+    #     texture_name = "{} Picture Texture".format(picture_parameters.pictureName)
+    #     texture = vs.GetObject(texture_name)
+    #     if not texture:
+    #         image_folder = os.path.join(os.path.join(os.path.dirname(self.parameters.excelFileName), "Images"), picture_parameters.symbolFolder)
+    #         image_file = os.path.join(image_folder, "{}.jpg".format(picture_parameters.pictureName))
+    #         image = vs.ImportImageFile(image_file, (10, 10))
+    #         if not image:
+    #             image = vs.FSActLayer()
+    #         if image:
+    #             paint = vs.CreatePaintFromImgN(image, (0, 0), 0)
+    #             paint = vs.FSActLayer()
+    #             if paint:
+    #                 bitmap = vs.CreateTextureBitmap()
+    #                 if bitmap:
+    #                     vs.SetTexBitPaintNode(bitmap, paint)
+    #                     vs.SetName(texture, texture_name)
+    #                 else:
+    #                     vs.DelObject(paint)
+    #             else:
+    #                 vs.DelObject(image)
