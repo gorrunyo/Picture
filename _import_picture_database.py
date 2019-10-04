@@ -388,12 +388,19 @@ class ImportDatabase(object):
                                 else:
                                     picture.glassClass = cell_value
 
-                        # Obatian symbol information
+                        # Obtain symbol information
                         if self.settings.symbolCreateSymbol == "True":
                             if self.settings.symbolFolderSelector == "-- Manual":
                                 picture.symbolFolder = self.settings.symbolFolder
                             else:
                                 picture.symbolFolder = row["{}".format(self.settings.symbolFolderSelector).lower()]
+
+                        # Obtain Class information
+                        if self.settings.classAssignPictureClass == "True":
+                            if self.settings.classClassPictureSelector == "-- Manual":
+                                picture.pictureClass = self.settings.pictureParameters.pictureClass
+                            else:
+                                picture.pictureClass = row["{}".format(self.settings.classClassPictureSelector).lower()]
 
                         if not valid_picture:
                             log_message = "{} * [Error]".\

@@ -79,6 +79,10 @@ class ImportSettings:
         if not valid:
             self.pictureParameters.glassClass = PictureParameters().glassClass
 
+        valid, self.pictureParameters.pictureClass = vs.GetSavedSetting("importPictures", "pictureClass")
+        if not valid:
+            self.pictureParameters.pictureClass = PictureParameters().pictureClass
+
         # valid, self.pictureParameters.withImage = vs.GetSavedSetting("importPictures", "withImage")
         # if not valid:
         #     self.pictureParameters.withImage = "True"
@@ -266,6 +270,12 @@ class ImportSettings:
         valid, self.importIgnoreUnmodified = vs.GetSavedSetting("importPictures", "importIgnoreUnmodified")
         if not valid:
             self.importIgnoreUnmodified = "False"
+        valid, self.classAssignPictureClass = vs.GetSavedSetting("importPictures", "classAssignPictureClass")
+        if not valid:
+            self.classAssignPictureClass = "True"
+        valid, self.classClassPictureSelector = vs.GetSavedSetting("importPictures", "classClassPictureSelector")
+        if not valid:
+            self.classClassPictureSelector = "True"
         valid, self.createMissingClasses = vs.GetSavedSetting("importPictures", "createMissingClasses")
         if not valid:
             self.createMissingClasses = "True"
@@ -294,6 +304,7 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "withGlass", self.pictureParameters.withGlass)
         vs.SetSavedSetting("importPictures", "glassPosition", str(self.pictureParameters.glassPosition))
         vs.SetSavedSetting("importPictures", "glassClass", self.pictureParameters.glassClass)
+        vs.SetSavedSetting("importPictures", "pictureClass", self.pictureParameters.pictureClass)
 
         # Dialog settings
         vs.SetSavedSetting("importPictures", "excelFileName", self.excelFileName)
@@ -328,4 +339,6 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "importIgnoreErrors", "{}".format(self.importIgnoreErrors))
         vs.SetSavedSetting("importPictures", "importIgnoreExisting", "{}".format(self.importIgnoreExisting))
         vs.SetSavedSetting("importPictures", "importIgnoreUnmodified", "{}".format(self.importIgnoreUnmodified))
+        vs.SetSavedSetting("importPictures", "classAssignPictureClass", "{}".format(self.classAssignPictureClass))
+        vs.SetSavedSetting("importPictures", "classClassPictureSelector", "{}".format(self.classClassPictureSelector))
         vs.SetSavedSetting("importPictures", "createMissingClasses", "{}".format(self.createMissingClasses))

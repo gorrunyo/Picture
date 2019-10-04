@@ -3,8 +3,12 @@ from _picture_settings import PictureParameters, PictureRecord
 
 
 def build_picture(parameters: PictureParameters, record: PictureRecord or None):
+
     active_class = vs.ActiveClass()
-    vs.NameClass("Pictures")
+    if not parameters.pictureClass:
+        parameters.pictureClass = "None"
+    vs.NameClass(parameters.pictureClass)
+
     folder = 0
 
     if record:
@@ -77,7 +81,7 @@ def build_picture(parameters: PictureParameters, record: PictureRecord or None):
 
     if parameters.createSymbol == "True":
         vs.EndSym()
-        vs.SetSymbolOptionsN("{} Picture Symbol".format(parameters.pictureName), 1, 4, "Pictures")
+        vs.SetSymbolOptionsN("{} Picture Symbol".format(parameters.pictureName), 1, 4, parameters.pictureClass)
         symbol_handle = vs.GetObject("{} Picture Symbol".format(parameters.pictureName))
         vs.Record(symbol_handle, "Object list data")
         vs.SetName(picture, parameters.pictureName)

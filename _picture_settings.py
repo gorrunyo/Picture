@@ -25,7 +25,7 @@ class PictureParameters:
         self.withGlass = "False"
         self.glassPosition = "0.75\""
         self.glassClass = "None"
-
+        self.pictureClass = "Picture"
 
 class PictureRecord:
     def __init__(self):

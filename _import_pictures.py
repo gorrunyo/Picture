@@ -105,11 +105,11 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 # global kWidgetID_excelCriteriaSelector
 # global kWidgetID_excelCriteriaValue
 #
-# global kWidgetID_SymbolGroup
-# global kWidgetID_SymbolCreateSymbol
-# global kWidgetID_SymbolFolderLabel
-# global kWidgetID_SymbolFolderSelector
-# global kWidgetID_SymbolFolder
+# global kWidgetID_symbolGroup
+# global kWidgetID_symbolCreateSymbol
+# global kWidgetID_symbolFolderLabel
+# global kWidgetID_symbolFolderSelector
+# global kWidgetID_symbolFolder
 #
 # global kWidgetID_importGroup
 # global kWidgetID_importIgnoreExisting
@@ -335,11 +335,11 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 # kWidgetID_excelCriteriaSelector         = 102
 # kWidgetID_excelCriteriaValue            = 103
 #
-# kWidgetID_SymbolGroup                   = 200
-# kWidgetID_SymbolCreateSymbol            = 201
-# kWidgetID_SymbolFolderLabel             = 202
-# kWidgetID_SymbolFolderSelector          = 203
-# kWidgetID_SymbolFolder                  = 204
+# kWidgetID_symbolGroup                   = 200
+# kWidgetID_symbolCreateSymbol            = 201
+# kWidgetID_symbolFolderLabel             = 202
+# kWidgetID_symbolFolderSelector          = 203
+# kWidgetID_symbolFolder                  = 204
 #
 # kWidgetID_importGroup                   = 300
 # kWidgetID_importIgnoreErrors            = 301
@@ -1185,11 +1185,11 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #     vs.ShowItem(importDialog, kWidgetID_excelCriteriaSelector, state)
 #     vs.ShowItem(importDialog, kWidgetID_excelCriteriaValue, state)
 #
-#     vs.ShowItem(importDialog, kWidgetID_SymbolGroup, state)
-#     vs.ShowItem(importDialog, kWidgetID_SymbolCreateSymbol, state)
-#     vs.ShowItem(importDialog, kWidgetID_SymbolFolderLabel, state)
-#     vs.ShowItem(importDialog, kWidgetID_SymbolFolderSelector, state)
-#     vs.ShowItem(importDialog, kWidgetID_SymbolFolder, state)
+#     vs.ShowItem(importDialog, kWidgetID_symbolGroup, state)
+#     vs.ShowItem(importDialog, kWidgetID_symbolCreateSymbol, state)
+#     vs.ShowItem(importDialog, kWidgetID_symbolFolderLabel, state)
+#     vs.ShowItem(importDialog, kWidgetID_symbolFolderSelector, state)
+#     vs.ShowItem(importDialog, kWidgetID_symbolFolder, state)
 #
 #     vs.ShowItem(importDialog, kWidgetID_importGroup, state)
 #     vs.ShowItem(importDialog, kWidgetID_importIgnoreErrors, state)
@@ -1245,8 +1245,8 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #             vs.RemoveChoice(importDialog, kWidgetID_glassClassSelector, 0)
 #         while vs.GetChoiceCount(importDialog, kWidgetID_excelCriteriaSelector):
 #             vs.RemoveChoice(importDialog, kWidgetID_excelCriteriaSelector, 0)
-#         while vs.GetChoiceCount(importDialog, kWidgetID_SymbolFolderSelector):
-#             vs.RemoveChoice(importDialog, kWidgetID_SymbolFolderSelector, 0)
+#         while vs.GetChoiceCount(importDialog, kWidgetID_symbolFolderSelector):
+#             vs.RemoveChoice(importDialog, kWidgetID_symbolFolderSelector, 0)
 #
 #         updateCriteriaValue(False)
 #
@@ -1282,7 +1282,7 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #                 vs.AddChoice(importDialog, kWidgetID_glassPositionSelector, column, 0)
 #                 vs.AddChoice(importDialog, kWidgetID_glassClassSelector, column, 0)
 #                 vs.AddChoice(importDialog, kWidgetID_excelCriteriaSelector, column, 0)
-#                 vs.AddChoice(importDialog, kWidgetID_SymbolFolderSelector, column, 0)
+#                 vs.AddChoice(importDialog, kWidgetID_symbolFolderSelector, column, 0)
 #
 #             vs.AddChoice(importDialog, kWidgetID_withImageSelector, "-- Manual", 0)
 #             vs.AddChoice(importDialog, kWidgetID_imageTextureSelector, "-- Select column ...", 0)
@@ -1306,7 +1306,7 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #             vs.AddChoice(importDialog, kWidgetID_glassPositionSelector, "-- Manual", 0)
 #             vs.AddChoice(importDialog, kWidgetID_glassClassSelector, "-- Manual", 0)
 #             vs.AddChoice(importDialog, kWidgetID_excelCriteriaSelector, "-- Select column ...", 0)
-#             vs.AddChoice(importDialog, kWidgetID_SymbolFolderSelector, "-- Manual", 0)
+#             vs.AddChoice(importDialog, kWidgetID_symbolFolderSelector, "-- Manual", 0)
 #
 #             selectorIndex = vs.GetPopUpChoiceIndex(importDialog, kWidgetID_withImageSelector, withImageSelector)
 #             vs.SelectChoice(importDialog, kWidgetID_withImageSelector, selectorIndex, True)
@@ -1418,10 +1418,10 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #             selectorIndex = vs.GetPopUpChoiceIndex(importDialog, kWidgetID_excelCriteriaSelector, excelCriteriaSelector)
 #             vs.SelectChoice(importDialog, kWidgetID_excelCriteriaSelector, selectorIndex, True)
 #
-#             vs.SetBooleanItem(importDialog, kWidgetID_SymbolCreateSymbol, symbolCreateSymbol == "True")
+#             vs.SetBooleanItem(importDialog, kWidgetID_symbolCreateSymbol, symbolCreateSymbol == "True")
 #
-#             selectorIndex = vs.GetPopUpChoiceIndex(importDialog, kWidgetID_SymbolFolderSelector, symbolFolderSelector)
-#             vs.SelectChoice(importDialog, kWidgetID_SymbolFolderSelector, selectorIndex, True)
+#             selectorIndex = vs.GetPopUpChoiceIndex(importDialog, kWidgetID_symbolFolderSelector, symbolFolderSelector)
+#             vs.SelectChoice(importDialog, kWidgetID_symbolFolderSelector, selectorIndex, True)
 #
 #             updateCriteriaValue(True)
 #
@@ -1442,7 +1442,7 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #             vs.EnableItem(importDialog, kWidgetID_glassPosition, vs.GetSelectedChoiceIndex(importDialog, kWidgetID_glassPositionSelector, 0) == 0)
 #             vs.EnableItem(importDialog, kWidgetID_glassClass, vs.GetSelectedChoiceIndex(importDialog, kWidgetID_glassClassSelector, 0) == 0)
 #             vs.EnableItem(importDialog, kWidgetID_excelCriteriaValue, vs.GetSelectedChoiceIndex(importDialog, kWidgetID_excelCriteriaSelector, 0) != 0)
-#             vs.EnableItem(importDialog, kWidgetID_SymbolFolder, vs.GetSelectedChoiceIndex(importDialog, kWidgetID_SymbolFolderSelector, 0) == 0)
+#             vs.EnableItem(importDialog, kWidgetID_symbolFolder, vs.GetSelectedChoiceIndex(importDialog, kWidgetID_symbolFolderSelector, 0) == 0)
 #
 #             vs.SetBooleanItem(importDialog, kWidgetID_importIgnoreErrors, importIgnoreErrors == "True")
 #             vs.SetBooleanItem(importDialog, kWidgetID_importIgnoreExisting, importIgnoreExisting == "True")
@@ -1656,14 +1656,14 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #                     vs.SelectChoice(importDialog, kWidgetID_excelCriteriaValue, index, True);
 #     elif item == kWidgetID_excelCriteriaValue:
 #         excelCriteriaValue = vs.GetChoiceText(importDialog, kWidgetID_excelCriteriaValue, data)
-#     elif item == kWidgetID_SymbolCreateSymbol:
+#     elif item == kWidgetID_symbolCreateSymbol:
 #         symbolCreateSymbol = "{}".format(data == True)
-#         state =  vs.GetSelectedChoiceIndex(importDialog, kWidgetID_SymbolFolderSelector, 0) == 0 and data == True
-#         vs.EnableItem(importDialog, kWidgetID_SymbolFolderSelector, data)
-#         vs.EnableItem(importDialog, kWidgetID_SymbolFolder, state)
-#     elif item == kWidgetID_SymbolFolderSelector:
-#         vs.EnableItem(importDialog, kWidgetID_SymbolFolder, data == 0)
-#         symbolFolderSelector = vs.GetChoiceText(importDialog, kWidgetID_SymbolFolderSelector, data)
+#         state =  vs.GetSelectedChoiceIndex(importDialog, kWidgetID_symbolFolderSelector, 0) == 0 and data == True
+#         vs.EnableItem(importDialog, kWidgetID_symbolFolderSelector, data)
+#         vs.EnableItem(importDialog, kWidgetID_symbolFolder, state)
+#     elif item == kWidgetID_symbolFolderSelector:
+#         vs.EnableItem(importDialog, kWidgetID_symbolFolder, data == 0)
+#         symbolFolderSelector = vs.GetChoiceText(importDialog, kWidgetID_symbolFolderSelector, data)
 #     elif item == kWidgetID_importIgnoreErrors:
 #         importIgnoreErrors = "{}".format(data == True)
 #         vs.ShowItem(importDialog, kWidgetID_importErrorCount, data != True)
@@ -2204,32 +2204,32 @@ pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToSe
 #
 #     # Symbol group
 #     # =========================================================================================
-#     vs.CreateGroupBox(importDialog, kWidgetID_SymbolGroup, "Symbol", True)
-#     vs.SetBelowItem(importDialog, kWidgetID_excelCriteriaGroup, kWidgetID_SymbolGroup, 0, 0)
+#     vs.CreateGroupBox(importDialog, kWidgetID_symbolGroup, "Symbol", True)
+#     vs.SetBelowItem(importDialog, kWidgetID_excelCriteriaGroup, kWidgetID_symbolGroup, 0, 0)
 #     # Create Symbol checkbox
 #     # -----------------------------------------------------------------------------------------
-#     vs.CreateCheckBox(importDialog, kWidgetID_SymbolCreateSymbol, "Create Symbol")
-#     vs.SetFirstGroupItem(importDialog, kWidgetID_SymbolGroup, kWidgetID_SymbolCreateSymbol)
-#     vs.SetBooleanItem(importDialog, kWidgetID_SymbolCreateSymbol, symbolCreateSymbol == "True")
-#     vs.SetHelpText(importDialog, kWidgetID_SymbolCreateSymbol, "Check to create a symbol for every Picture")
+#     vs.CreateCheckBox(importDialog, kWidgetID_symbolCreateSymbol, "Create Symbol")
+#     vs.SetFirstGroupItem(importDialog, kWidgetID_symbolGroup, kWidgetID_symbolCreateSymbol)
+#     vs.SetBooleanItem(importDialog, kWidgetID_symbolCreateSymbol, symbolCreateSymbol == "True")
+#     vs.SetHelpText(importDialog, kWidgetID_symbolCreateSymbol, "Check to create a symbol for every Picture")
 #     # Symbol Folder
 #     # -----------------------------------------------------------------------------------------
-#     vs.CreateStaticText(importDialog, kWidgetID_SymbolFolderLabel, "Symbol Folder: ", labelWidth)
-#     vs.SetBelowItem(importDialog, kWidgetID_SymbolCreateSymbol, kWidgetID_SymbolFolderLabel, 0, 0)
-#     vs.CreatePullDownMenu(importDialog, kWidgetID_SymbolFolderSelector, inputFieldWidth)
-#     selectorIndex = vs.GetPopUpChoiceIndex(importDialog, kWidgetID_SymbolFolderSelector, symbolFolderSelector)
-#     vs.SelectChoice(importDialog, kWidgetID_SymbolFolderSelector, selectorIndex, True)
-#     vs.SetRightItem(importDialog, kWidgetID_SymbolFolderLabel, kWidgetID_SymbolFolderSelector, 0, 0)
-#     vs.SetHelpText(importDialog, kWidgetID_SymbolFolderSelector, "Select the column for the symbol folder name")
+#     vs.CreateStaticText(importDialog, kWidgetID_symbolFolderLabel, "Symbol Folder: ", labelWidth)
+#     vs.SetBelowItem(importDialog, kWidgetID_symbolCreateSymbol, kWidgetID_symbolFolderLabel, 0, 0)
+#     vs.CreatePullDownMenu(importDialog, kWidgetID_symbolFolderSelector, inputFieldWidth)
+#     selectorIndex = vs.GetPopUpChoiceIndex(importDialog, kWidgetID_symbolFolderSelector, symbolFolderSelector)
+#     vs.SelectChoice(importDialog, kWidgetID_symbolFolderSelector, selectorIndex, True)
+#     vs.SetRightItem(importDialog, kWidgetID_symbolFolderLabel, kWidgetID_symbolFolderSelector, 0, 0)
+#     vs.SetHelpText(importDialog, kWidgetID_symbolFolderSelector, "Select the column for the symbol folder name")
 #
-#     vs.CreateEditText (importDialog, kWidgetID_SymbolFolder, symbolFolder, inputFieldWidth )
-#     vs.SetRightItem(importDialog, kWidgetID_SymbolFolderSelector, kWidgetID_SymbolFolder, 0, 0)
-#     vs.SetHelpText(importDialog, kWidgetID_SymbolFolder, "Enter the symbol folder name")
+#     vs.CreateEditText (importDialog, kWidgetID_symbolFolder, symbolFolder, inputFieldWidth )
+#     vs.SetRightItem(importDialog, kWidgetID_symbolFolderSelector, kWidgetID_symbolFolder, 0, 0)
+#     vs.SetHelpText(importDialog, kWidgetID_symbolFolder, "Enter the symbol folder name")
 #
 #     # Import group
 #     # =========================================================================================
 #     vs.CreateGroupBox(importDialog, kWidgetID_importGroup, "Import", True)
-#     vs.SetBelowItem(importDialog, kWidgetID_SymbolGroup, kWidgetID_importGroup, 0, 0)
+#     vs.SetBelowItem(importDialog, kWidgetID_symbolGroup, kWidgetID_importGroup, 0, 0)
 #     # Ignore Existing
 #     # -----------------------------------------------------------------------------------------
 #     vs.CreateCheckBox(importDialog, kWidgetID_importIgnoreExisting, "Ignore manual fields on existing Pictures")
