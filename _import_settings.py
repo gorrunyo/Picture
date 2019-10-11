@@ -1,10 +1,11 @@
 import vs
-from _picture_settings import PictureParameters
+from _picture_settings import PictureParameters, PictureRecord
 
 
 class ImportSettings:
     def __init__(self):
         self.pictureParameters = PictureParameters()
+        self.pictureRecord = PictureRecord()
         # self.errorString = ""
         # Picture parameters
 
@@ -261,15 +262,6 @@ class ImportSettings:
         valid, self.symbolFolder = vs.GetSavedSetting("importPictures", "symbolFolder")
         if not valid:
             self.symbolFolder = "Pictures"
-        valid, self.importIgnoreErrors = vs.GetSavedSetting("importPictures", "importIgnoreErrors")
-        if not valid:
-            self.importIgnoreErrors = "False"
-        valid, self.importIgnoreExisting = vs.GetSavedSetting("importPictures", "importIgnoreExisting")
-        if not valid:
-            self.importIgnoreExisting = "False"
-        valid, self.importIgnoreUnmodified = vs.GetSavedSetting("importPictures", "importIgnoreUnmodified")
-        if not valid:
-            self.importIgnoreUnmodified = "False"
         valid, self.classAssignPictureClass = vs.GetSavedSetting("importPictures", "classAssignPictureClass")
         if not valid:
             self.classAssignPictureClass = "True"
@@ -279,10 +271,55 @@ class ImportSettings:
         valid, self.createMissingClasses = vs.GetSavedSetting("importPictures", "createMissingClasses")
         if not valid:
             self.createMissingClasses = "True"
+        valid, self.metaImportMetadata = vs.GetSavedSetting("importPictures", "metaImportMetadata")
+        if not valid:
+            self.metaImportMetadata = "True"
+        valid, self.metaArtworkTitleSelector = vs.GetSavedSetting("importPictures", "metaArtworkTitleSelector")
+        if not valid:
+            self.metaArtworkTitleSelector = "-- Don't Import"
+        valid, self.metaAuthorNameSelector = vs.GetSavedSetting("importPictures", "metaAuthorNameSelector")
+        if not valid:
+            self.metaAuthorNameSelector = "-- Don't Import"
+        valid, self.metaArtworkCreationDateSelector = vs.GetSavedSetting("importPictures", "metaArtworkCreationDateSelector")
+        if not valid:
+            self.metaArtworkCreationDateSelector = "-- Don't Import"
+        valid, self.metaArtworkMediaSelector = vs.GetSavedSetting("importPictures", "metaArtworkMediaSelector")
+        if not valid:
+            self.metaArtworkMediaSelector = "-- Don't Import"
+        valid, self.metaArtworkSourceSelector = vs.GetSavedSetting("importPictures", "metaArtworkSourceSelector")
+        if not valid:
+            self.metaArtworkSourceSelector = "-- Don't Import"
+        valid, self.metaRegistrationNumberSelector = vs.GetSavedSetting("importPictures", "metaRegistrationNumberSelector")
+        if not valid:
+            self.metaRegistrationNumberSelector = "-- Don't Import"
+        valid, self.metaAuthorBirthCountrySelector = vs.GetSavedSetting("importPictures", "metaAuthorBirthCountrySelector")
+        if not valid:
+            self.metaAuthorBirthCountrySelector = "-- Don't Import"
+        valid, self.metaAuthorBirthDateSelector = vs.GetSavedSetting("importPictures", "metaAuthorBirthDateSelector")
+        if not valid:
+            self.metaAuthorBirthDateSelector = "-- Don't Import"
+        valid, self.metaAuthorDeathDateSelector = vs.GetSavedSetting("importPictures", "metaAuthorDeathDateSelector")
+        if not valid:
+            self.metaAuthorDeathDateSelector = "-- Don't Import"
+        valid, self.metaDesignNotesSelector = vs.GetSavedSetting("importPictures", "metaDesignNotesSelector")
+        if not valid:
+            self.metaDesignNotesSelector = "-- Don't Import"
+        valid, self.metaExhibitionMediaSelector = vs.GetSavedSetting("importPictures", "metaExhibitionMediaSelector")
+        if not valid:
+            self.metaExhibitionMediaSelector = "-- Don't Import"
+        valid, self.importIgnoreErrors = vs.GetSavedSetting("importPictures", "importIgnoreErrors")
+        if not valid:
+            self.importIgnoreErrors = "False"
+        valid, self.importIgnoreExisting = vs.GetSavedSetting("importPictures", "importIgnoreExisting")
+        if not valid:
+            self.importIgnoreExisting = "False"
+        valid, self.importIgnoreUnmodified = vs.GetSavedSetting("importPictures", "importIgnoreUnmodified")
+        if not valid:
+            self.importIgnoreUnmodified = "False"
 
     def save(self):
 
-        #Picture parameters
+        # Picture parameters
         vs.SetSavedSetting("importPictures", "withImage", self.pictureParameters.withImage)
         vs.SetSavedSetting("importPictures", "imageWidth", str(self.pictureParameters.imageWidth))
         vs.SetSavedSetting("importPictures", "imageHeight", str(self.pictureParameters.imageHeight))
@@ -336,9 +373,23 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "symbolCreateSymbol", self.symbolCreateSymbol)
         vs.SetSavedSetting("importPictures", "symbolFolderSelector", self.symbolFolderSelector)
         vs.SetSavedSetting("importPictures", "symbolFolder", self.symbolFolder)
-        vs.SetSavedSetting("importPictures", "importIgnoreErrors", "{}".format(self.importIgnoreErrors))
-        vs.SetSavedSetting("importPictures", "importIgnoreExisting", "{}".format(self.importIgnoreExisting))
-        vs.SetSavedSetting("importPictures", "importIgnoreUnmodified", "{}".format(self.importIgnoreUnmodified))
         vs.SetSavedSetting("importPictures", "classAssignPictureClass", "{}".format(self.classAssignPictureClass))
         vs.SetSavedSetting("importPictures", "classClassPictureSelector", "{}".format(self.classClassPictureSelector))
         vs.SetSavedSetting("importPictures", "createMissingClasses", "{}".format(self.createMissingClasses))
+
+        vs.SetSavedSetting("importPictures", "metaImportMetadata", self.metaImportMetadata)
+        vs.SetSavedSetting("importPictures", "metaArtworkTitleSelector", "{}".format(self.metaArtworkTitleSelector))
+        vs.SetSavedSetting("importPictures", "metaAuthorNameSelector", "{}".format(self.metaAuthorNameSelector))
+        vs.SetSavedSetting("importPictures", "metaArtworkCreationDateSelector", "{}".format(self.metaArtworkCreationDateSelector))
+        vs.SetSavedSetting("importPictures", "metaArtworkMediaSelector", "{}".format(self.metaArtworkMediaSelector))
+        vs.SetSavedSetting("importPictures", "metaArtworkSourceSelector", "{}".format(self.metaArtworkSourceSelector))
+        vs.SetSavedSetting("importPictures", "metaRegistrationNumberSelector", "{}".format(self.metaRegistrationNumberSelector))
+        vs.SetSavedSetting("importPictures", "metaAuthorBirthCountrySelector", "{}".format(self.metaAuthorBirthCountrySelector))
+        vs.SetSavedSetting("importPictures", "metaAuthorBirthDateSelector", "{}".format(self.metaAuthorBirthDateSelector))
+        vs.SetSavedSetting("importPictures", "metaAuthorDeathDateSelector", "{}".format(self.metaAuthorDeathDateSelector))
+        vs.SetSavedSetting("importPictures", "metaDesignNotesSelector", "{}".format(self.metaDesignNotesSelector))
+        vs.SetSavedSetting("importPictures", "metaExhibitionMediaSelector", "{}".format(self.metaExhibitionMediaSelector))
+
+        vs.SetSavedSetting("importPictures", "importIgnoreErrors", "{}".format(self.importIgnoreErrors))
+        vs.SetSavedSetting("importPictures", "importIgnoreExisting", "{}".format(self.importIgnoreExisting))
+        vs.SetSavedSetting("importPictures", "importIgnoreUnmodified", "{}".format(self.importIgnoreUnmodified))

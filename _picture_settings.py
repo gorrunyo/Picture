@@ -1,4 +1,3 @@
-
 class PictureParameters:
     def __init__(self):
         self.pictureName = "New Picture"
@@ -26,6 +25,7 @@ class PictureParameters:
         self.glassPosition = "0.75\""
         self.glassClass = "None"
         self.pictureClass = "Picture"
+
 
 class PictureRecord:
     def __init__(self):

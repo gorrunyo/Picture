@@ -138,6 +138,36 @@ class ImportPicturesDialog:
         self.kWidgetID_importDeletedCount = 407
         self.kWidgetID_importErrorCount = 408
 
+        # Metadata
+        self.kWidgetID_metaGroup = 500
+        self.kWidgetID_metaImportMetadata = 550
+        self.kWidgetID_metaArtworkTitleLabel = 501
+        self.kWidgetID_metaArtworkTitleSelector = 502
+        self.kWidgetID_metaAuthorNameLabel = 503
+        self.kWidgetID_metaAuthorNameSelector = 504
+        self.kWidgetID_metaArtworkCreationDateLabel = 505
+        self.kWidgetID_metaArtworkCreationDateSelector = 506
+        self.kWidgetID_metaArtworkMediaLabel = 507
+        self.kWidgetID_metaArtworkMediaSelector = 508
+        # self.kWidgetID_metaTypeLabel = 509
+        # self.kWidgetID_metaTypeSelector = 510
+        # self.kWidgetID_metaRoomLocationLabel = 511
+        # self.kWidgetID_metaRoomLocationSelector = 512
+        self.kWidgetID_metaArtworkSourceLabel = 513
+        self.kWidgetID_metaArtworkSourceSelector = 514
+        self.kWidgetID_metaRegistrationNumberLabel = 515
+        self.kWidgetID_metaRegistrationNumberSelector = 516
+        self.kWidgetID_metaAuthorBirthCountryLabel = 517
+        self.kWidgetID_metaAuthorBirthCountrySelector = 518
+        self.kWidgetID_metaAuthorBirthDateLabel = 519
+        self.kWidgetID_metaAuthorBirthDateSelector = 520
+        self.kWidgetID_metaAuthorDeathDateLabel = 521
+        self.kWidgetID_metaAuthorDeathDateSelector = 522
+        self.kWidgetID_metaDesignNotesLabel = 523
+        self.kWidgetID_metaDesignNotesSelector = 524
+        self.kWidgetID_metaExhibitionMediaLabel = 525
+        self.kWidgetID_metaExhibitionMediaSelector = 526
+
         ####################################################################################
         # Dialog Parameters
         ####################################################################################
@@ -262,106 +292,79 @@ class ImportPicturesDialog:
         #     if result == 0:
         #         vs.SetItemText(self.dialog, self.kWidgetID_imageFolderName, self.settings.imageFolderName)
         elif item == self.kWidgetID_imageTextureSelector:
-            self.parameters.imageTextureSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_withImageSelector, data)
+            self.parameters.imageTextureSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withImageSelector, data)
         elif item == self.kWidgetID_imageWidthSelector:
-            self.parameters.imageWidthSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_imageWidthSelector, data)
+            self.parameters.imageWidthSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_imageWidthSelector, data)
         elif item == self.kWidgetID_imageHeightSelector:
-            self.parameters.imageHeightSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_imageHeightSelector, data)
+            self.parameters.imageHeightSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_imageHeightSelector, data)
         elif item == self.kWidgetID_imagePositionSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_imagePosition, data == 0)
-            self.parameters.imagePositionSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_imagePositionSelector, data)
+            self.parameters.imagePositionSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_imagePositionSelector, data)
         elif item == self.kWidgetID_imagePosition:
-            _, self.parameters.pictureParameters.imagePosition = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_imagePosition, 3))
+            self.parameters.pictureParameters.imagePosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_imagePosition, 3))
         elif item == self.kWidgetID_withFrameSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withFrame, data == 0)
-            self.parameters.withFrameSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_withFrameSelector, data)
+            self.parameters.withFrameSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withFrameSelector, data)
         elif item == self.kWidgetID_withFrame:
             self.parameters.pictureParameters.withFrame = "{}".format(data != 0)
         elif item == self.kWidgetID_frameWidthSelector:
-            self.parameters.frameWidthSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameWidthSelector, data)
+            self.parameters.frameWidthSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameWidthSelector, data)
         elif item == self.kWidgetID_frameHeightSelector:
-            self.parameters.frameHeightSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameHeightSelector, data)
+            self.parameters.frameHeightSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameHeightSelector, data)
         elif item == self.kWidgetID_frameThicknessSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameThickness, data == 0)
-            self.parameters.frameThicknessSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameThicknessSelector, data)
+            self.parameters.frameThicknessSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameThicknessSelector, data)
         elif item == self.kWidgetID_frameThickness:
-            _, self.parameters.pictureParameters.frameThickness = str(vs.GetEditReal(
+            self.parameters.pictureParameters.frameThickness = str(vs.GetEditReal(
                 self.dialog, self.kWidgetID_frameThickness, 3))
         elif item == self.kWidgetID_frameDepthSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameDepth, data == 0)
-            self.parameters.frameDepthSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameDepthSelector, data)
+            self.parameters.frameDepthSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameDepthSelector, data)
         elif item == self.kWidgetID_frameDepth:
-            _, self.parameters.pictureParameters.frameDepth = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameDepth, 3))
+            self.parameters.pictureParameters.frameDepth = str(vs.GetEditReal(self.dialog, self.kWidgetID_frameDepth, 3))
         elif item == self.kWidgetID_frameClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameClass, data == 0)
-            self.parameters.frameClassSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameClassSelector, data)
+            self.parameters.frameClassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameClassSelector, data)
         elif item == self.kWidgetID_frameClass:
-            index, self.parameters.frameClass = vs.GetSelectedChoiceInfo(
-                self.dialog, self.kWidgetID_frameClass, 0)
+            index, self.parameters.pictureParameters.frameClass = vs.GetSelectedChoiceInfo(self.dialog, self.kWidgetID_frameClass, 0)
         elif item == self.kWidgetID_frameTextureScaleSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScale, data == 0)
-            self.parameters.frameTextureScaleSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameTextureScaleSelector, data)
+            self.parameters.frameTextureScaleSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameTextureScaleSelector, data)
         elif item == self.kWidgetID_frameTextureScale:
-            _, self.parameters.pictureParameters.frameTextureScale = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameTextureScale, 1))
+            self.parameters.pictureParameters.frameTextureScale = str(vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1))
         elif item == self.kWidgetID_frameTextureRotationSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotation, data == 0)
-            self.parameters.frameTextureRotationSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_frameTextureRotationSelector, data)
+            self.parameters.frameTextureRotationSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameTextureRotationSelector, data)
         elif item == self.kWidgetID_frameTextureRotation:
-            _, self.parameters.pictureParameters.frameTextureRotation = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameTextureRotation, 1))
+            self.parameters.pictureParameters.frameTextureRotation = str(vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1))
         elif item == self.kWidgetID_withMatboardSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withMatboard, data == 0)
-            self.parameters.withMatboardSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_withMatboardSelector, data)
+            self.parameters.withMatboardSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withMatboardSelector, data)
         elif item == self.kWidgetID_withMatboard:
             self.parameters.pictureParameters.withMatboard = "{}".format(data != 0)
         elif item == self.kWidgetID_matboardPositionSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, data == 0)
-            self.parameters.matboardPositionSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_matboardPositionSelector, data)
+            self.parameters.matboardPositionSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardPositionSelector, data)
         elif item == self.kWidgetID_matboardPosition:
-            _, self.parameters.pictureParameters.matboardPosition = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_matboardPosition, 3))
+            self.parameters.pictureParameters.matboardPosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardPosition, 3))
         elif item == self.kWidgetID_matboardClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardClass, data == 0)
-            self.parameters.matboardClassSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_matboardClassSelector, data)
+            self.parameters.matboardClassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardClassSelector, data)
         elif item == self.kWidgetID_matboardClass:
-            index, self.parameters.matboardClass = vs.GetSelectedChoiceInfo(
-                self.dialog, self.kWidgetID_matboardClass, 0)
+            index, self.parameters.pictureParameters.matboardClass = vs.GetSelectedChoiceInfo(self.dialog, self.kWidgetID_matboardClass, 0)
         elif item == self.kWidgetID_matboardTextureScaleSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScale, data == 0)
-            self.parameters.matboardTextureScaleSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_matboardTextureScaleSelector, data)
+            self.parameters.matboardTextureScaleSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardTextureScaleSelector, data)
         elif item == self.kWidgetID_matboardTextureScale:
-            _, self.parameters.pictureParameters.matboardTextureScale = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_matboardTextureScale, 1))
+            self.parameters.pictureParameters.matboardTextureScale = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1))
         elif item == self.kWidgetID_matboardTextureRotatSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotat, data == 0)
-            self.parameters.matboardTextureRotatSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_matboardTextureRotatSelector, data)
+            self.parameters.matboardTextureRotatSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardTextureRotatSelector, data)
         elif item == self.kWidgetID_matboardTextureRotat:
-            _, self.parameters.pictureParameters.matboardTextureRotat = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_matboardTextureRotat, 1))
+            self.parameters.pictureParameters.matboardTextureRotat = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1))
         elif item == self.kWidgetID_withGlassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withGlass, data == 0)
-            self.parameters.withGlassSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_withGlassSelector, data)
+            self.parameters.withGlassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withGlassSelector, data)
         elif item == self.kWidgetID_withGlass:
             self.parameters.pictureParameters.withGlass = "{}".format(data != 0)
         elif item == self.kWidgetID_glassPositionSelector:
@@ -369,59 +372,90 @@ class ImportPicturesDialog:
             self.parameters.glassPositionSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_glassPositionSelector, data)
         elif item == self.kWidgetID_glassPosition:
-            _, self.parameters.pictureParameters.glassPosition = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_glassPosition, 3))
+            self.parameters.pictureParameters.glassPosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_glassPosition, 3))
         elif item == self.kWidgetID_glassClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_glassClass, data == 0)
-            self.parameters.glassClassSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_glassClassSelector, data)
+            self.parameters.glassClassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_glassClassSelector, data)
         elif item == self.kWidgetID_glassClass:
-            index, self.parameters.glassClass = vs.GetSelectedChoiceInfo(
-                self.dialog, self.kWidgetID_glassClass, 0)
+            index, self.parameters.pictureParameters.glassClass = vs.GetSelectedChoiceInfo(self.dialog, self.kWidgetID_glassClass, 0)
         elif item == self.kWidgetID_excelCriteriaSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_excelCriteriaValue, data != 0)
-            new_excel_criteria_selector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_excelCriteriaSelector, data)
+            new_excel_criteria_selector = vs.GetChoiceText(self.dialog, self.kWidgetID_excelCriteriaSelector, data)
             if new_excel_criteria_selector != self.parameters.excelCriteriaSelector:
                 self.parameters.excelCriteriaSelector = new_excel_criteria_selector
                 self.update_criteria_values(False)
                 if data != 0:
                     self.update_criteria_values(True)
                 else:
-                    index = vs.GetChoiceIndex(
-                        self.dialog, self.kWidgetID_excelCriteriaValue, self.parameters.excelCriteriaValue)
+                    index = vs.GetChoiceIndex(self.dialog, self.kWidgetID_excelCriteriaValue, self.parameters.excelCriteriaValue)
                     if index == -1:
                         vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0, True)
                         self.parameters.excelCriteriaValue = "Select a value ..."
                     else:
                         vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, index, True)
         elif item == self.kWidgetID_excelCriteriaValue:
-            self.parameters.excelCriteriaValue = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_excelCriteriaValue, data)
+            self.parameters.excelCriteriaValue = vs.GetChoiceText(self.dialog, self.kWidgetID_excelCriteriaValue, data)
         elif item == self.kWidgetID_symbolCreateSymbol:
             self.parameters.symbolCreateSymbol = "{}".format(data != 0)
-            selector_index = vs.GetSelectedChoiceIndex( self.dialog, self.kWidgetID_symbolFolderSelector, 0)
+            selector_index = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_symbolFolderSelector, 0)
             vs.EnableItem(self.dialog, self.kWidgetID_symbolFolderSelector, data)
             vs.EnableItem(self.dialog, self.kWidgetID_symbolFolder, selector_index == 0 and data == 1)
         elif item == self.kWidgetID_symbolFolderSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_symbolFolder, data == 0)
-            self.parameters.symbolFolderSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_symbolFolderSelector, data)
+            self.parameters.symbolFolderSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_symbolFolderSelector, data)
         elif item == self.kWidgetID_classAssignPictureClass:
             self.parameters.classAssignPictureClass = "{}".format(data == 1)
             vs.EnableItem(self.dialog, self.kWidgetID_classPictureClassSelector, data == 1)
-            selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_classPictureClassSelector,
-                                                    self.parameters.classClassPictureSelector)
+            selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_classPictureClassSelector, self.parameters.classClassPictureSelector)
             vs.EnableItem(self.dialog, self.kWidgetID_classPictureClass, selector_index == 0 and data != 0)
         elif item == self.kWidgetID_classPictureClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_classPictureClass, data == 0)
-            self.parameters.classClassPictureSelector = vs.GetChoiceText(
-                self.dialog, self.kWidgetID_classPictureClassSelector, data)
+            self.parameters.classClassPictureSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_classPictureClassSelector, data)
         elif item == self.kWidgetID_classPictureClass:
-            index, self.parameters.pictureParameters.pictureClass = vs.GetSelectedChoiceInfo(
-                self.dialog, self.kWidgetID_classPictureClass, 0)
+            index, self.parameters.pictureParameters.pictureClass = vs.GetSelectedChoiceInfo(self.dialog, self.kWidgetID_classPictureClass, 0)
         elif item == self.kWidgetID_classCreateMissingClasses:
             self.parameters.createMissingClasses = "{}".format(data == 1)
+        elif item == self.kWidgetID_metaImportMetadata:
+            self.parameters.metaImportMetadata = "{}".format(data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkTitleSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorNameSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkMediaSelector, data == 1)
+            # vs.EnableItem(self.dialog, self.kWidgetID_metaTypeSelector, data == 1)
+            # vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkSourceSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaDesignNotesSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, data == 1)
+        elif item == self.kWidgetID_metaArtworkTitleSelector:
+            self.parameters.metaArtworkTitleSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaArtworkTitleSelector, data)
+        elif item == self.kWidgetID_metaAuthorNameSelector:
+            self.parameters.metaAuthorNameSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaAuthorNameSelector, data)
+        elif item == self.kWidgetID_metaArtworkCreationDateSelector:
+            self.parameters.metaArtworkCreationDateSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, data)
+        elif item == self.kWidgetID_metaArtworkMediaSelector:
+            self.parameters.metaArtworkMediaSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaArtworkMediaSelector, data)
+        # elif item == self.kWidgetID_metaTypeSelector:
+        #     self.parameters.metaTypeSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaTypeSelector, data)
+        # elif item == self.kWidgetID_metaRoomLocationSelector:
+        #     self.parameters.metaRoomLocationSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaRoomLocationSelector, data)
+        elif item == self.kWidgetID_metaArtworkSourceSelector:
+            self.parameters.metaArtworkSourceSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaArtworkSourceSelector, data)
+        elif item == self.kWidgetID_metaRegistrationNumberSelector:
+            self.parameters.metaRegistrationNumberSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, data)
+        elif item == self.kWidgetID_metaAuthorBirthCountrySelector:
+            self.parameters.metaAuthorBirthCountrySelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, data)
+        elif item == self.kWidgetID_metaAuthorBirthDateSelector:
+            self.parameters.metaAuthorBirthDateSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, data)
+        elif item == self.kWidgetID_metaAuthorDeathDateSelector:
+            self.parameters.metaAuthorDeathDateSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, data)
+        elif item == self.kWidgetID_metaDesignNotesSelector:
+            self.parameters.metaDesignNotesSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaDesignNotesSelector, data)
+        elif item == self.kWidgetID_metaExhibitionMediaSelector:
+            self.parameters.metaExhibitionMediaSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, data)
         elif item == self.kWidgetID_importIgnoreErrors:
             self.parameters.importIgnoreErrors = "{}".format(data != 0)
             vs.ShowItem(self.dialog, self.kWidgetID_importErrorCount, data == 0)
@@ -431,133 +465,110 @@ class ImportPicturesDialog:
             self.parameters.importIgnoreUnmodified = "{}".format(data != 0)
         elif item == self.kWidgetID_importButton:
             self.import_pictures()
-            vs.SetItemText(self.dialog, self.kWidgetID_importNewCount,
-                           "New Pictures: {}".format(self.importNewCount))
-            vs.SetItemText(self.dialog, self.kWidgetID_importUpdatedCount,
-                           "Updated Pictures: {}".format(self.importUpdatedCount))
-            vs.SetItemText(self.dialog, self.kWidgetID_importDeletedCount,
-                           "Deleted Pictures: {}".format(self.importDeletedCount))
-            vs.SetItemText(self.dialog, self.kWidgetID_importErrorCount,
-                           "Error Pictures: {}".format(self.importErrorCount))
+            vs.SetItemText(self.dialog, self.kWidgetID_importNewCount, "New Pictures: {}".format(self.importNewCount))
+            vs.SetItemText(self.dialog, self.kWidgetID_importUpdatedCount, "Updated Pictures: {}".format(self.importUpdatedCount))
+            vs.SetItemText(self.dialog, self.kWidgetID_importDeletedCount, "Deleted Pictures: {}".format(self.importDeletedCount))
+            vs.SetItemText(self.dialog, self.kWidgetID_importErrorCount, "Error Pictures: {}".format(self.importErrorCount))
 
         # This section handles the following cases:
         # - The Dialog is initializing
         # - The name of the workbook file has changed
-        if item == self.kWidgetID_fileName or \
-                item == self.kWidgetID_fileBrowseButton or \
-                item == KDialogInitEvent:
+        if item == self.kWidgetID_fileName or item == self.kWidgetID_fileBrowseButton or item == KDialogInitEvent:
             self.set_workbook()
 
         # The image selection has changed
-        if item == self.kWidgetID_withImageSelector or \
-                item == self.kWidgetID_withImage or \
-                item == self.kWidgetID_excelSheetName:
+        if item == self.kWidgetID_withImageSelector or item == self.kWidgetID_withImage or item == self.kWidgetID_excelSheetName:
             state = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withImageSelector, 0) != 0 or \
                     vs.GetBooleanItem(self.dialog, self.kWidgetID_withImage) is True
 
-#            vs.EnableItem(self.dialog, self.kWidgetID_imageWidthLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_imageWidthLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_imageWidthSelector, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_imageHeightLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_imageHeightLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_imageHeightSelector, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_imagePositionLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_imagePositionLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_imagePositionSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_imagePosition, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_imageTextureLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_imageTextureLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_imageTextureSelector, state)
 
         # The frame selection has changed
-        if item == self.kWidgetID_withFrameSelector or \
-                item == self.kWidgetID_withFrame or \
-                item == self.kWidgetID_excelSheetName:
+        if item == self.kWidgetID_withFrameSelector or item == self.kWidgetID_withFrame or item == self.kWidgetID_excelSheetName:
             state = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withFrameSelector, 0) != 0 or \
                     vs.GetBooleanItem(self.dialog, self.kWidgetID_withFrame) is True
 
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameWidthLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameWidthLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameWidthSelector, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameHeightLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameHeightLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameHeightSelector, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameThicknessLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameThicknessLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameThicknessSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameThickness, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameDepthLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameDepthLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameDepthSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameDepth, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameClassLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameClassLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameClassSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameClass, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScaleLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScaleLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScaleSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScale, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotationLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotationLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotationSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotation, state)
 
         # The matboard selection has changed
-        if item == self.kWidgetID_withMatboardSelector or \
-                item == self.kWidgetID_withMatboard or \
-                item == self.kWidgetID_excelSheetName:
+        if item == self.kWidgetID_withMatboardSelector or item == self.kWidgetID_withMatboard or item == self.kWidgetID_excelSheetName:
             state = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withMatboardSelector, 0) != 0 or \
                     vs.GetBooleanItem(self.dialog, self.kWidgetID_withMatboard) is True
 
-#            vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_matboardClassLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_matboardClassLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardClassSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardClass, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScaleLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScaleLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScaleSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScale, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotatLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotatLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotatSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotat, state)
 
         # The glass selection has changed
-        if item == self.kWidgetID_withGlassSelector or \
-                item == self.kWidgetID_withGlass or \
-                item == self.kWidgetID_excelSheetName:
+        if item == self.kWidgetID_withGlassSelector or item == self.kWidgetID_withGlass or item == self.kWidgetID_excelSheetName:
             state = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withGlassSelector, 0) != 0 or \
                     vs.GetBooleanItem(self.dialog, self.kWidgetID_withGlass) is True
 
-#            vs.EnableItem(self.dialog, self.kWidgetID_glassPositionLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_glassPositionLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_glassPositionSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_glassPosition, state)
-#            vs.EnableItem(self.dialog, self.kWidgetID_glassClassLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_glassClassLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_glassClassSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_glassClass, state)
 
         # After the event has been handled, update some of the import validity settings accordingly
-        self.parameters.imageValid = \
-            ((self.parameters.withImageSelector == "-- Manual" and
-              self.parameters.pictureParameters.withImage == "True") or
-             self.parameters.withImageSelector != "-- Manual") and \
-            (self.parameters.imageTextureSelector != "-- Select column ...") and \
-            (self.parameters.imageWidthSelector != "-- Select column ...") and \
-            (self.parameters.imageHeightSelector != "-- Select column ...")
+        self.parameters.imageValid = ((self.parameters.withImageSelector == "-- Manual" and self.parameters.pictureParameters.withImage == "True") or
+                                      self.parameters.withImageSelector != "-- Manual") and \
+                                     (self.parameters.imageTextureSelector != "-- Select column ...") and \
+                                     (self.parameters.imageWidthSelector != "-- Select column ...") and \
+                                     (self.parameters.imageHeightSelector != "-- Select column ...")
 
-        self.parameters.frameValid = \
-            ((self.parameters.withFrameSelector == "-- Manual" and
-              self.parameters.pictureParameters.withFrame == "True") or
-             self.parameters.withFrameSelector != "-- Manual") and \
-            (self.parameters.frameWidthSelector != "-- Select column ...") and \
-            (self.parameters.frameHeightSelector != "-- Select column ...")
+        self.parameters.frameValid = ((self.parameters.withFrameSelector == "-- Manual" and self.parameters.pictureParameters.withFrame == "True") or
+                                      self.parameters.withFrameSelector != "-- Manual") and \
+                                     (self.parameters.frameWidthSelector != "-- Select column ...") and \
+                                     (self.parameters.frameHeightSelector != "-- Select column ...")
 
-        self.parameters.matboardValid = \
-            ((self.parameters.withMatboardSelector == "-- Manual" and
-              self.parameters.pictureParameters.withMatboard == "True") or
-             self.parameters.withMatboardSelector != "-- Manual")
+        self.parameters.matboardValid = ((self.parameters.withMatboardSelector == "-- Manual" and
+                                          self.parameters.pictureParameters.withMatboard == "True") or
+                                         self.parameters.withMatboardSelector != "-- Manual")
 
-        self.parameters.glassValid = \
-            ((self.parameters.withGlassSelector == "-- Manual" and
-              self.parameters.pictureParameters.withGlass == "True") or
-             self.parameters.withGlassSelector != "-- Manual")
+        self.parameters.glassValid = ((self.parameters.withGlassSelector == "-- Manual" and
+                                       self.parameters.pictureParameters.withGlass == "True") or self.parameters.withGlassSelector != "-- Manual")
 
         self.parameters.criteriaValid = \
-            (self.parameters.excelCriteriaSelector != "-- Select column ..." and
-             self.parameters.excelCriteriaValue != "Select a value ...")
+            (self.parameters.excelCriteriaSelector != "-- Select column ..." and self.parameters.excelCriteriaValue != "Select a value ...")
 
-        self.parameters.importValid = \
-            (self.parameters.imageValid or self.parameters.frameValid) and self.parameters.criteriaValid
+        self.parameters.importValid = (self.parameters.imageValid or self.parameters.frameValid) and self.parameters.criteriaValid
 
         vs.EnableItem(self.dialog, self.kWidgetID_importButton, self.parameters.importValid)
         vs.EnableItem(self.dialog, self.kWidgetID_importNewCount, self.parameters.importValid)
@@ -653,6 +664,33 @@ class ImportPicturesDialog:
         vs.ShowItem(self.dialog, self.kWidgetID_classPictureClass, state)
         vs.ShowItem(self.dialog, self.kWidgetID_classCreateMissingClasses, state)
 
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkTitleLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkTitleSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorNameLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorNameSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkCreationDateLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkMediaSelector, state)
+        # vs.ShowItem(self.dialog, self.kWidgetID_metaTypeLabel, state)
+        # vs.ShowItem(self.dialog, self.kWidgetID_metaTypeSelector, state)
+        # vs.ShowItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, state)
+        # vs.ShowItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkSourceLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkSourceSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorBirthCountryLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorBirthDateLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorDeathDateLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaDesignNotesLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaDesignNotesSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaExhibitionMediaLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, state)
+
         vs.ShowItem(self.dialog, self.kWidgetID_importGroup, state)
         vs.ShowItem(self.dialog, self.kWidgetID_importIgnoreErrors, state)
         vs.ShowItem(self.dialog, self.kWidgetID_importIgnoreExisting, state)
@@ -697,6 +735,19 @@ class ImportPicturesDialog:
             vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_symbolFolderSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_classPictureClassSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkTitleSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorNameSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, column, 0)
+            # vs.AddChoice(self.dialog, self.kWidgetID_metaTypeSelector, column, 0)
+            # vs.AddChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkSourceSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaDesignNotesSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, column, 0)
 
         vs.AddChoice(self.dialog, self.kWidgetID_withImageSelector, "-- Manual", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_imageTextureSelector, "-- Select column ...", 0)
@@ -722,6 +773,19 @@ class ImportPicturesDialog:
         vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaSelector, "-- Select column ...", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_symbolFolderSelector, "-- Manual", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_classPictureClassSelector, "-- Manual", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkTitleSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorNameSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, "-- Don't Import", 0)
+        # vs.AddChoice(self.dialog, self.kWidgetID_metaTypeSelector, "-- Don't Import", 0)
+        # vs.AddChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkSourceSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaDesignNotesSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, "-- Don't Import", 0)
 
         selector_index = vs.GetPopUpChoiceIndex(self.dialog,
                                                 self.kWidgetID_withImageSelector, self.parameters.withImageSelector)
@@ -912,67 +976,122 @@ class ImportPicturesDialog:
         vs.SetBooleanItem(self.dialog, self.kWidgetID_classCreateMissingClasses,
                           self.parameters.createMissingClasses == "True")
 
+        vs.SetBooleanItem(self.dialog, self.kWidgetID_metaImportMetadata,
+                          self.parameters.metaImportMetadata == "True")
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkTitleSelector,
+                                                self.parameters.metaArtworkTitleSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkTitleSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorNameSelector,
+                                                self.parameters.metaAuthorNameSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorNameSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector,
+                                                self.parameters.metaArtworkCreationDateSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkMediaSelector,
+                                                self.parameters.metaArtworkMediaSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, selector_index, True)
+
+        # selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaTypeSelector,
+        #                                         self.parameters.metaTypeSelector)
+        # vs.SelectChoice(self.dialog, self.kWidgetID_metaTypeSelector, selector_index, True)
+        #
+        # selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaRoomLocationSelector,
+        #                                         self.parameters.metaRoomLocationSelector)
+        # vs.SelectChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkSourceSelector,
+                                                self.parameters.metaArtworkSourceSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkSourceSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaRegistrationNumberSelector,
+                                                self.parameters.metaRegistrationNumberSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector,
+                                                self.parameters.metaAuthorBirthCountrySelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector,
+                                                self.parameters.metaAuthorBirthDateSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector,
+                                                self.parameters.metaAuthorDeathDateSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaDesignNotesSelector,
+                                                self.parameters.metaDesignNotesSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaDesignNotesSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaExhibitionMediaSelector,
+                                                self.parameters.metaExhibitionMediaSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, selector_index, True)
+
         self.update_criteria_values(True)
 
         manual = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withImageSelector, 0) == 0
         enabled = vs.GetBooleanItem(self.dialog, self.kWidgetID_withImage)
         vs.EnableItem(self.dialog, self.kWidgetID_withImage, manual)
-#        vs.EnableItem(self.dialog, self.kWidgetID_imageWidthLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_imageWidthLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_imageWidthSelector, not manual or enabled)
-#        vs.EnableItem(self.dialog, self.kWidgetID_imageHeightLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_imageHeightLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_imageHeightSelector, not manual or enabled)
-#        vs.EnableItem(self.dialog, self.kWidgetID_imagePositionLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_imagePositionLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_imagePositionSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_imagePosition, not manual or enabled)
-#        vs.EnableItem(self.dialog, self.kWidgetID_imageTextureLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_imageTextureLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_imageTextureSelector, not manual or enabled)
 
         manual = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withFrameSelector, 0) == 0
         enabled = vs.GetBooleanItem(self.dialog, self.kWidgetID_withFrame)
         vs.EnableItem(self.dialog, self.kWidgetID_withFrame, manual)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameWidthLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameWidthLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameWidthSelector, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameHeightLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameHeightLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameHeightSelector, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameThicknessLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameThicknessLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameThicknessSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameThickness, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameDepthLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameDepthLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameDepthSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameDepth, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameClassLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameClassLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameClassSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameClass, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScaleLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScaleLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScaleSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScale, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotationLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotationLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotationSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotation, not manual or enabled)
 
         manual = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withMatboardSelector, 0) == 0
         enabled = vs.GetBooleanItem(self.dialog, self.kWidgetID_withMatboard)
         vs.EnableItem(self.dialog, self.kWidgetID_withMatboard, manual)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_matboardClassLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_matboardClassLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardClassSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardClass, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScaleLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScaleLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScaleSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScale, not manual or enabled)
-        #            vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotatLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotatLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotatSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotat, not manual or enabled)
 
         manual = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withGlassSelector, 0) == 0
         enabled = vs.GetBooleanItem(self.dialog, self.kWidgetID_withGlass)
         vs.EnableItem(self.dialog, self.kWidgetID_withGlass, manual)
-#        vs.EnableItem(self.dialog, self.kWidgetID_glassPositionLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_glassPositionLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_glassPositionSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_glassPosition, not manual or enabled)
-#        vs.EnableItem(self.dialog, self.kWidgetID_glassClassLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_glassClassLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_glassClassSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_glassClass, not manual or enabled)
 
@@ -985,6 +1104,34 @@ class ImportPicturesDialog:
         manual = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_classPictureClassSelector, 0) == 0
         vs.EnableItem(self.dialog, self.kWidgetID_classPictureClassSelector, enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_classPictureClass, enabled and manual)
+
+        enabled = vs.GetBooleanItem(self.dialog, self.kWidgetID_metaImportMetadata)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkTitleLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkTitleSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorNameLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorNameSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkCreationDateLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkMediaSelector, enabled)
+        # vs.EnableItem(self.dialog, self.kWidgetID_metaTypeLabel, enabled)
+        # vs.EnableItem(self.dialog, self.kWidgetID_metaTypeSelector, enabled)
+        # vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, enabled)
+        # vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkSourceLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkSourceSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthCountryLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthDateLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorDeathDateLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaDesignNotesLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaDesignNotesSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaExhibitionMediaLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, enabled)
 
         vs.SetBooleanItem(self.dialog, self.kWidgetID_importIgnoreErrors, self.parameters.importIgnoreErrors == "True")
         vs.SetBooleanItem(self.dialog, self.kWidgetID_importIgnoreExisting, self.parameters.importIgnoreExisting == "True")
@@ -1018,6 +1165,19 @@ class ImportPicturesDialog:
         self.remove_field_options(self.kWidgetID_glassClassSelector)
         self.remove_field_options(self.kWidgetID_excelCriteriaSelector)
         self.remove_field_options(self.kWidgetID_symbolFolderSelector)
+        self.remove_field_options(self.kWidgetID_metaArtworkTitleSelector)
+        self.remove_field_options(self.kWidgetID_metaAuthorNameSelector)
+        self.remove_field_options(self.kWidgetID_metaArtworkCreationDateSelector)
+        self.remove_field_options(self.kWidgetID_metaArtworkMediaSelector)
+        # self.remove_field_options(self.kWidgetID_metaTypeSelector)
+        # self.remove_field_options(self.kWidgetID_metaRoomLocationSelector)
+        self.remove_field_options(self.kWidgetID_metaArtworkSourceSelector)
+        self.remove_field_options(self.kWidgetID_metaRegistrationNumberSelector)
+        self.remove_field_options(self.kWidgetID_metaAuthorBirthCountrySelector)
+        self.remove_field_options(self.kWidgetID_metaAuthorBirthDateSelector)
+        self.remove_field_options(self.kWidgetID_metaAuthorDeathDateSelector)
+        self.remove_field_options(self.kWidgetID_metaDesignNotesSelector)
+        self.remove_field_options(self.kWidgetID_metaExhibitionMediaSelector)
 
     def dialog_layout(self):
 
@@ -1486,10 +1646,132 @@ class ImportPicturesDialog:
         vs.SetBooleanItem(self.dialog, self.kWidgetID_classCreateMissingClasses, self.parameters.createMissingClasses == "True")
         vs.SetHelpText(self.dialog, self.kWidgetID_classCreateMissingClasses, "Create missing classes")
 
+        # Metadata group
+        # =========================================================================================
+        vs.CreateGroupBox(self.dialog, self.kWidgetID_metaGroup, "Metadata", True)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_classGroup, self.kWidgetID_metaGroup, 0, 0)
+
+        # Import Metadata
+        # -----------------------------------------------------------------------------------------
+        vs.CreateCheckBox(self.dialog, self.kWidgetID_metaImportMetadata, "Import Metada")
+        vs.SetFirstGroupItem(self.dialog, self.kWidgetID_metaGroup, self.kWidgetID_metaImportMetadata)
+        vs.SetBooleanItem(self.dialog, self.kWidgetID_metaImportMetadata, self.parameters.metaImportMetadata == "True")
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaImportMetadata, "Select to import Artwork Metadata")
+        # Picture Title
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaArtworkTitleLabel, "Artwork Title: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaImportMetadata, self.kWidgetID_metaArtworkTitleLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaArtworkTitleSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkTitleSelector,
+                                                self.parameters.metaArtworkTitleSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkTitleSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaArtworkTitleLabel, self.kWidgetID_metaArtworkTitleSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaArtworkTitleSelector, "Select how Artwork Title has to be imported.")
+        # Author Name
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaAuthorNameLabel, "Artwork Author: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaArtworkTitleLabel, self.kWidgetID_metaAuthorNameLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaAuthorNameSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorNameSelector,
+                                                self.parameters.metaAuthorNameSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorNameSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaAuthorNameLabel, self.kWidgetID_metaAuthorNameSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaAuthorNameSelector, "Select how Artwork Author has to be imported.")
+        # Creation Date
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaArtworkCreationDateLabel, "Creation Date: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaAuthorNameLabel, self.kWidgetID_metaArtworkCreationDateLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector,
+                                                self.parameters.metaArtworkCreationDateSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaArtworkCreationDateLabel, self.kWidgetID_metaArtworkCreationDateSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, "Select how Artwork Creation Date has to be imported.")
+        # Artwork Media
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaArtworkMediaLabel, "Artwork Media: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaArtworkCreationDateLabel, self.kWidgetID_metaArtworkMediaLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaArtworkMediaSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkMediaSelector,
+                                                self.parameters.metaArtworkMediaSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, self.kWidgetID_metaArtworkMediaSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaArtworkMediaSelector, "Select how Artwork Media has to be imported.")
+        # Artwork Source
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaArtworkSourceLabel, "Artwork Source: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, self.kWidgetID_metaArtworkSourceLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaArtworkSourceSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkSourceSelector,
+                                                self.parameters.metaArtworkSourceSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkSourceSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaArtworkSourceLabel, self.kWidgetID_metaArtworkSourceSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaArtworkSourceSelector, "Select how Artwork Source has to be imported.")
+        # Registration Number
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, "Registration Number: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaArtworkSourceLabel, self.kWidgetID_metaRegistrationNumberLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaRegistrationNumberSelector,
+                                                self.parameters.metaRegistrationNumberSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, self.kWidgetID_metaRegistrationNumberSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, "Select how Registration Number has to be imported.")
+        # Author Birth Country
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaAuthorBirthCountryLabel, "Author Birth Country: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, self.kWidgetID_metaAuthorBirthCountryLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector,
+                                                self.parameters.metaAuthorBirthCountrySelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaAuthorBirthCountryLabel, self.kWidgetID_metaAuthorBirthCountrySelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, "Select how Author Birth Country has to be imported.")
+        # Author Birth Date
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaAuthorBirthDateLabel, "Author Birth Date: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaAuthorBirthCountryLabel, self.kWidgetID_metaAuthorBirthDateLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector,
+                                                self.parameters.metaAuthorBirthDateSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaAuthorBirthDateLabel, self.kWidgetID_metaAuthorBirthDateSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaAuthorBirthDateSelector, "Select how Author Birth Date has to be imported.")
+        # Author Death Date
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaAuthorDeathDateLabel, "Author Death Date: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaAuthorBirthDateLabel, self.kWidgetID_metaAuthorDeathDateLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector,
+                                                self.parameters.metaAuthorDeathDateSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaAuthorDeathDateLabel, self.kWidgetID_metaAuthorDeathDateSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaAuthorDeathDateSelector, "Select how Author Death Date has to be imported.")
+        # Design Notes
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaDesignNotesLabel, "Design Notes: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaAuthorDeathDateLabel, self.kWidgetID_metaDesignNotesLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaDesignNotesSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaDesignNotesSelector,
+                                                self.parameters.metaDesignNotesSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaDesignNotesSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaDesignNotesLabel, self.kWidgetID_metaDesignNotesSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaDesignNotesSelector, "Select how Design Notes has to be imported.")
+        # Exhibition Media
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaExhibitionMediaLabel, "Exhibition Media: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaDesignNotesLabel, self.kWidgetID_metaExhibitionMediaLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaExhibitionMediaSelector,
+                                                self.parameters.metaExhibitionMediaSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaExhibitionMediaLabel, self.kWidgetID_metaExhibitionMediaSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaExhibitionMediaSelector, "Select how Exhibition Media has to be imported.")
+
         # Import group
         # =========================================================================================
         vs.CreateGroupBox(self.dialog, self.kWidgetID_importGroup, "Import", True)
-        vs.SetBelowItem(self.dialog, self.kWidgetID_classGroup, self.kWidgetID_importGroup, 0, 0)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaGroup, self.kWidgetID_importGroup, 0, 0)
 
         # Ignore Existing
         # -----------------------------------------------------------------------------------------
@@ -1646,8 +1928,7 @@ class ImportPicturesDialog:
                 existing_frame_texture_rotation = round(existing_frame_texture_rotation, 3)
                 if picture_parameters.frameTextureRotation != existing_frame_texture_rotation:
                     frame_message = frame_message + "- Frame Texture Rotation changed "
-                    vs.SetRField(existing_picture, "Picture", "FrameTextureRotation",
-                                 picture_parameters.frameTextureRotation)
+                    vs.SetRField(existing_picture, "Picture", "FrameTextureRotation", picture_parameters.frameTextureRotation)
                     changed = True
 
         if self.parameters.withMatboardSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
@@ -1699,8 +1980,7 @@ class ImportPicturesDialog:
                 existing_matboard_texture_scale = round(existing_matboard_texture_scale, 3)
                 if picture_parameters.matboardTextureScale != existing_matboard_texture_scale:
                     matboard_message = matboard_message + "- Matboard Texture Scale changed "
-                    vs.SetRField(existing_picture, "Picture", "MatboardTextureScale",
-                                 picture_parameters.matboardTextureScale)
+                    vs.SetRField(existing_picture, "Picture", "MatboardTextureScale", picture_parameters.matboardTextureScale)
                     changed = True
 
             if self.parameters.matboardTextureRotatSelector != "-- Manual" \
@@ -1710,8 +1990,7 @@ class ImportPicturesDialog:
                 existing_matboard_texture_rotat = round(existing_matboard_texture_rotat, 3)
                 if picture_parameters.matboardTextureRotat != existing_matboard_texture_rotat:
                     matboard_message = matboard_message + "- Matboard Texture Rotation changed "
-                    vs.SetRField(existing_picture, "Picture", "MatboardTextureRotat",
-                                 picture_parameters.matboardTextureRotat)
+                    vs.SetRField(existing_picture, "Picture", "MatboardTextureRotat", picture_parameters.matboardTextureRotat)
                     changed = True
 
         if self.parameters.withGlassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
@@ -1726,8 +2005,7 @@ class ImportPicturesDialog:
 
         if picture_parameters.withGlass == "True":
             if self.parameters.glassPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                valid, existing_glass_position = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "GlassPosition"))
+                valid, existing_glass_position = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "GlassPosition"))
                 existing_glass_position = round(existing_glass_position, 3)
                 if picture_parameters.glassPosition != existing_glass_position:
                     glass_message = glass_message + "- Glass Position changed "
@@ -1784,7 +2062,7 @@ class ImportPicturesDialog:
                     picture_parameters.pictureClass = ""
 
                 picture_parameters.imageTexture = vs.GetName(texture)
-                build_picture(picture_parameters, None)
+                build_picture(picture_parameters, self.parameters.pictureRecord if self.parameters.metaImportMetadata == "True" else None)
 
                 log_message = "{} * [New] \n".format(picture_parameters.pictureName)
                 self.importNewCount += 1

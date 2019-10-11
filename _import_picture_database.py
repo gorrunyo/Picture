@@ -159,7 +159,7 @@ class ImportDatabase(object):
                         if picture.withImage == "True":
                             cell_value = row[self.settings.imageWidthSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid:
+                            if valid and value:
                                 picture.imageWidth = str(round(value, 3))
                             else:
                                 image_message += "- Invalid Image Width ({})".format(cell_value)
@@ -167,7 +167,7 @@ class ImportDatabase(object):
 
                             cell_value = row[self.settings.imageHeightSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid:
+                            if valid and value:
                                 picture.imageHeight = str(round(value, 3))
                             else:
                                 image_message += "- Invalid Image Height ({})".format(cell_value)
@@ -178,7 +178,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.imagePositionSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.imagePosition = str(round(value, 3))
                                 else:
                                     image_message += "- Invalid Image Position ({})".format(cell_value)
@@ -197,7 +197,7 @@ class ImportDatabase(object):
                         if picture.withFrame == "True":
                             cell_value = row["{}".format(self.settings.frameWidthSelector).lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid:
+                            if valid and value:
                                 picture.frameWidth = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Width ({})".format(cell_value)
@@ -205,7 +205,7 @@ class ImportDatabase(object):
 
                             cell_value = row["{}".format(self.settings.frameHeightSelector).lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid:
+                            if valid and value:
                                 picture.frameHeight = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Height ({})".format(cell_value)
@@ -216,7 +216,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.pictureParameters.frameThicknessSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.frameThickness = str(round(value, 3))
                                 else:
                                     frame_message += "- Invalid Frame Thickness ({})".format(cell_value)
@@ -227,7 +227,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.frameDepthSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.frameDepth = str(round(value, 3))
                                 else:
                                     frame_message += "- Invalid Frame Depth ({})".format(cell_value)
@@ -255,7 +255,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.frameTextureScaleSelector).lower()]
                                 valid, picture.frameTextureScale = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.frameTextureScale = str(round(value, 3))
                                 else:
                                     frame_message += "- Invalid Frame Texture Scale ({})".format(cell_value)
@@ -266,7 +266,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.frameTextureRotationSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.frameTextureRotation = str(round(value, 3))
                                 else:
                                     frame_message += "- Invalid Frame Texture Rotation ({})".format(cell_value)
@@ -285,7 +285,7 @@ class ImportDatabase(object):
                         if picture.withMatboard == "True":
                             cell_value = row["{}".format(self.settings.frameWidthSelector).lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid:
+                            if valid and value:
                                 picture.frameWidth = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Width ({})".format(cell_value)
@@ -293,7 +293,7 @@ class ImportDatabase(object):
 
                             cell_value = row["{}".format(self.settings.frameHeightSelector).lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid:
+                            if valid and value:
                                 picture.frameHeight = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Height ({})".format(cell_value)
@@ -304,7 +304,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.matboardPositionSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.matboardPosition = str(round(value, 3))
                                 else:
                                     matboard_message += "- Invalid Matboard Position ({})".format(cell_value)
@@ -332,7 +332,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.matboardTextureScaleSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.matboardTextureScale = str(round(value, 3))
                                 else:
                                     matboard_message += "- Invalid Matboard Texture Scale ({})".format(cell_value)
@@ -343,7 +343,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.matboardTextureRotatSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.matboardTextureRotat = str(round(value, 3))
                                 else:
                                     matboard_message += "- Invalid Matboard Texture Rotation ({})".format(cell_value)
@@ -365,7 +365,7 @@ class ImportDatabase(object):
                             else:
                                 cell_value = row["{}".format(self.settings.glassPositionSelector).lower()]
                                 valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid:
+                                if valid and value:
                                     picture.glassPosition = str(round(value, 3))
                                 else:
                                     glass_message += "- Invalid Glass Position ({})".format(cell_value)
@@ -401,6 +401,35 @@ class ImportDatabase(object):
                                 picture.pictureClass = self.settings.pictureParameters.pictureClass
                             else:
                                 picture.pictureClass = row["{}".format(self.settings.classClassPictureSelector).lower()]
+
+                        # Obtain Metadata information
+                        if self.settings.metaImportMetadata == "True":
+                            if self.settings.metaArtworkTitleSelector != "-- Don't Import":
+                                self.settings.pictureRecord.artworkTitle = row["{}".format(self.settings.metaArtworkTitleSelector).lower()]
+                            if self.settings.metaAuthorNameSelector != "-- Don't Import":
+                                self.settings.pictureRecord.authorName = row["{}".format(self.settings.metaAuthorNameSelector).lower()]
+                            if self.settings.metaArtworkCreationDateSelector != "-- Don't Import":
+                                self.settings.pictureRecord.artworkCreationDate = row["{}".format(self.settings.metaArtworkCreationDateSelector).lower()]
+                            if self.settings.metaArtworkMediaSelector != "-- Don't Import":
+                                self.settings.pictureRecord.artworkMedia = row["{}".format(self.settings.metaArtworkMediaSelector).lower()]
+                            # if self.settings.metaTypeSelector != "-- Don't Import":
+                            #     self.settings.pictureRecord. = row["{}".format(self.settings.metaTypeSelector).lower()]
+                            # if self.settings.metaRoomLocationSelector != "-- Don't Import":
+                            #     self.settings.pictureRecord. = row["{}".format(self.settings.metaRoomLocationSelector).lower()]
+                            if self.settings.metaArtworkSourceSelector != "-- Don't Import":
+                                self.settings.pictureRecord.artworkSource = row["{}".format(self.settings.metaArtworkSourceSelector).lower()]
+                            if self.settings.metaRegistrationNumberSelector != "-- Don't Import":
+                                self.settings.pictureRecord.registrationNumber = row["{}".format(self.settings.metaRegistrationNumberSelector).lower()]
+                            if self.settings.metaAuthorBirthCountrySelector != "-- Don't Import":
+                                self.settings.pictureRecord.authorBirthCountry = row["{}".format(self.settings.metaAuthorBirthCountrySelector).lower()]
+                            if self.settings.metaAuthorBirthDateSelector != "-- Don't Import":
+                                self.settings.pictureRecord.authorBirthDate = row["{}".format(self.settings.metaAuthorBirthDateSelector).lower()]
+                            if self.settings.metaAuthorDeathDateSelector != "-- Don't Import":
+                                self.settings.pictureRecord.authorDeathDate = row["{}".format(self.settings.metaAuthorDeathDateSelector).lower()]
+                            if self.settings.metaDesignNotesSelector != "-- Don't Import":
+                                self.settings.pictureRecord.designNotes = row["{}".format(self.settings.metaDesignNotesSelector).lower()]
+                            if self.settings.metaExhibitionMediaSelector != "-- Don't Import":
+                                self.settings.pictureRecord.exhibitionMedia = row["{}".format(self.settings.metaExhibitionMediaSelector).lower()]
 
                         if not valid_picture:
                             log_message = "{} * [Error]".\
