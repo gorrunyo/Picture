@@ -12,9 +12,9 @@ from _import_settings import ImportSettings
 from _import_picture_database import ImportDatabase
 from _picture_settings import PictureParameters
 from _picture import build_picture
-import pydevd_pycharm
 
-pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
+# import pydevd_pycharm
+# pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
 
 class ImportPicturesDialog:
@@ -200,6 +200,7 @@ class ImportPicturesDialog:
             vs.ShowItem(self.dialog, self.kWidgetID_excelSheetName, False)
             self.show_parameters(False)
         else:
+            self.empty_all_fields()
             for worksheet in self.excel.get_worksheets():
                 vs.AddChoice(self.dialog, self.kWidgetID_excelSheetName, worksheet, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_excelSheetName, "Select a worksheet", 0)
@@ -1164,7 +1165,9 @@ class ImportPicturesDialog:
         self.remove_field_options(self.kWidgetID_glassPositionSelector)
         self.remove_field_options(self.kWidgetID_glassClassSelector)
         self.remove_field_options(self.kWidgetID_excelCriteriaSelector)
+        self.remove_field_options(self.kWidgetID_excelCriteriaValue)
         self.remove_field_options(self.kWidgetID_symbolFolderSelector)
+        self.remove_field_options(self.kWidgetID_classPictureClassSelector)
         self.remove_field_options(self.kWidgetID_metaArtworkTitleSelector)
         self.remove_field_options(self.kWidgetID_metaAuthorNameSelector)
         self.remove_field_options(self.kWidgetID_metaArtworkCreationDateSelector)
@@ -2098,6 +2101,7 @@ class ImportPicturesDialog:
                 # self.set_texture(picture_parameters)
                 existing_picture = vs.GetObject(picture_parameters.pictureName)
                 if existing_picture:
+                    object_type = vs.GetType(existing_picture)
                     self.update_picture(picture_parameters, log_file)
                 else:
                     self.new_picture(picture_parameters, log_file)

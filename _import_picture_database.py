@@ -288,7 +288,7 @@ class ImportDatabase(object):
                             if valid and value:
                                 picture.frameWidth = str(round(value, 3))
                             else:
-                                frame_message += "- Invalid Frame Width ({})".format(cell_value)
+                                frame_message += "- Invalid Frame Width (needed for Matboard) ({})".format(cell_value)
                                 valid_picture = False
 
                             cell_value = row["{}".format(self.settings.frameHeightSelector).lower()]
@@ -296,7 +296,7 @@ class ImportDatabase(object):
                             if valid and value:
                                 picture.frameHeight = str(round(value, 3))
                             else:
-                                frame_message += "- Invalid Frame Height ({})".format(cell_value)
+                                frame_message += "- Invalid Frame Height (needed for Matboard) ({})".format(cell_value)
                                 valid_picture = False
 
                             if self.settings.matboardPositionSelector == "-- Manual":
