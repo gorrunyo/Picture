@@ -1,4 +1,5 @@
 from typing import Generator, IO
+import string
 import vs
 from _picture_settings import PictureParameters
 from _import_settings import ImportSettings
@@ -393,7 +394,9 @@ class ImportDatabase(object):
                             if self.settings.symbolFolderSelector == "-- Manual":
                                 picture.symbolFolder = self.settings.symbolFolder
                             else:
-                                picture.symbolFolder = row["{}".format(self.settings.symbolFolderSelector).lower()]
+                                folder_name = row["{}".format(self.settings.symbolFolderSelector).lower()]
+                                if folder_name:
+                                    picture.symbolFolder = "Picture folder - {}".format(folder_name.translate({ord(c): '_' for c in string.whitespace}).replace("__", "_"))
 
                         # Obtain Class information
                         if self.settings.classAssignPictureClass == "True":

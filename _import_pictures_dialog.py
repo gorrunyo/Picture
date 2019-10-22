@@ -2101,8 +2101,12 @@ class ImportPicturesDialog:
                 # self.set_texture(picture_parameters)
                 existing_picture = vs.GetObject(picture_parameters.pictureName)
                 if existing_picture:
-                    object_type = vs.GetType(existing_picture)
-                    self.update_picture(picture_parameters, log_file)
+                    object_type = vs.GetTypeN(existing_picture)
+                    if object_type == 86:
+                        self.update_picture(picture_parameters, log_file)
+                    else:
+                        "{}(conflicts with another name)".format(picture_parameters.pictureName)
+                        self.new_picture(picture_parameters, log_file)
                 else:
                     self.new_picture(picture_parameters, log_file)
             else:
