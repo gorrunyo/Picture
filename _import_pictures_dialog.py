@@ -223,18 +223,19 @@ class ImportPicturesDialog:
         :rtype: None
         """
 
-        criteria_values = self.excel.get_criteria_values()
-        if criteria_values and state is True and self.parameters.excelCriteriaSelector != "-- Select column ...":
-            for criteria in criteria_values:
-                vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, criteria, 0)
-            vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, "Select a value ...", 0)
-            index = vs.GetChoiceIndex(self.dialog, self.kWidgetID_excelCriteriaValue,
-                                      self.parameters.excelCriteriaValue)
-            if index == -1:
-                vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0, True)
-                self.parameters.excelCriteriaValue = "Select a value ..."
-            else:
-                vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, index, True)
+        if state is True and self.parameters.excelCriteriaSelector != "-- Select column ...":
+            criteria_values = self.excel.get_criteria_values()
+            if criteria_values:
+                for criteria in criteria_values:
+                    vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, criteria, 0)
+                vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, "Select a value ...", 0)
+                index = vs.GetChoiceIndex(self.dialog, self.kWidgetID_excelCriteriaValue,
+                                          self.parameters.excelCriteriaValue)
+                if index == -1:
+                    vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0, True)
+                    self.parameters.excelCriteriaValue = "Select a value ..."
+                else:
+                    vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, index, True)
         else:
             while vs.GetChoiceCount(self.dialog, self.kWidgetID_excelCriteriaValue):
                 vs.RemoveChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0)
