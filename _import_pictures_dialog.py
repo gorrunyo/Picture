@@ -13,11 +13,14 @@ from _import_picture_database import ImportDatabase
 from _picture_settings import PictureParameters
 from _picture import build_picture
 
-import pydevd_pycharm
-pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
+# import pydevd_pycharm
+
+# pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
 
 def same_dimension(dimemsion_1: str, dimension_2: str) -> bool:
+    dim1 = 0
+    dim2 = 0
     valid1, value = vs.ValidNumStr(dimemsion_1)
     if valid1:
         dim1 = round(value, 3)
@@ -25,6 +28,23 @@ def same_dimension(dimemsion_1: str, dimension_2: str) -> bool:
     if valid2:
         dim2 = round(value, 3)
     return valid1 == valid2 and dim1 == dim2
+
+
+def dimension_strings(dimension_1: str, dimension_2: str) -> (str, str):
+    valid1, value = vs.ValidNumStr(dimension_1)
+    if valid1:
+        dim1 = round(value, 3)
+        str1 = "{}".format(dim1)
+    else:
+        str1 = "Invalid"
+
+    valid2, value = vs.ValidNumStr(dimension_2)
+    if valid2:
+        dim2 = round(value, 3)
+        str2 = "{}".format(dim2)
+    else:
+        str2 = "Invalid"
+    return str1, str2
 
 
 class ImportPicturesDialog:
@@ -1853,136 +1873,136 @@ class ImportPicturesDialog:
 
         if picture_parameters.withImage == "True":
             if not same_dimension(vs.GetRField(existing_picture, "Picture", "ImageWidth"), picture_parameters.imageWidth):
-                image_message = image_message + "- Image With changed "
+                image_message = image_message + "- Image With changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "ImageWidth"), picture_parameters.imageWidth))
                 vs.SetRField(existing_picture, "Picture", "ImageWidth", picture_parameters.imageWidth)
                 changed = True
 
             if not same_dimension(vs.GetRField(existing_picture, "Picture", "ImageHeight"), picture_parameters.imageHeight):
-                image_message = image_message + "- Image Height changed "
+                image_message = image_message + "- Image Height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "ImageHeight"), picture_parameters.imageHeight))
                 vs.SetRField(existing_picture, "Picture", "ImageHeight", picture_parameters.imageHeight)
                 changed = True
 
             if self.parameters.imagePositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "ImagePosition"), picture_parameters.imagePosition):
-                    image_message = image_message + "- Image Position changed "
+                    image_message = image_message + "- Image Position changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "ImagePosition"), picture_parameters.imagePosition))
                     vs.SetRField(existing_picture, "Picture", "ImagePosition", picture_parameters.imagePosition)
                     changed = True
 
         if self.parameters.withFrameSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
             if picture_parameters.withFrame != vs.GetRField(existing_picture, "Picture", "WithFrame"):
                 if picture_parameters.withFrame == "True":
-                    frame_message = "Add frame " + frame_message
+                    frame_message = "- Add frame " + frame_message
                 else:
-                    frame_message = "Removed frame "
+                    frame_message = "- Removed frame "
                 vs.SetRField(existing_picture, "Picture", "WithFrame", picture_parameters.withFrame)
                 changed = True
 
         if picture_parameters.withFrame == "True":
             if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth):
-                frame_message = frame_message + "- Frame Width changed "
+                frame_message = frame_message + "- Frame Width changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth))
                 vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
                 changed = True
 
             if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight):
-                frame_message = frame_message + "- Frame Height changed "
+                frame_message = frame_message + "- Frame Height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight))
                 vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
                 changed = True
 
             if self.parameters.frameThicknessSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameThickness"), picture_parameters.frameThickness):
-                    frame_message = frame_message + "- Frame Thickness changed "
+                    frame_message = frame_message + "- Frame Thickness changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameThickness"), picture_parameters.frameThickness))
                     vs.SetRField(existing_picture, "Picture", "FrameThickness", picture_parameters.frameThickness)
                     changed = True
 
             if self.parameters.frameDepthSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameDepth"), picture_parameters.frameDepth):
-                    frame_message = frame_message + "- Frame Depth changed "
+                    frame_message = frame_message + "- Frame Depth changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameDepth"), picture_parameters.frameDepth))
                     vs.SetRField(existing_picture, "Picture", "FrameDepth", picture_parameters.frameDepth)
                     changed = True
 
             if self.parameters.frameClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if picture_parameters.frameClass != vs.GetRField(existing_picture, "Picture", "FrameClass"):
-                    frame_message = frame_message + "- Frame Class changed "
+                    frame_message = frame_message + "- Frame Class changed ({} --> {}) ".format(vs.GetRField(existing_picture, "Picture", "FrameClass"), picture_parameters.frameClass)
                     vs.SetRField(existing_picture, "Picture", "FrameClass", picture_parameters.frameClass)
                     changed = True
 
             if self.parameters.frameTextureScaleSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameTextureScale"), picture_parameters.frameTextureScale):
-                    frame_message = frame_message + "- Frame Texture Scale changed "
+                    frame_message = frame_message + "- Frame Texture Scale changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameTextureScale"), picture_parameters.frameTextureScale))
                     vs.SetRField(existing_picture, "Picture", "FrameTextureScale", picture_parameters.frameTextureScale)
                     changed = True
 
             if self.parameters.frameTextureRotationSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameTextureRotation"), picture_parameters.frameTextureRotation):
-                    frame_message = frame_message + "- Frame Texture Rotation changed "
+                    frame_message = frame_message + "- Frame Texture Rotation changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameTextureRotation"), picture_parameters.frameTextureRotation))
                     vs.SetRField(existing_picture, "Picture", "FrameTextureRotation", picture_parameters.frameTextureRotation)
                     changed = True
 
         if self.parameters.withMatboardSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
             if picture_parameters.withMatboard != vs.GetRField(existing_picture, "Picture", "WithMatboard"):
                 if picture_parameters.withMatboard == "True":
-                    matboard_message = "Add matboard " + matboard_message
+                    matboard_message = "- Add matboard " + matboard_message
                 else:
-                    matboard_message = "Removed matboard "
+                    matboard_message = "- Removed matboard "
                 vs.SetRField(existing_picture, "Picture", "WithMatboard", picture_parameters.withMatboard)
                 changed = True
 
         if picture_parameters.withMatboard == "True":
             if self.parameters.frameWidthSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth):
-                    frame_message = frame_message + "- Frame Width changed "
+                    frame_message = frame_message + "- Frame Width changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth))
                     vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
                     changed = True
 
             if self.parameters.frameHeightSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight):
-                    frame_message = frame_message + "- Frame Height changed "
+                    frame_message = frame_message + "- Frame Height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight))
                     vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
                     changed = True
 
             if self.parameters.matboardPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition):
-                    matboard_message = matboard_message + "- Matboard Position changed "
+                    matboard_message = matboard_message + "- Matboard Position changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition))
                     vs.SetRField(existing_picture, "Picture", "MatboardPosition", picture_parameters.matboardPosition)
                     changed = True
 
             if self.parameters.matboardClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if picture_parameters.matboardClass != vs.GetRField(existing_picture, "Picture", "MatboardClass"):
-                    matboard_message = matboard_message + "- Matboard Class changed "
+                    matboard_message = matboard_message + "- Matboard Class changed ({} --> {}) ".format(vs.GetRField(existing_picture, "Picture", "MatboardClass"), picture_parameters.matboardClass)
                     vs.SetRField(existing_picture, "Picture", "MatboardClass", picture_parameters.matboardClass)
                     changed = True
 
             if self.parameters.matboardTextureScaleSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardTextureScale"), picture_parameters.matboardTextureScale):
-                    matboard_message = matboard_message + "- Matboard Texture Scale changed "
+                    matboard_message = matboard_message + "- Matboard Texture Scale changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardTextureScale"), picture_parameters.matboardTextureScale))
                     vs.SetRField(existing_picture, "Picture", "MatboardTextureScale", picture_parameters.matboardTextureScale)
                     changed = True
 
             if self.parameters.matboardTextureRotatSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardTextureRotat"), picture_parameters.matboardTextureRotat):
-                    matboard_message = matboard_message + "- Matboard Texture Rotation changed "
+                    matboard_message = matboard_message + "- Matboard Texture Rotation changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardTextureRotat"), picture_parameters.matboardTextureRotat))
                     vs.SetRField(existing_picture, "Picture", "MatboardTextureRotat", picture_parameters.matboardTextureRotat)
                     changed = True
 
         if self.parameters.withGlassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
             if picture_parameters.withGlass != vs.GetRField(existing_picture, "Picture", "WithGlass"):
                 if picture_parameters.withGlass == "True":
-                    glass_message = "Add glass " + image_message
+                    glass_message = "- Add glass " + image_message
                 else:
-                    glass_message = "Removed glass "
+                    glass_message = "- Removed glass "
                 vs.SetRField(existing_picture, "Picture", "WithGlass", picture_parameters.withGlass)
                 changed = True
 
         if picture_parameters.withGlass == "True":
             if self.parameters.glassPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "GlassPosition"), picture_parameters.glassPosition):
-                    glass_message = glass_message + "- Glass Position changed "
+                    glass_message = glass_message + "- Glass Position changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "GlassPosition"), picture_parameters.glassPosition))
                     vs.SetRField(existing_picture, "Picture", "GlassPosition", picture_parameters.glassPosition)
                     changed = True
 
             if self.parameters.glassClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if picture_parameters.glassClass != vs.GetRField(existing_picture, "Picture", "GlassClass"):
-                    glass_message = glass_message + "- Glass Class changed "
+                    glass_message = glass_message + "- Glass Class changed ({} --> {}) ".format(vs.GetRField(existing_picture, "Picture", "GlassClass"), picture_parameters.glassClass)
                     vs.SetRField(existing_picture, "Picture", "GlassClass", picture_parameters.glassClass)
                     changed = True
 
