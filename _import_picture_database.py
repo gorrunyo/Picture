@@ -37,7 +37,7 @@ class ImportDatabase(object):
                 self.workbook = pyodbc.connect(connection_string, autocommit=True)
             except pyodbc.Error as err:
                 # vs.SetItemText(importDialog, kWidgetID_excelSheetNameLabel, "Invalid Excel file!")
-                vs.AlertCritical(err, "Talk to Carlos")
+                vs.AlertCritical(err.value[1], "Talk to Carlos")
             else:
                 self.connected = True
 
@@ -419,12 +419,17 @@ class ImportDatabase(object):
 
                         # Obtain symbol information
                         if self.settings.symbolCreateSymbol == "True":
+                            picture.createSymbol = "True"
                             if self.settings.symbolFolderSelector == "-- Manual":
                                 picture.symbolFolder = self.settings.symbolFolder
                             else:
                                 folder_name = row[self.settings.symbolFolderSelector.lower()]
                                 if folder_name:
-                                    picture.symbolFolder = "Picture folder - {}".format(folder_name.translate({ord(c): '_' for c in string.whitespace}).replace("__", "_"))
+                                    picture.symbolFolder = "{} Folder".format(folder_name.translate({ord(c): '_' for c in string.whitespace}).replace("__", "_"))
+                                    # picture.symbolFolder = "Picture folder - {}".format(folder_name.translate({ord(c): '_' for c in string.whitespace}).replace("__", "_"))
+                        else:
+                            picture.createSymbol = "False"
+                            picture.symbolFolder = ""
 
                         # Obtain Class information
                         if self.settings.classAssignPictureClass == "True":
