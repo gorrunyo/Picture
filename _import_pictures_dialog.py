@@ -81,6 +81,10 @@ class ImportPicturesDialog:
         self.kWidgetID_withMatboardLabel = 71
         self.kWidgetID_withMatboardSelector = 72
         self.kWidgetID_withMatboard = 73
+        self.kWidgetID_windowWidthLabel = 86
+        self.kWidgetID_windowWidthSelector = 87
+        self.kWidgetID_windowHeightLabel = 88
+        self.kWidgetID_windowHeightSelector = 89
         self.kWidgetID_matboardPositionLabel = 74
         self.kWidgetID_matboardPositionSelector = 75
         self.kWidgetID_matboardPosition = 76
@@ -93,6 +97,7 @@ class ImportPicturesDialog:
         self.kWidgetID_matboardTextureRotatLabel = 83
         self.kWidgetID_matboardTextureRotatSelector = 84
         self.kWidgetID_matboardTextureRotat = 85
+        # Full, no more id's
 
         # Picture Glass
         self.kWidgetID_glassGroup = 90
@@ -346,6 +351,10 @@ class ImportPicturesDialog:
         elif item == self.kWidgetID_matboardPositionSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, data == 0)
             self.parameters.matboardPositionSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardPositionSelector, data)
+        elif item == self.kWidgetID_windowWidthSelector:
+            self.parameters.windowWidthSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_windowWidthSelector, data)
+        elif item == self.kWidgetID_windowHeightSelector:
+            self.parameters.windowHeightSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_windowHeightSelector, data)
         elif item == self.kWidgetID_matboardPosition:
             self.parameters.pictureParameters.matboardPosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardPosition, 3))
         elif item == self.kWidgetID_matboardClassSelector:
@@ -522,6 +531,10 @@ class ImportPicturesDialog:
             state = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withMatboardSelector, 0) != 0 or \
                     vs.GetBooleanItem(self.dialog, self.kWidgetID_withMatboard) is True
 
+            vs.EnableItem(self.dialog, self.kWidgetID_windowWidthLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_windowWidthSelector, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_windowHeightLabel, state)
+            vs.EnableItem(self.dialog, self.kWidgetID_windowHeightSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionLabel, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionSelector, state)
             vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, state)
@@ -559,9 +572,10 @@ class ImportPicturesDialog:
                                      (self.parameters.frameWidthSelector != "-- Select column ...") and \
                                      (self.parameters.frameHeightSelector != "-- Select column ...")
 
-        self.parameters.matboardValid = ((self.parameters.withMatboardSelector == "-- Manual" and
-                                          self.parameters.pictureParameters.withMatboard == "True") or
-                                         self.parameters.withMatboardSelector != "-- Manual")
+        self.parameters.matboardValid = ((self.parameters.withMatboardSelector == "-- Manual" and self.parameters.pictureParameters.withMatboard == "True") or
+                                         self.parameters.withMatboardSelector != "-- Manual") and \
+                                        (self.parameters.windowWidthSelector != "-- Select column ...") and \
+                                        (self.parameters.windowHeightSelector != "-- Select column ...")
 
         self.parameters.glassValid = ((self.parameters.withGlassSelector == "-- Manual" and
                                        self.parameters.pictureParameters.withGlass == "True") or self.parameters.withGlassSelector != "-- Manual")
@@ -623,6 +637,10 @@ class ImportPicturesDialog:
         vs.ShowItem(self.dialog, self.kWidgetID_withMatboardLabel, state)
         vs.ShowItem(self.dialog, self.kWidgetID_withMatboardSelector, state)
         vs.ShowItem(self.dialog, self.kWidgetID_withMatboard, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_windowWidthLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_windowWidthSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_windowHeightLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_windowHeightSelector, state)
         vs.ShowItem(self.dialog, self.kWidgetID_matboardPositionLabel, state)
         vs.ShowItem(self.dialog, self.kWidgetID_matboardPositionSelector, state)
         vs.ShowItem(self.dialog, self.kWidgetID_matboardPosition, state)
@@ -726,6 +744,8 @@ class ImportPicturesDialog:
             vs.AddChoice(self.dialog, self.kWidgetID_frameTextureScaleSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_frameTextureRotationSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_withMatboardSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_windowWidthSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_windowHeightSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_matboardPositionSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_matboardClassSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_matboardTextureScaleSelector, column, 0)
@@ -764,6 +784,8 @@ class ImportPicturesDialog:
         vs.AddChoice(self.dialog, self.kWidgetID_frameTextureScaleSelector, "-- Manual", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_frameTextureRotationSelector, "-- Manual", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_withMatboardSelector, "-- Manual", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_windowWidthSelector, "-- Select column ...", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_windowHeightSelector, "-- Select column ...", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_matboardPositionSelector, "-- Manual", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_matboardClassSelector, "-- Manual", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_matboardTextureScaleSelector, "-- Manual", 0)
@@ -885,6 +907,16 @@ class ImportPicturesDialog:
 
         vs.SetBooleanItem(self.dialog, self.kWidgetID_withMatboard,
                           self.parameters.pictureParameters.withMatboard == "True")
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog,
+                                                self.kWidgetID_windowWidthSelector,
+                                                self.parameters.windowWidthSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_windowWidthSelector, selector_index, True)
+
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog,
+                                                self.kWidgetID_windowHeightSelector,
+                                                self.parameters.windowHeightSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_windowHeightSelector, selector_index, True)
 
         selector_index = vs.GetPopUpChoiceIndex(self.dialog,
                                                 self.kWidgetID_matboardPositionSelector,
@@ -1073,6 +1105,10 @@ class ImportPicturesDialog:
         manual = vs.GetSelectedChoiceIndex(self.dialog, self.kWidgetID_withMatboardSelector, 0) == 0
         enabled = vs.GetBooleanItem(self.dialog, self.kWidgetID_withMatboard)
         vs.EnableItem(self.dialog, self.kWidgetID_withMatboard, manual)
+        vs.EnableItem(self.dialog, self.kWidgetID_windowWidthLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_windowWidthSelector, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_windowHeightLabel, not manual or enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_windowHeightSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionLabel, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardPositionSelector, not manual or enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_matboardPosition, not manual or enabled)
@@ -1157,6 +1193,8 @@ class ImportPicturesDialog:
         self.remove_field_options(self.kWidgetID_frameTextureScaleSelector)
         self.remove_field_options(self.kWidgetID_frameTextureRotationSelector)
         self.remove_field_options(self.kWidgetID_withMatboardSelector)
+        self.remove_field_options(self.kWidgetID_windowWidthSelector)
+        self.remove_field_options(self.kWidgetID_windowHeightSelector)
         self.remove_field_options(self.kWidgetID_matboardPositionSelector)
         self.remove_field_options(self.kWidgetID_matboardClassSelector)
         self.remove_field_options(self.kWidgetID_matboardTextureScaleSelector)
@@ -1441,10 +1479,31 @@ class ImportPicturesDialog:
         vs.SetRightItem(self.dialog, self.kWidgetID_withMatboardSelector, self.kWidgetID_withMatboard, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_withMatboard, "Choose the value for the Matboard creation")
 
+        # Window Width dimension
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_windowWidthLabel, "Window Width: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_withMatboardLabel, self.kWidgetID_windowWidthLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_windowWidthSelector, input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_windowWidthSelector,
+                                                self.parameters.windowWidthSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_windowWidthSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_windowWidthLabel, self.kWidgetID_windowWidthSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_windowWidthSelector, "Select the column for the matboard window width")
+        # Window Height dimension
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_windowHeightLabel, "Window Height: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_windowWidthLabel, self.kWidgetID_windowHeightLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_windowHeightSelector, input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_windowHeightSelector,
+                                                self.parameters.windowHeightSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_windowHeightSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_windowHeightLabel, self.kWidgetID_windowHeightSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_windowHeightSelector, "Select the column for the matboard window height")
+
         # Matboard Position dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_matboardPositionLabel, "Matboard Position: ", label_width)
-        vs.SetBelowItem(self.dialog, self.kWidgetID_withMatboardLabel, self.kWidgetID_matboardPositionLabel, 0, 0)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_windowHeightLabel, self.kWidgetID_matboardPositionLabel, 0, 0)
         vs.CreatePullDownMenu(self.dialog, self.kWidgetID_matboardPositionSelector, input_field_width)
         selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_matboardPositionSelector,
                                                 self.parameters.matboardPositionSelector)
@@ -1830,6 +1889,9 @@ class ImportPicturesDialog:
         glass_message = ""
         changed = False
 
+        if picture_parameters.pictureName == "MG41":
+            stop = True
+
         existing_picture = vs.GetObject(picture_parameters.pictureName)
         if self.parameters.withImageSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
             existing_with_image = vs.GetRField(existing_picture, "Picture", "WithImage")
@@ -1843,14 +1905,14 @@ class ImportPicturesDialog:
 
         if picture_parameters.withImage == "True":
             valid, existing_image_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "ImageWidth"))
-            existing_image_width = round(existing_image_width, 3)
+            existing_image_width = str(round(existing_image_width, 3))
             if picture_parameters.imageWidth != existing_image_width:
                 image_message = image_message + "- Image With changed "
                 vs.SetRField(existing_picture, "Picture", "ImageWidth", picture_parameters.imageWidth)
                 changed = True
 
             valid, existing_image_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "ImageHeight"))
-            existing_image_height = round(existing_image_height, 3)
+            existing_image_height = str(round(existing_image_height, 3))
             if picture_parameters.imageHeight != existing_image_height:
                 image_message = image_message + "- Image Height changed "
                 vs.SetRField(existing_picture, "Picture", "ImageHeight", picture_parameters.imageHeight)
@@ -1859,7 +1921,7 @@ class ImportPicturesDialog:
             if self.parameters.imagePositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 valid, existing_image_position = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "ImagePosition"))
-                existing_image_position = round(existing_image_position, 3)
+                existing_image_position = str(round(existing_image_position, 3))
                 if picture_parameters.imagePosition != existing_image_position:
                     image_message = image_message + "- Image Position changed "
                     vs.SetRField(existing_picture, "Picture", "ImagePosition", picture_parameters.imagePosition)
@@ -1877,14 +1939,14 @@ class ImportPicturesDialog:
 
         if picture_parameters.withFrame == "True":
             valid, existing_frame_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameWidth"))
-            existing_frame_width = round(existing_frame_width, 3)
+            existing_frame_width = str(round(existing_frame_width, 3))
             if picture_parameters.frameWidth != existing_frame_width:
                 frame_message = frame_message + "- Frame Width changed "
                 vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
                 changed = True
 
             valid, existing_frame_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameHeight"))
-            existing_frame_height = round(existing_frame_height, 3)
+            existing_frame_height = str(round(existing_frame_height, 3))
             if picture_parameters.frameHeight != existing_frame_height:
                 frame_message = frame_message + "- Frame Height changed "
                 vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
@@ -1893,7 +1955,7 @@ class ImportPicturesDialog:
             if self.parameters.frameThicknessSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 valid, existing_frame_thickness = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "FrameThickness"))
-                existing_frame_thickness = round(existing_frame_thickness, 3)
+                existing_frame_thickness = str(round(existing_frame_thickness, 3))
                 if picture_parameters.frameThickness != existing_frame_thickness:
                     frame_message = frame_message + "- Frame Thickness changed "
                     vs.SetRField(existing_picture, "Picture", "FrameThickness", picture_parameters.frameThickness)
@@ -1901,7 +1963,7 @@ class ImportPicturesDialog:
 
             if self.parameters.frameDepthSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 valid, existing_frame_depth = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameDepth"))
-                existing_frame_depth = round(existing_frame_depth, 3)
+                existing_frame_depth = str(round(existing_frame_depth, 3))
                 if picture_parameters.frameDepth != existing_frame_depth:
                     frame_message = frame_message + "- Frame Depth changed "
                     vs.SetRField(existing_picture, "Picture", "FrameDepth", picture_parameters.frameDepth)
@@ -1918,7 +1980,7 @@ class ImportPicturesDialog:
                     or self.parameters.importIgnoreExisting == "False":
                 valid, existing_frame_texture_scale = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "FrameTextureScale"))
-                existing_frame_texture_scale = round(existing_frame_texture_scale, 3)
+                existing_frame_texture_scale = str(round(existing_frame_texture_scale, 3))
                 if picture_parameters.frameTextureScale != existing_frame_texture_scale:
                     frame_message = frame_message + "- Frame Texture Scale changed "
                     vs.SetRField(existing_picture, "Picture", "FrameTextureScale", picture_parameters.frameTextureScale)
@@ -1928,7 +1990,7 @@ class ImportPicturesDialog:
                     or self.parameters.importIgnoreExisting == "False":
                 valid, existing_frame_texture_rotation = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "FrameTextureRotation"))
-                existing_frame_texture_rotation = round(existing_frame_texture_rotation, 3)
+                existing_frame_texture_rotation = str(round(existing_frame_texture_rotation, 3))
                 if picture_parameters.frameTextureRotation != existing_frame_texture_rotation:
                     frame_message = frame_message + "- Frame Texture Rotation changed "
                     vs.SetRField(existing_picture, "Picture", "FrameTextureRotation", picture_parameters.frameTextureRotation)
@@ -1945,25 +2007,40 @@ class ImportPicturesDialog:
                 changed = True
 
         if picture_parameters.withMatboard == "True":
-            valid, existing_frame_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameWidth"))
-            existing_frame_width = round(existing_frame_width, 3)
-            if picture_parameters.frameWidth != existing_frame_width:
-                frame_message = frame_message + "- Frame Width changed "
-                vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
+            if picture_parameters.withFrame == "False":
+                valid, existing_frame_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameWidth"))
+                existing_frame_width = str(round(existing_frame_width, 3))
+                if picture_parameters.frameWidth != existing_frame_width:
+                    frame_message = frame_message + "- Frame Width changed "
+                    vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
+                    changed = True
+
+                valid, existing_frame_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameHeight"))
+                existing_frame_height = str(round(existing_frame_height, 3))
+                if picture_parameters.frameHeight != existing_frame_height:
+                    frame_message = frame_message + "- Frame Height changed "
+                    vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
+                    changed = True
+
+            valid, existing_window_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "WindowWidth"))
+            existing_window_width = str(round(existing_window_width, 3))
+            if picture_parameters.windowWidth != existing_window_width:
+                matboard_message = matboard_message + "- Window Width changed "
+                vs.SetRField(existing_picture, "Picture", "WindowWidth", picture_parameters.windowWidth)
                 changed = True
 
-            valid, existing_frame_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameHeight"))
-            existing_frame_height = round(existing_frame_height, 3)
-            if picture_parameters.frameHeight != existing_frame_height:
-                frame_message = frame_message + "- Frame Height changed "
-                vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
+            valid, existing_window_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "WindowHeight"))
+            existing_window_height = str(round(existing_window_height, 3))
+            if picture_parameters.windowHeight != existing_window_height:
+                matboard_message = matboard_message + "- Window Height changed "
+                vs.SetRField(existing_picture, "Picture", "WindowHeight", picture_parameters.windowHeight)
                 changed = True
 
             if self.parameters.matboardPositionSelector != "-- Manual" \
                     or self.parameters.importIgnoreExisting == "False":
                 valid, existing_matboard_position = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "MatboardPosition"))
-                existing_matboard_position = round(existing_matboard_position, 3)
+                existing_matboard_position = str(round(existing_matboard_position, 3))
                 if picture_parameters.matboardPosition != existing_matboard_position:
                     matboard_message = matboard_message + "- Matboard Position changed "
                     vs.SetRField(existing_picture, "Picture", "MatboardPosition", picture_parameters.matboardPosition)
@@ -1980,7 +2057,7 @@ class ImportPicturesDialog:
                     or self.parameters.importIgnoreExisting == "False":
                 valid, existing_matboard_texture_scale = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "MatboardTextureScale"))
-                existing_matboard_texture_scale = round(existing_matboard_texture_scale, 3)
+                existing_matboard_texture_scale = str(round(existing_matboard_texture_scale, 3))
                 if picture_parameters.matboardTextureScale != existing_matboard_texture_scale:
                     matboard_message = matboard_message + "- Matboard Texture Scale changed "
                     vs.SetRField(existing_picture, "Picture", "MatboardTextureScale", picture_parameters.matboardTextureScale)
@@ -1990,7 +2067,7 @@ class ImportPicturesDialog:
                     or self.parameters.importIgnoreExisting == "False":
                 valid, existing_matboard_texture_rotat = vs.ValidNumStr(
                     vs.GetRField(existing_picture, "Picture", "MatboardTextureRotat"))
-                existing_matboard_texture_rotat = round(existing_matboard_texture_rotat, 3)
+                existing_matboard_texture_rotat = str(round(existing_matboard_texture_rotat, 3))
                 if picture_parameters.matboardTextureRotat != existing_matboard_texture_rotat:
                     matboard_message = matboard_message + "- Matboard Texture Rotation changed "
                     vs.SetRField(existing_picture, "Picture", "MatboardTextureRotat", picture_parameters.matboardTextureRotat)
@@ -2009,7 +2086,7 @@ class ImportPicturesDialog:
         if picture_parameters.withGlass == "True":
             if self.parameters.glassPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 valid, existing_glass_position = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "GlassPosition"))
-                existing_glass_position = round(existing_glass_position, 3)
+                existing_glass_position = str(round(existing_glass_position, 3))
                 if picture_parameters.glassPosition != existing_glass_position:
                     glass_message = glass_message + "- Glass Position changed "
                     vs.SetRField(existing_picture, "Picture", "GlassPosition", picture_parameters.glassPosition)
@@ -2110,6 +2187,7 @@ class ImportPicturesDialog:
                 else:
                     self.new_picture(picture_parameters, log_file)
             else:
+                self.importErrorCount += 1
                 pass
 
         vs.ProgressDlgEnd()

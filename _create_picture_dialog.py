@@ -44,6 +44,10 @@ class CreatePictureDialog:
         self.kWidgetID_frameTextureRotation = 56
         self.kWidgetID_matboardGroup = 70
         self.kWidgetID_withMatboard = 71
+        self.kWidgetID_windowWidthLabel = 97
+        self.kWidgetID_windowWidth = 98
+        self.kWidgetID_windowHeightLabel = 99
+        self.kWidgetID_windowHeight = 100
         self.kWidgetID_matboardPositionLabel = 73
         self.kWidgetID_matboardPosition = 74
         self.kWidgetID_matboardClassLabel = 75
@@ -58,6 +62,7 @@ class CreatePictureDialog:
         self.kWidgetID_glassPosition = 94
         self.kWidgetID_glassClassLabel = 95
         self.kWidgetID_glassClass = 96
+        # last id = 100
 
         # Dialog settings
         ################################################################################################################
@@ -233,10 +238,32 @@ class CreatePictureDialog:
         vs.CreateCheckBox(self.dialog, self.kWidgetID_withMatboard, "With Matboard")
         vs.SetFirstGroupItem(self.dialog, self.kWidgetID_matboardGroup, self.kWidgetID_withMatboard)
         vs.SetBooleanItem(self.dialog, self.kWidgetID_withMatboard, self.parameters.withMatboard == "True")
+
+        # Window Width dimension
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_windowWidthLabel, "Window Width: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_withMatboard, self.kWidgetID_windowWidthLabel, 1, 0)
+        valid, value = vs.ValidNumStr(self.parameters.windowWidth)
+        if not valid:
+            value = PictureParameters().windowWidth
+        vs.CreateEditReal(self.dialog, self.kWidgetID_windowWidth, 3, value, input_field_width)
+        vs.SetRightItem(self.dialog, self.kWidgetID_windowWidthLabel, self.kWidgetID_windowWidth, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_windowWidth, "Enter the width of the matboard window here.")
+        # Window Height dimension
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_windowHeightLabel, "Window Height: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_windowWidthLabel, self.kWidgetID_windowHeightLabel, 0, 0)
+        valid, value = vs.ValidNumStr(self.parameters.windowHeight)
+        if not valid:
+            value = PictureParameters().windowHeight
+        vs.CreateEditReal(self.dialog, self.kWidgetID_windowHeight, 3, value, input_field_width)
+        vs.SetRightItem(self.dialog, self.kWidgetID_windowHeightLabel, self.kWidgetID_windowHeight, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_windowHeight, "Enter the height of the matboard window here.")
+
         # Matboard Position dimension
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_matboardPositionLabel, "Matboard Position: ", label_width)
-        vs.SetBelowItem(self.dialog, self.kWidgetID_withMatboard, self.kWidgetID_matboardPositionLabel, 0, 0)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_windowHeightLabel, self.kWidgetID_matboardPositionLabel, 0, 0)
         valid, value = vs.ValidNumStr(self.parameters.matboardPosition)
         if not valid:
             value = PictureParameters().matboardPosition

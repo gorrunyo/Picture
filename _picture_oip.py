@@ -24,14 +24,17 @@ class PictureOIP:
         self.kWidgetID_FrameTextureRotation = 24
         self.kWidgetID_MatboardSeparator = 25
         self.kWidgetID_WithMatboard = 26
-        self.kWidgetID_MatboardPosition = 27
-        self.kWidgetID_MatboardClass = 28
-        self.kWidgetID_MatboardTextureScale = 29
-        self.kWidgetID_MatboardTextureRotation = 30
-        self.kWidgetID_GlassSeparator = 21
-        self.kWidgetID_WithGlass = 32
-        self.kWidgetID_GlassPosition = 33
-        self.kWidgetID_GlassClass = 34
+        self.kWidgetID_WindowWidth = 27
+        self.kWidgetID_WindowHeight = 28
+        self.kWidgetID_MatboardPosition = 29
+        self.kWidgetID_MatboardClass = 30
+        self.kWidgetID_MatboardTextureScale = 31
+        self.kWidgetID_MatboardTextureRotation = 32
+        self.kWidgetID_GlassSeparator = 33
+        self.kWidgetID_WithGlass = 34
+        self.kWidgetID_GlassPosition = 35
+        self.kWidgetID_GlassClass = 36
+        # next 37
 
     def create(self):
         _ = vs.SetObjPropVS(kObjXPropHasUIOverride, True)
@@ -69,6 +72,10 @@ class PictureOIP:
 
         _ = vs.vsoAddWidget(self.kWidgetID_MatboardSeparator, 100, "Matboard")
         _ = vs.vsoAddParamWidget(self.kWidgetID_WithMatboard, 'WithMatboard', '')
+        _ = vs.vsoAddParamWidget(self.kWidgetID_WindowWidth, 'WindowWidth', '')
+        vs.vsoWidgetSetIndLvl(self.kWidgetID_WindowWidth, 1)
+        _ = vs.vsoAddParamWidget(self.kWidgetID_WindowHeight, 'WindowHeight', '')
+        vs.vsoWidgetSetIndLvl(self.kWidgetID_WindowHeight, 1)
         _ = vs.vsoAddParamWidget(self.kWidgetID_MatboardPosition, 'MatboardPosition', '')
         vs.vsoWidgetSetIndLvl(self.kWidgetID_MatboardPosition, 1)
         _ = vs.vsoAddParamWidget(self.kWidgetID_MatboardClass, 'MatboardClass', '')
@@ -96,6 +103,8 @@ class PictureOIP:
         vs.vsoWidgetSetEnable(self.kWidgetID_ImagePosition, vs.PWithImage)
         vs.vsoWidgetSetEnable(self.kWidgetID_ImageTexture, vs.PWithImage)
 
+        vs.vsoWidgetSetEnable(self.kWidgetID_WindowWidth, vs.PWithMatboard)
+        vs.vsoWidgetSetEnable(self.kWidgetID_WindowHeight, vs.PWithMatboard)
         vs.vsoWidgetSetEnable(self.kWidgetID_MatboardPosition, vs.PWithMatboard)
         vs.vsoWidgetSetEnable(self.kWidgetID_MatboardClass, vs.PWithMatboard)
         vs.vsoWidgetSetEnable(self.kWidgetID_MatboardTextureScale, vs.PWithMatboard)

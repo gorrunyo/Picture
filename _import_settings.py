@@ -56,6 +56,12 @@ class ImportSettings:
         if not valid or (self.pictureParameters.withMatboard != "True" and self.pictureParameters.withMatboard != "False"):
             self.pictureParameters.withMatboard = PictureParameters().withMatboard
 
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "windowWidth")[1])
+        self.pictureParameters.windowWidth = str(round(value, 3)) if valid else PictureParameters().windowWidth
+
+        valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "windowHeight")[1])
+        self.pictureParameters.windowHeight = str(round(value, 3)) if valid else PictureParameters().windowHeight
+
         valid, value = vs.ValidNumStr(vs.GetSavedSetting("importPictures", "matboardPosition")[1])
         self.pictureParameters.matboardPosition = str(round(value, 3)) if valid else PictureParameters().matboardPosition
 
@@ -226,6 +232,12 @@ class ImportSettings:
         valid, self.withMatboardSelector = vs.GetSavedSetting("importPictures", "withMatboardSelector")
         if not valid:
             self.withMatboardSelector = "-- Manual"
+        valid, self.windowWidthSelector = vs.GetSavedSetting("importPictures", "windowWidthSelector")
+        if not valid:
+            self.windowWidthSelector = "-- Select column ..."
+        valid, self.windowHeightSelector = vs.GetSavedSetting("importPictures", "windowHeightSelector")
+        if not valid:
+            self.windowHeightSelector = "-- Select column ..."
         valid, self.matboardPositionSelector = vs.GetSavedSetting("importPictures", "matboardPositionSelector")
         if not valid:
             self.matboardPositionSelector = "-- Manual"
@@ -334,6 +346,8 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "frameTextureScale", str(self.pictureParameters.frameTextureScale))
         vs.SetSavedSetting("importPictures", "frameTextureRotation", str(self.pictureParameters.frameTextureRotation))
         vs.SetSavedSetting("importPictures", "withMatboard", self.pictureParameters.withMatboard)
+        vs.SetSavedSetting("importPictures", "windowWidth", str(self.pictureParameters.windowWidth))
+        vs.SetSavedSetting("importPictures", "windowHeight", str(self.pictureParameters.windowHeight))
         vs.SetSavedSetting("importPictures", "matboardPosition", str(self.pictureParameters.matboardPosition))
         vs.SetSavedSetting("importPictures", "matboardClass", self.pictureParameters.matboardClass)
         vs.SetSavedSetting("importPictures", "matboardTextureScale", str(self.pictureParameters.matboardTextureScale))
@@ -361,6 +375,8 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "frameTextureScaleSelector", self.frameTextureScaleSelector)
         vs.SetSavedSetting("importPictures", "frameTextureRotationSelector", self.frameTextureRotationSelector)
         vs.SetSavedSetting("importPictures", "withMatboardSelector", self.withMatboardSelector)
+        vs.SetSavedSetting("importPictures", "windowWidthSelector", self.windowWidthSelector)
+        vs.SetSavedSetting("importPictures", "windowHeightSelector", self.windowHeightSelector)
         vs.SetSavedSetting("importPictures", "matboardPositionSelector", self.matboardPositionSelector)
         vs.SetSavedSetting("importPictures", "matboardClassSelector", self.matboardClassSelector)
         vs.SetSavedSetting("importPictures", "matboardTextureScaleSelector", self.matboardTextureScaleSelector)

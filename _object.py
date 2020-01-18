@@ -2,8 +2,8 @@ import vs
 from vs_constants import *
 from _picture_oip import PictureOIP
 
-# import pydevd_pycharm
-# pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
+import pydevd_pycharm
+pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
 
 def execute():
@@ -28,8 +28,7 @@ def reset_event_handler(rename_handle):
     if vs.PWithImage:
         image_texture = vs.GetTextureRefN(rename_handle, 0, 0, True)
         if image_texture:
-            image_prop = vs.CreateImageProp(vs.PPictureName, image_texture, vs.PImageHeight, vs.PImageWidth,
-                                            False, False, False, False, False)
+            image_prop = vs.CreateImageProp(vs.PPictureName, image_texture, vs.PImageHeight, vs.PImageWidth, False, False, False, False, False)
             if image_prop != 0:
                 vs.Move3DObj(image_prop, 0, (vs.PFrameDepth / 2) - vs.PImagePosition, 0)
                 existing_texture = vs.GetObject("{} Picture Texture".format(vs.GetName(rename_handle)))
@@ -46,30 +45,15 @@ def reset_event_handler(rename_handle):
     # Create the Frame
     if vs.PWithFrame:
         vs.BeginPoly3D()
-
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2,
-                    -1 * (vs.PFrameDepth / 2),
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-
-        vs.Add3DPt((vs.PFrameWidth / 2,
-                    -1 * (vs.PFrameDepth / 2),
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-
-        vs.Add3DPt((vs.PFrameWidth / 2,
-                    -1 * (vs.PFrameDepth / 2),
-                    vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
-
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2,
-                    -1 * (vs.PFrameDepth / 2),
-                    vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
-
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2,
-                    -1 * (vs.PFrameDepth / 2),
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-
+        vs.Add3DPt((-vs.PFrameWidth / 2, -(vs.PFrameDepth / 2), -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        vs.Add3DPt((vs.PFrameWidth / 2,  -(vs.PFrameDepth / 2), -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        vs.Add3DPt((vs.PFrameWidth / 2,  -(vs.PFrameDepth / 2), vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
+        vs.Add3DPt((-vs.PFrameWidth / 2, -(vs.PFrameDepth / 2), vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
+        vs.Add3DPt((-vs.PFrameWidth / 2, -(vs.PFrameDepth / 2), -(vs.PFrameHeight - vs.PImageHeight) / 2))
         vs.EndPoly3D()
         extrude_path = vs.LNewObj()
         extrude_path = vs.ConvertToNURBS(extrude_path, False)
+
         vs.Rect((-1 * vs.PFrameThickness, -1 * vs.PFrameDepth), (0, 0))
         extrude_profile = vs.LNewObj()
 
@@ -92,46 +76,53 @@ def reset_event_handler(rename_handle):
 
     # Create the Matboard
     if vs.PWithMatboard:
-        vs.BeginPoly3D()
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition,
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-        vs.Add3DPt((vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition,
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-        vs.Add3DPt((vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition,
-                    vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition,
-                    vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition,
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-        vs.EndPoly3D()
+        # vs.BeginPoly3D()
+        # vs.Add3DPt((-vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition, -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        # vs.Add3DPt((vs.PFrameWidth / 2,  (vs.PFrameDepth / 2) - vs.PMatboardPosition, -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        # vs.Add3DPt((vs.PFrameWidth / 2,  (vs.PFrameDepth / 2) - vs.PMatboardPosition, vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
+        # vs.Add3DPt((-vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition, vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
+        # vs.Add3DPt((-vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PMatboardPosition, -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        # vs.EndPoly3D()
+        # matboard = vs.LNewObj()
+
+        vs.BeginMXtrd(0, 0.01)
+        vs.Rect((-vs.PFrameWidth / 2, vs.PFrameHeight / 2), (vs.PFrameWidth / 2, -vs.PFrameHeight / 2))
+        vs.Rect((-vs.PFrameWidth / 2, vs.PFrameHeight / 2), (vs.PFrameWidth / 2, -vs.PFrameHeight / 2))
+        vs.EndMXtrd()
         matboard = vs.LNewObj()
 
-        vs.SetClass(matboard, vs.PMatboardClass)
-        vs.SetFPatByClass(matboard)
-        vs.SetFillColorByClass(matboard)
-        vs.SetLSByClass(matboard)
-        vs.SetLWByClass(matboard)
-        vs.SetMarkerByClass(matboard)
-        vs.SetOpacityByClass(matboard)
-        vs.SetPenColorByClass(matboard)
-        vs.SetTextStyleByClass(matboard)
-        vs.SetTextureRefN(matboard, -1, 0, 0)
-        vs.SetTexMapRealN(matboard, 3, 0, 3, vs.PMatboardTextureScale)
-        vs.SetTexMapRealN(matboard, 3, 0, 4, vs.Deg2Rad(vs.PMatboardTextureRotat))
+        vs.BeginMXtrd(0, 0.01)
+        vs.Rect((-vs.PWindowWidth / 2, vs.PWindowHeight / 2), (vs.PWindowWidth / 2, -vs.PWindowHeight / 2))
+        vs.Rect((-vs.PWindowWidth / 2, vs.PWindowHeight / 2), (vs.PWindowWidth / 2, -vs.PWindowHeight / 2))
+        vs.EndMXtrd()
+        window = vs.LNewObj()
+
+        result, new_object = vs.SubtractSolid(matboard, window)
+
+        vs.Set3DRot(new_object, 90, 0, 0, 0, 0, 0)
+        vs.Move3DObj(new_object, 0, (vs.PFrameDepth / 2) - vs.PMatboardPosition + 0.01, vs.PImageHeight / 2)
+
+        vs.SetClass(new_object, vs.PMatboardClass)
+        vs.SetFPatByClass(new_object)
+        vs.SetFillColorByClass(new_object)
+        vs.SetLSByClass(new_object)
+        vs.SetLWByClass(new_object)
+        vs.SetMarkerByClass(new_object)
+        vs.SetOpacityByClass(new_object)
+        vs.SetPenColorByClass(new_object)
+        vs.SetTextStyleByClass(new_object)
+        vs.SetTextureRefN(new_object, -1, 0, 0)
+        vs.SetTexMapRealN(new_object, 3, 0, 3, vs.PMatboardTextureScale)
+        vs.SetTexMapRealN(new_object, 3, 0, 4, vs.Deg2Rad(vs.PMatboardTextureRotat))
 
     # Create the Glass
     if vs.PWithGlass:
         vs.BeginPoly3D()
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition,
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-        vs.Add3DPt((vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition,
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
-        vs.Add3DPt((vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition,
-                    vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition,
-                    vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
-        vs.Add3DPt((-1 * vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition,
-                    -1 * (vs.PFrameHeight - vs.PImageHeight) / 2))
+        vs.Add3DPt((-vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition, -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        vs.Add3DPt((vs.PFrameWidth / 2,  (vs.PFrameDepth / 2) - vs.PGlassPosition, -(vs.PFrameHeight - vs.PImageHeight) / 2))
+        vs.Add3DPt((vs.PFrameWidth / 2,  (vs.PFrameDepth / 2) - vs.PGlassPosition, vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
+        vs.Add3DPt((-vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition,  vs.PFrameHeight - ((vs.PFrameHeight - vs.PImageHeight) / 2)))
+        vs.Add3DPt((-vs.PFrameWidth / 2, (vs.PFrameDepth / 2) - vs.PGlassPosition, -(vs.PFrameHeight - vs.PImageHeight) / 2))
         vs.EndPoly3D()
         glass = vs.LNewObj()
 

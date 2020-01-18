@@ -54,6 +54,8 @@ def build_picture(parameters: PictureParameters, record: PictureRecord or None):
     vs.SetRField(picture, "Picture", "FrameTextureScale", parameters.frameTextureScale)
     vs.SetRField(picture, "Picture", "FrameTextureRotation", parameters.frameTextureRotation)
     vs.SetRField(picture, "Picture", "WithMatboard", parameters.withMatboard)
+    vs.SetRField(picture, "Picture", "WindowWidth", parameters.windowWidth)
+    vs.SetRField(picture, "Picture", "WindowHeight", parameters.windowHeight)
     vs.SetRField(picture, "Picture", "MatboardPosition", parameters.matboardPosition)
     vs.SetRField(picture, "Picture", "MatboardClass", parameters.matboardClass)
     vs.SetRField(picture, "Picture", "MatboardTextureScale", parameters.matboardTextureScale)
@@ -65,6 +67,9 @@ def build_picture(parameters: PictureParameters, record: PictureRecord or None):
 
     vs.ResetObject(picture)
 
+    vs.NewField("Object list data", "Image size", creation_record.imageSize, 4, 0)
+    vs.NewField("Object list data", "Frame size", creation_record.frameSize, 4, 0)
+    vs.NewField("Object list data", "Window size", creation_record.windowSize, 4, 0)
     vs.NewField("Object list data", "Artwork title", creation_record.artworkTitle, 4, 0)
     vs.NewField("Object list data", "Author name", creation_record.authorName, 4, 0)
     vs.NewField("Object list data", "Artwork creation date", creation_record.artworkCreationDate, 4, 0)

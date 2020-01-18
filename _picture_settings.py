@@ -6,7 +6,7 @@ class PictureParameters:
         self.withImage = "False"
         self.imageWidth = "8\""
         self.imageHeight = "10\""
-        self.imagePosition = "0.3\""
+        self.imagePosition = "0.25\""
         self.imageTexture = ""
         self.withFrame = "True"
         self.frameWidth = "12\""
@@ -17,7 +17,9 @@ class PictureParameters:
         self.frameTextureScale = "1"
         self.frameTextureRotation = "0"
         self.withMatboard = "True"
-        self.matboardPosition = "0.25\""
+        self.windowWidth = "7\""
+        self.windowHeight = "9\""
+        self.matboardPosition = "0.3\""
         self.matboardClass = "None"
         self.matboardTextureScale = "1"
         self.matboardTextureRotat = "0"
@@ -29,6 +31,9 @@ class PictureParameters:
 
 class PictureRecord:
     def __init__(self):
+        self.imageSize = ""
+        self.frameSize = ""
+        self.windowSize = ""
         self.artworkTitle = ""
         self.authorName = ""
         self.artworkCreationDate = ""
