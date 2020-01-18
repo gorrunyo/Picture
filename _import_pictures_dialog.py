@@ -17,6 +17,35 @@ from _picture import build_picture
 # pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True, suspend=False)
 
 
+def same_dimension(dimemsion_1: str, dimension_2: str) -> bool:
+    dim1 = 0
+    dim2 = 0
+    valid1, value = vs.ValidNumStr(dimemsion_1)
+    if valid1:
+        dim1 = round(value, 3)
+    valid2, value = vs.ValidNumStr(dimension_2)
+    if valid2:
+        dim2 = round(value, 3)
+    return valid1 == valid2 and dim1 == dim2
+
+
+def dimension_strings(dimension_1: str, dimension_2: str) -> (str, str):
+    valid1, value = vs.ValidNumStr(dimension_1)
+    if valid1:
+        dim1 = round(value, 3)
+        str1 = "{}".format(dim1)
+    else:
+        str1 = "Invalid"
+
+    valid2, value = vs.ValidNumStr(dimension_2)
+    if valid2:
+        dim2 = round(value, 3)
+        str2 = "{}".format(dim2)
+    else:
+        str2 = "Invalid"
+    return str1, str2
+
+
 class ImportPicturesDialog:
     def __init__(self, settings: ImportSettings):
 
@@ -228,18 +257,19 @@ class ImportPicturesDialog:
         :rtype: None
         """
 
-        criteria_values = self.excel.get_criteria_values()
-        if criteria_values and state is True and self.parameters.excelCriteriaSelector != "-- Select column ...":
-            for criteria in criteria_values:
-                vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, criteria, 0)
-            vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, "Select a value ...", 0)
-            index = vs.GetChoiceIndex(self.dialog, self.kWidgetID_excelCriteriaValue,
-                                      self.parameters.excelCriteriaValue)
-            if index == -1:
-                vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0, True)
-                self.parameters.excelCriteriaValue = "Select a value ..."
-            else:
-                vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, index, True)
+        if state is True and self.parameters.excelCriteriaSelector != "-- Select column ...":
+            criteria_values = self.excel.get_criteria_values()
+            if criteria_values:
+                for criteria in criteria_values:
+                    vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, criteria, 0)
+                vs.AddChoice(self.dialog, self.kWidgetID_excelCriteriaValue, "Select a value ...", 0)
+                index = vs.GetChoiceIndex(self.dialog, self.kWidgetID_excelCriteriaValue,
+                                          self.parameters.excelCriteriaValue)
+                if index == -1:
+                    vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0, True)
+                    self.parameters.excelCriteriaValue = "Select a value ..."
+                else:
+                    vs.SelectChoice(self.dialog, self.kWidgetID_excelCriteriaValue, index, True)
         else:
             while vs.GetChoiceCount(self.dialog, self.kWidgetID_excelCriteriaValue):
                 vs.RemoveChoice(self.dialog, self.kWidgetID_excelCriteriaValue, 0)
@@ -1881,7 +1911,7 @@ class ImportPicturesDialog:
                             "Error Pictures: {}".format(self.importErrorCount), label_width + 10)
         vs.SetBelowItem(self.dialog, self.kWidgetID_importDeletedCount, self.kWidgetID_importErrorCount, 0, 0)
 
-    def update_picture(self, picture_parameters: PictureParameters, log_file: IO):
+    def update_picture(self, picture_parameters: PictureParameters, existing_picture, log_file: IO):
         log_message = ""
         image_message = ""
         frame_message = ""
@@ -1889,221 +1919,166 @@ class ImportPicturesDialog:
         glass_message = ""
         changed = False
 
-        if picture_parameters.pictureName == "MG41":
-            stop = True
-
-        existing_picture = vs.GetObject(picture_parameters.pictureName)
+        # existing_picture = vs.GetObject(picture_parameters.pictureName)
         if self.parameters.withImageSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-            existing_with_image = vs.GetRField(existing_picture, "Picture", "WithImage")
-            if picture_parameters.withImage != existing_with_image:
+            if picture_parameters.withImage != vs.GetRField(existing_picture, "Picture", "WithImage"):
                 if picture_parameters.withImage == "True":
-                    image_message = "- Add immage " + image_message
+                    image_message = "- Add image " + image_message
                 else:
                     image_message = "- Removed image "
                 vs.SetRField(existing_picture, "Picture", "WithImage", picture_parameters.withImage)
                 changed = True
 
         if picture_parameters.withImage == "True":
-            valid, existing_image_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "ImageWidth"))
-            existing_image_width = str(round(existing_image_width, 3))
-            if picture_parameters.imageWidth != existing_image_width:
-                image_message = image_message + "- Image With changed "
+            if not same_dimension(vs.GetRField(existing_picture, "Picture", "ImageWidth"), picture_parameters.imageWidth):
+                image_message = image_message + "- Image With changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "ImageWidth"), picture_parameters.imageWidth))
                 vs.SetRField(existing_picture, "Picture", "ImageWidth", picture_parameters.imageWidth)
                 changed = True
 
-            valid, existing_image_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "ImageHeight"))
-            existing_image_height = str(round(existing_image_height, 3))
-            if picture_parameters.imageHeight != existing_image_height:
-                image_message = image_message + "- Image Height changed "
+            if not same_dimension(vs.GetRField(existing_picture, "Picture", "ImageHeight"), picture_parameters.imageHeight):
+                image_message = image_message + "- Image Height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "ImageHeight"), picture_parameters.imageHeight))
                 vs.SetRField(existing_picture, "Picture", "ImageHeight", picture_parameters.imageHeight)
                 changed = True
 
             if self.parameters.imagePositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                valid, existing_image_position = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "ImagePosition"))
-                existing_image_position = str(round(existing_image_position, 3))
-                if picture_parameters.imagePosition != existing_image_position:
-                    image_message = image_message + "- Image Position changed "
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "ImagePosition"), picture_parameters.imagePosition):
+                    image_message = image_message + "- Image Position changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "ImagePosition"), picture_parameters.imagePosition))
                     vs.SetRField(existing_picture, "Picture", "ImagePosition", picture_parameters.imagePosition)
                     changed = True
 
         if self.parameters.withFrameSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-            existing_with_frame = vs.GetRField(existing_picture, "Picture", "WithFrame")
-            if picture_parameters.withFrame != existing_with_frame:
+            if picture_parameters.withFrame != vs.GetRField(existing_picture, "Picture", "WithFrame"):
                 if picture_parameters.withFrame == "True":
-                    frame_message = "Add frame " + frame_message
+                    frame_message = "- Add frame " + frame_message
                 else:
-                    frame_message = "Removed frame "
+                    frame_message = "- Removed frame "
                 vs.SetRField(existing_picture, "Picture", "WithFrame", picture_parameters.withFrame)
                 changed = True
 
         if picture_parameters.withFrame == "True":
-            valid, existing_frame_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameWidth"))
-            existing_frame_width = str(round(existing_frame_width, 3))
-            if picture_parameters.frameWidth != existing_frame_width:
-                frame_message = frame_message + "- Frame Width changed "
+            if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth):
+                frame_message = frame_message + "- Frame Width changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth))
                 vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
                 changed = True
 
-            valid, existing_frame_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameHeight"))
-            existing_frame_height = str(round(existing_frame_height, 3))
-            if picture_parameters.frameHeight != existing_frame_height:
-                frame_message = frame_message + "- Frame Height changed "
+            if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight):
+                frame_message = frame_message + "- Frame Height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight))
                 vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
                 changed = True
 
             if self.parameters.frameThicknessSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                valid, existing_frame_thickness = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "FrameThickness"))
-                existing_frame_thickness = str(round(existing_frame_thickness, 3))
-                if picture_parameters.frameThickness != existing_frame_thickness:
-                    frame_message = frame_message + "- Frame Thickness changed "
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameThickness"), picture_parameters.frameThickness):
+                    frame_message = frame_message + "- Frame Thickness changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameThickness"), picture_parameters.frameThickness))
                     vs.SetRField(existing_picture, "Picture", "FrameThickness", picture_parameters.frameThickness)
                     changed = True
 
             if self.parameters.frameDepthSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                valid, existing_frame_depth = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameDepth"))
-                existing_frame_depth = str(round(existing_frame_depth, 3))
-                if picture_parameters.frameDepth != existing_frame_depth:
-                    frame_message = frame_message + "- Frame Depth changed "
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameDepth"), picture_parameters.frameDepth):
+                    frame_message = frame_message + "- Frame Depth changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameDepth"), picture_parameters.frameDepth))
                     vs.SetRField(existing_picture, "Picture", "FrameDepth", picture_parameters.frameDepth)
                     changed = True
 
             if self.parameters.frameClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                existing_frame_class = vs.GetRField(existing_picture, "Picture", "FrameClass")
-                if picture_parameters.frameClass != existing_frame_class:
-                    frame_message = frame_message + "- Frame Class changed "
+                if picture_parameters.frameClass != vs.GetRField(existing_picture, "Picture", "FrameClass"):
+                    frame_message = frame_message + "- Frame Class changed ({} --> {}) ".format(vs.GetRField(existing_picture, "Picture", "FrameClass"), picture_parameters.frameClass)
                     vs.SetRField(existing_picture, "Picture", "FrameClass", picture_parameters.frameClass)
                     changed = True
 
-            if self.parameters.frameTextureScaleSelector != "-- Manual" \
-                    or self.parameters.importIgnoreExisting == "False":
-                valid, existing_frame_texture_scale = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "FrameTextureScale"))
-                existing_frame_texture_scale = str(round(existing_frame_texture_scale, 3))
-                if picture_parameters.frameTextureScale != existing_frame_texture_scale:
-                    frame_message = frame_message + "- Frame Texture Scale changed "
+            if self.parameters.frameTextureScaleSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameTextureScale"), picture_parameters.frameTextureScale):
+                    frame_message = frame_message + "- Frame Texture Scale changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameTextureScale"), picture_parameters.frameTextureScale))
                     vs.SetRField(existing_picture, "Picture", "FrameTextureScale", picture_parameters.frameTextureScale)
                     changed = True
 
-            if self.parameters.frameTextureRotationSelector != "-- Manual" \
-                    or self.parameters.importIgnoreExisting == "False":
-                valid, existing_frame_texture_rotation = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "FrameTextureRotation"))
-                existing_frame_texture_rotation = str(round(existing_frame_texture_rotation, 3))
-                if picture_parameters.frameTextureRotation != existing_frame_texture_rotation:
-                    frame_message = frame_message + "- Frame Texture Rotation changed "
+            if self.parameters.frameTextureRotationSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameTextureRotation"), picture_parameters.frameTextureRotation):
+                    frame_message = frame_message + "- Frame Texture Rotation changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameTextureRotation"), picture_parameters.frameTextureRotation))
                     vs.SetRField(existing_picture, "Picture", "FrameTextureRotation", picture_parameters.frameTextureRotation)
                     changed = True
 
         if self.parameters.withMatboardSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-            existing_with_matboard = vs.GetRField(existing_picture, "Picture", "WithMatboard")
-            if picture_parameters.withMatboard != existing_with_matboard:
+            if picture_parameters.withMatboard != vs.GetRField(existing_picture, "Picture", "WithMatboard"):
                 if picture_parameters.withMatboard == "True":
-                    matboard_message = "Add matboard " + matboard_message
+                    matboard_message = "- Add matboard " + matboard_message
                 else:
-                    matboard_message = "Removed matboard "
+                    matboard_message = "- Removed matboard "
                 vs.SetRField(existing_picture, "Picture", "WithMatboard", picture_parameters.withMatboard)
                 changed = True
 
         if picture_parameters.withMatboard == "True":
-            if picture_parameters.withFrame == "False":
-                valid, existing_frame_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameWidth"))
-                existing_frame_width = str(round(existing_frame_width, 3))
-                if picture_parameters.frameWidth != existing_frame_width:
-                    frame_message = frame_message + "- Frame Width changed "
+            if self.parameters.frameWidthSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth):
+                    matboard_message = matboard_message + "- Frame Width changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameWidth"), picture_parameters.frameWidth))
                     vs.SetRField(existing_picture, "Picture", "FrameWidth", picture_parameters.frameWidth)
                     changed = True
 
-                valid, existing_frame_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "FrameHeight"))
-                existing_frame_height = str(round(existing_frame_height, 3))
-                if picture_parameters.frameHeight != existing_frame_height:
-                    frame_message = frame_message + "- Frame Height changed "
+            if self.parameters.frameHeightSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight):
+                    matboard_message = matboard_message + "- Frame Height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "FrameHeight"), picture_parameters.frameHeight))
                     vs.SetRField(existing_picture, "Picture", "FrameHeight", picture_parameters.frameHeight)
                     changed = True
 
-            valid, existing_window_width = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "WindowWidth"))
-            existing_window_width = str(round(existing_window_width, 3))
-            if picture_parameters.windowWidth != existing_window_width:
-                matboard_message = matboard_message + "- Window Width changed "
-                vs.SetRField(existing_picture, "Picture", "WindowWidth", picture_parameters.windowWidth)
-                changed = True
-
-            valid, existing_window_height = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "WindowHeight"))
-            existing_window_height = str(round(existing_window_height, 3))
-            if picture_parameters.windowHeight != existing_window_height:
-                matboard_message = matboard_message + "- Window Height changed "
-                vs.SetRField(existing_picture, "Picture", "WindowHeight", picture_parameters.windowHeight)
-                changed = True
-
-            if self.parameters.matboardPositionSelector != "-- Manual" \
-                    or self.parameters.importIgnoreExisting == "False":
-                valid, existing_matboard_position = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "MatboardPosition"))
-                existing_matboard_position = str(round(existing_matboard_position, 3))
-                if picture_parameters.matboardPosition != existing_matboard_position:
-                    matboard_message = matboard_message + "- Matboard Position changed "
-                    vs.SetRField(existing_picture, "Picture", "MatboardPosition", picture_parameters.matboardPosition)
+            if self.parameters.windowWidthSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "WindowWidth"), picture_parameters.windowWidth):
+                    matboard_message = matboard_message + "- Matboard window width changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "WindowWidth"), picture_parameters.windowWidth))
+                    vs.SetRField(existing_picture, "Picture", "WindowWidth", picture_parameters.windowWidth)
                     changed = True
 
+            if self.parameters.windowHeightSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "WindowHeight"), picture_parameters.windowHeight):
+                    matboard_message = matboard_message + "- Matboard window height changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "WindowHeight"), picture_parameters.windowHeight))
+                    vs.SetRField(existing_picture, "Picture", "WindowHeight", picture_parameters.windowHeight)
+                    changed = True
+
+            if self.parameters.matboardPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition):
+                    matboard_message = matboard_message + "- Matboard Position changed ({0[0]} --> {0[1]}) ".format(
+                        dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition))
+
             if self.parameters.matboardClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                existing_matboard_class = vs.GetRField(existing_picture, "Picture", "MatboardClass")
-                if picture_parameters.matboardClass != existing_matboard_class:
-                    matboard_message = matboard_message + "- Matboard Class changed "
+                if picture_parameters.matboardClass != vs.GetRField(existing_picture, "Picture", "MatboardClass"):
+                    matboard_message = matboard_message + "- Matboard Class changed ({} --> {}) ".format(vs.GetRField(existing_picture, "Picture", "MatboardClass"), picture_parameters.matboardClass)
                     vs.SetRField(existing_picture, "Picture", "MatboardClass", picture_parameters.matboardClass)
                     changed = True
 
-            if self.parameters.matboardTextureScaleSelector != "-- Manual" \
-                    or self.parameters.importIgnoreExisting == "False":
-                valid, existing_matboard_texture_scale = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "MatboardTextureScale"))
-                existing_matboard_texture_scale = str(round(existing_matboard_texture_scale, 3))
-                if picture_parameters.matboardTextureScale != existing_matboard_texture_scale:
-                    matboard_message = matboard_message + "- Matboard Texture Scale changed "
+            if self.parameters.matboardTextureScaleSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardTextureScale"), picture_parameters.matboardTextureScale):
+                    matboard_message = matboard_message + "- Matboard Texture Scale changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardTextureScale"), picture_parameters.matboardTextureScale))
                     vs.SetRField(existing_picture, "Picture", "MatboardTextureScale", picture_parameters.matboardTextureScale)
                     changed = True
 
-            if self.parameters.matboardTextureRotatSelector != "-- Manual" \
-                    or self.parameters.importIgnoreExisting == "False":
-                valid, existing_matboard_texture_rotat = vs.ValidNumStr(
-                    vs.GetRField(existing_picture, "Picture", "MatboardTextureRotat"))
-                existing_matboard_texture_rotat = str(round(existing_matboard_texture_rotat, 3))
-                if picture_parameters.matboardTextureRotat != existing_matboard_texture_rotat:
-                    matboard_message = matboard_message + "- Matboard Texture Rotation changed "
+            if self.parameters.matboardTextureRotatSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardTextureRotat"), picture_parameters.matboardTextureRotat):
+                    matboard_message = matboard_message + "- Matboard Texture Rotation changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardTextureRotat"), picture_parameters.matboardTextureRotat))
                     vs.SetRField(existing_picture, "Picture", "MatboardTextureRotat", picture_parameters.matboardTextureRotat)
                     changed = True
 
         if self.parameters.withGlassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-            existing_with_glass = vs.GetRField(existing_picture, "Picture", "WithGlass")
-            if picture_parameters.withGlass != existing_with_glass:
+            if picture_parameters.withGlass != vs.GetRField(existing_picture, "Picture", "WithGlass"):
                 if picture_parameters.withGlass == "True":
-                    glass_message = "Add glass " + image_message
+                    glass_message = "- Add glass " + image_message
                 else:
-                    glass_message = "Removed glass "
+                    glass_message = "- Removed glass "
                 vs.SetRField(existing_picture, "Picture", "WithGlass", picture_parameters.withGlass)
                 changed = True
 
         if picture_parameters.withGlass == "True":
             if self.parameters.glassPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                valid, existing_glass_position = vs.ValidNumStr(vs.GetRField(existing_picture, "Picture", "GlassPosition"))
-                existing_glass_position = str(round(existing_glass_position, 3))
-                if picture_parameters.glassPosition != existing_glass_position:
-                    glass_message = glass_message + "- Glass Position changed "
+                if not same_dimension(vs.GetRField(existing_picture, "Picture", "GlassPosition"), picture_parameters.glassPosition):
+                    glass_message = glass_message + "- Glass Position changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "GlassPosition"), picture_parameters.glassPosition))
                     vs.SetRField(existing_picture, "Picture", "GlassPosition", picture_parameters.glassPosition)
                     changed = True
 
             if self.parameters.glassClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
-                existing_glass_class = vs.GetRField(existing_picture, "Picture", "GlassClass")
-                if picture_parameters.glassClass != existing_glass_class:
-                    glass_message = glass_message + "- Glass Class changed "
+                if picture_parameters.glassClass != vs.GetRField(existing_picture, "Picture", "GlassClass"):
+                    glass_message = glass_message + "- Glass Class changed ({} --> {}) ".format(vs.GetRField(existing_picture, "Picture", "GlassClass"), picture_parameters.glassClass)
                     vs.SetRField(existing_picture, "Picture", "GlassClass", picture_parameters.glassClass)
                     changed = True
 
         if changed:
             vs.ResetObject(existing_picture)
 
-            log_message = "{} * [Modified] ".format(
-                picture_parameters.pictureName) + image_message + frame_message + matboard_message + glass_message + "\n"
+            log_message = "{} * [Modified] ".format(picture_parameters.pictureName) + image_message + frame_message + matboard_message + glass_message + "\n"
             self.importUpdatedCount += 1
         else:
             if self.parameters.importIgnoreUnmodified != "True":
@@ -2150,10 +2125,6 @@ class ImportPicturesDialog:
             log_file.write(log_message)
 
     def import_pictures(self):
-        vs.ProgressDlgOpen("Importing Pictures", True)
-        total_rows = self.excel.get_worksheet_row_count()
-        vs.ProgressDlgSetMeter("Importing " + str(total_rows) + " Pictures ...")
-        vs.ProgressDlgStart(100.0, total_rows)
         self.importNewCount = 0
         self.importUpdatedCount = 0
         self.importDeletedCount = 0
@@ -2161,46 +2132,62 @@ class ImportPicturesDialog:
         document_file_name = vs.GetFPathName()
         document_folder = os.path.dirname(document_file_name)
         if not document_folder:
-            document_folder = "C:/tmp"
+            # document_folder = "C:/tmp"
+            vs.AlertCritical("Save the file first", "Before importing Pictures you must name and save the document")
+            self.result = kCancel
+            return
+
         log_file_name = document_folder + "/" + "Import_Pictures_" + strftime("%y_%m_%d_%H_%M_%S", gmtime()) + ".log"
 
-        log_file = open(log_file_name, "w")
+        # log_file = open(log_file_name, "w")
+        with open(log_file_name, "w") as log_file:
+            try:
+                vs.ProgressDlgOpen("Importing Pictures", True)
+                total_rows = self.excel.get_worksheet_row_count()
+                vs.ProgressDlgSetMeter("Importing " + str(total_rows) + " Pictures ...")
+                vs.ProgressDlgStart(100.0, total_rows)
 
-        for picture_parameters in self.excel.get_worksheet_rows(log_file):
+                for picture_parameters in self.excel.get_worksheet_rows(log_file):
 
-            if vs.ProgressDlgHasCancel():
-                break
-            vs.ProgressDlgYield(1)
-            vs.ProgressDlgSetTopMsg("New Pictures: {}".format(self.importNewCount))
-            vs.ProgressDlgSetBotMsg("Modified Pictures: {}".format(self.importUpdatedCount))
+                    if vs.ProgressDlgHasCancel():
+                        break
+                    vs.ProgressDlgYield(1)
+                    vs.ProgressDlgSetTopMsg("New Pictures: {}".format(self.importNewCount))
+                    vs.ProgressDlgSetBotMsg("Modified Pictures: {}".format(self.importUpdatedCount))
 
-            if picture_parameters.pictureName:
-                # self.set_texture(picture_parameters)
-                existing_picture = vs.GetObject(picture_parameters.pictureName)
-                if existing_picture:
-                    object_type = vs.GetTypeN(existing_picture)
-                    if object_type == 86:
-                        self.update_picture(picture_parameters, log_file)
+                    if picture_parameters.pictureName:
+                        existing_picture = vs.GetObject(picture_parameters.pictureName)
+                        if not existing_picture:
+                            existing_symbol = vs.GetObject("{} Picture Symbol".format(picture_parameters.pictureName))
+                            if existing_symbol:
+                                if vs.GetTypeN(existing_symbol) == 16:
+                                    existing_picture = vs.FInSymDef(existing_symbol)
+                                    while existing_picture:
+                                        if vs.GetTypeN(existing_picture) == 86:
+                                            break
+                                        existing_picture = vs.NextObj(existing_picture)
+
+                        if existing_picture:
+                            self.update_picture(picture_parameters, existing_picture, log_file)
+                        else:
+                            self.new_picture(picture_parameters, log_file)
                     else:
-                        "{}(conflicts with another name)".format(picture_parameters.pictureName)
-                        self.new_picture(picture_parameters, log_file)
-                else:
-                    self.new_picture(picture_parameters, log_file)
-            else:
-                self.importErrorCount += 1
-                pass
+                        self.importErrorCount += 1
+                        pass
 
-        vs.ProgressDlgEnd()
-        vs.ProgressDlgClose()
+                vs.ProgressDlgEnd()
+                vs.ProgressDlgClose()
 
-        log_file.write("--------------------------------------------------------------------------\n")
-        log_file.write("Total new Pictures: {}\n".format(self.importNewCount))
-        log_file.write("Total modified Pictures: {}\n".format(self.importUpdatedCount))
-        log_file.write("Total deleted Pictures: {}\n".format(self.importDeletedCount))
-        if self.parameters.importIgnoreErrors != "True":
-            log_file.write("Total error Pictures: {}\n".format(self.importErrorCount))
-        log_file.write("--------------------------------------------------------------------------\n")
-        log_file.close()
+                log_file.write("--------------------------------------------------------------------------\n")
+                log_file.write("Total new Pictures: {}\n".format(self.importNewCount))
+                log_file.write("Total modified Pictures: {}\n".format(self.importUpdatedCount))
+                log_file.write("Total deleted Pictures: {}\n".format(self.importDeletedCount))
+                if self.parameters.importIgnoreErrors != "True":
+                    log_file.write("Total error Pictures: {}\n".format(self.importErrorCount))
+                log_file.write("--------------------------------------------------------------------------\n")
+                log_file.close()
+            except IOError as e:
+                vs.AlertCritical("Cannot open log file", "I/O error({0}): {1}".format(e.errno, e.strerror))
 
     # def set_texture(self, picture_parameters: PictureParameters):
     #
