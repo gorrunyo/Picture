@@ -6,6 +6,18 @@ from _import_settings import ImportSettings
 import pypyodbc as pyodbc
 
 
+def make_year_string(source):
+    date_type = type(source)
+    if date_type is str:
+        return source
+    elif date_type is float:
+        return str(int(source))
+    elif date_type is int:
+        return str(source)
+    else:
+        return "Unknown"
+
+
 class ImportDatabase(object):
     """ Picture import workbook Class
     """
@@ -451,13 +463,13 @@ class ImportDatabase(object):
                             if self.settings.metaAuthorNameSelector != "-- Don't Import":
                                 self.settings.pictureRecord.authorName = row[self.settings.metaAuthorNameSelector.lower()]
                             if self.settings.metaArtworkCreationDateSelector != "-- Don't Import":
-                                self.settings.pictureRecord.artworkCreationDate = row[self.settings.metaArtworkCreationDateSelector.lower()]
+                                self.settings.pictureRecord.artworkCreationDate = make_year_string(row[self.settings.metaArtworkCreationDateSelector.lower()])
                             if self.settings.metaArtworkMediaSelector != "-- Don't Import":
                                 self.settings.pictureRecord.artworkMedia = row[self.settings.metaArtworkMediaSelector.lower()]
                             # if self.settings.metaTypeSelector != "-- Don't Import":
                             #     self.settings.pictureRecord. = row[self.settings.metaTypeSelector.lower()]
-                            # if self.settings.metaRoomLocationSelector != "-- Don't Import":
-                            #     self.settings.pictureRecord.roomLocation = row[self.settings.metaRoomLocationSelector.lower()]
+                            if self.settings.metaRoomLocationSelector != "-- Don't Import":
+                                self.settings.pictureRecord.roomLocation = row[self.settings.metaRoomLocationSelector.lower()]
                             if self.settings.metaArtworkSourceSelector != "-- Don't Import":
                                 self.settings.pictureRecord.artworkSource = row[self.settings.metaArtworkSourceSelector.lower()]
                             if self.settings.metaRegistrationNumberSelector != "-- Don't Import":
@@ -465,9 +477,9 @@ class ImportDatabase(object):
                             if self.settings.metaAuthorBirthCountrySelector != "-- Don't Import":
                                 self.settings.pictureRecord.authorBirthCountry = row[self.settings.metaAuthorBirthCountrySelector.lower()]
                             if self.settings.metaAuthorBirthDateSelector != "-- Don't Import":
-                                self.settings.pictureRecord.authorBirthDate = row[self.settings.metaAuthorBirthDateSelector.lower()]
+                                self.settings.pictureRecord.authorBirthDate = make_year_string(row[self.settings.metaAuthorBirthDateSelector.lower()])
                             if self.settings.metaAuthorDeathDateSelector != "-- Don't Import":
-                                self.settings.pictureRecord.authorDeathDate = row[self.settings.metaAuthorDeathDateSelector.lower()]
+                                self.settings.pictureRecord.authorDeathDate = make_year_string(row[self.settings.metaAuthorDeathDateSelector.lower()])
                             if self.settings.metaDesignNotesSelector != "-- Don't Import":
                                 self.settings.pictureRecord.designNotes = row[self.settings.metaDesignNotesSelector.lower()]
                             if self.settings.metaExhibitionMediaSelector != "-- Don't Import":

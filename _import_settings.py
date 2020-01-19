@@ -298,6 +298,9 @@ class ImportSettings:
         valid, self.metaArtworkMediaSelector = vs.GetSavedSetting("importPictures", "metaArtworkMediaSelector")
         if not valid:
             self.metaArtworkMediaSelector = "-- Don't Import"
+        valid, self.metaRoomLocationSelector = vs.GetSavedSetting("importPictures", "metaRoomLocationSelector")
+        if not valid:
+            self.metaRoomLocationSelector = "-- Don't Import"
         valid, self.metaArtworkSourceSelector = vs.GetSavedSetting("importPictures", "metaArtworkSourceSelector")
         if not valid:
             self.metaArtworkSourceSelector = "-- Don't Import"
@@ -397,6 +400,7 @@ class ImportSettings:
         vs.SetSavedSetting("importPictures", "metaArtworkTitleSelector", "{}".format(self.metaArtworkTitleSelector))
         vs.SetSavedSetting("importPictures", "metaAuthorNameSelector", "{}".format(self.metaAuthorNameSelector))
         vs.SetSavedSetting("importPictures", "metaArtworkCreationDateSelector", "{}".format(self.metaArtworkCreationDateSelector))
+        vs.SetSavedSetting("importPictures", "metaRoomLocationSelector", "{}".format(self.metaRoomLocationSelector))
         vs.SetSavedSetting("importPictures", "metaArtworkMediaSelector", "{}".format(self.metaArtworkMediaSelector))
         vs.SetSavedSetting("importPictures", "metaArtworkSourceSelector", "{}".format(self.metaArtworkSourceSelector))
         vs.SetSavedSetting("importPictures", "metaRegistrationNumberSelector", "{}".format(self.metaRegistrationNumberSelector))

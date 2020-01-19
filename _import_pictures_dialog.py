@@ -185,8 +185,8 @@ class ImportPicturesDialog:
         self.kWidgetID_metaArtworkMediaSelector = 508
         # self.kWidgetID_metaTypeLabel = 509
         # self.kWidgetID_metaTypeSelector = 510
-        # self.kWidgetID_metaRoomLocationLabel = 511
-        # self.kWidgetID_metaRoomLocationSelector = 512
+        self.kWidgetID_metaRoomLocationLabel = 511
+        self.kWidgetID_metaRoomLocationSelector = 512
         self.kWidgetID_metaArtworkSourceLabel = 513
         self.kWidgetID_metaArtworkSourceSelector = 514
         self.kWidgetID_metaRegistrationNumberLabel = 515
@@ -462,7 +462,7 @@ class ImportPicturesDialog:
             vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, data == 1)
             vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkMediaSelector, data == 1)
             # vs.EnableItem(self.dialog, self.kWidgetID_metaTypeSelector, data == 1)
-            # vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, data == 1)
+            vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, data == 1)
             vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkSourceSelector, data == 1)
             vs.EnableItem(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, data == 1)
             vs.EnableItem(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, data == 1)
@@ -480,8 +480,8 @@ class ImportPicturesDialog:
             self.parameters.metaArtworkMediaSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaArtworkMediaSelector, data)
         # elif item == self.kWidgetID_metaTypeSelector:
         #     self.parameters.metaTypeSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaTypeSelector, data)
-        # elif item == self.kWidgetID_metaRoomLocationSelector:
-        #     self.parameters.metaRoomLocationSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaRoomLocationSelector, data)
+        elif item == self.kWidgetID_metaRoomLocationSelector:
+            self.parameters.metaRoomLocationSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaRoomLocationSelector, data)
         elif item == self.kWidgetID_metaArtworkSourceSelector:
             self.parameters.metaArtworkSourceSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_metaArtworkSourceSelector, data)
         elif item == self.kWidgetID_metaRegistrationNumberSelector:
@@ -723,8 +723,8 @@ class ImportPicturesDialog:
         vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkMediaSelector, state)
         # vs.ShowItem(self.dialog, self.kWidgetID_metaTypeLabel, state)
         # vs.ShowItem(self.dialog, self.kWidgetID_metaTypeSelector, state)
-        # vs.ShowItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, state)
-        # vs.ShowItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, state)
+        vs.ShowItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, state)
         vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkSourceLabel, state)
         vs.ShowItem(self.dialog, self.kWidgetID_metaArtworkSourceSelector, state)
         vs.ShowItem(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, state)
@@ -791,7 +791,7 @@ class ImportPicturesDialog:
             vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, column, 0)
             # vs.AddChoice(self.dialog, self.kWidgetID_metaTypeSelector, column, 0)
-            # vs.AddChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, column, 0)
+            vs.AddChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkSourceSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, column, 0)
             vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, column, 0)
@@ -831,7 +831,7 @@ class ImportPicturesDialog:
         vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkCreationDateSelector, "-- Don't Import", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, "-- Don't Import", 0)
         # vs.AddChoice(self.dialog, self.kWidgetID_metaTypeSelector, "-- Don't Import", 0)
-        # vs.AddChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, "-- Don't Import", 0)
+        vs.AddChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, "-- Don't Import", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_metaArtworkSourceSelector, "-- Don't Import", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_metaRegistrationNumberSelector, "-- Don't Import", 0)
         vs.AddChoice(self.dialog, self.kWidgetID_metaAuthorBirthCountrySelector, "-- Don't Import", 0)
@@ -1062,9 +1062,9 @@ class ImportPicturesDialog:
         #                                         self.parameters.metaTypeSelector)
         # vs.SelectChoice(self.dialog, self.kWidgetID_metaTypeSelector, selector_index, True)
         #
-        # selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaRoomLocationSelector,
-        #                                         self.parameters.metaRoomLocationSelector)
-        # vs.SelectChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, selector_index, True)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaRoomLocationSelector,
+                                                self.parameters.metaRoomLocationSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, selector_index, True)
 
         selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkSourceSelector,
                                                 self.parameters.metaArtworkSourceSelector)
@@ -1183,8 +1183,8 @@ class ImportPicturesDialog:
         vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkMediaSelector, enabled)
         # vs.EnableItem(self.dialog, self.kWidgetID_metaTypeLabel, enabled)
         # vs.EnableItem(self.dialog, self.kWidgetID_metaTypeSelector, enabled)
-        # vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, enabled)
-        # vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, enabled)
+        vs.EnableItem(self.dialog, self.kWidgetID_metaRoomLocationSelector, enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkSourceLabel, enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_metaArtworkSourceSelector, enabled)
         vs.EnableItem(self.dialog, self.kWidgetID_metaRegistrationNumberLabel, enabled)
@@ -1241,7 +1241,7 @@ class ImportPicturesDialog:
         self.remove_field_options(self.kWidgetID_metaArtworkCreationDateSelector)
         self.remove_field_options(self.kWidgetID_metaArtworkMediaSelector)
         # self.remove_field_options(self.kWidgetID_metaTypeSelector)
-        # self.remove_field_options(self.kWidgetID_metaRoomLocationSelector)
+        self.remove_field_options(self.kWidgetID_metaRoomLocationSelector)
         self.remove_field_options(self.kWidgetID_metaArtworkSourceSelector)
         self.remove_field_options(self.kWidgetID_metaRegistrationNumberSelector)
         self.remove_field_options(self.kWidgetID_metaAuthorBirthCountrySelector)
@@ -1789,10 +1789,20 @@ class ImportPicturesDialog:
         vs.SelectChoice(self.dialog, self.kWidgetID_metaArtworkMediaSelector, selector_index, True)
         vs.SetRightItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, self.kWidgetID_metaArtworkMediaSelector, 0, 0)
         vs.SetHelpText(self.dialog, self.kWidgetID_metaArtworkMediaSelector, "Select how Artwork Media has to be imported.")
+        # Room Location
+        # -----------------------------------------------------------------------------------------
+        vs.CreateStaticText(self.dialog, self.kWidgetID_metaRoomLocationLabel, "Room Location: ", label_width)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, self.kWidgetID_metaRoomLocationLabel, 0, 0)
+        vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaRoomLocationSelector, 2 * input_field_width)
+        selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaRoomLocationSelector,
+                                                self.parameters.metaRoomLocationSelector)
+        vs.SelectChoice(self.dialog, self.kWidgetID_metaRoomLocationSelector, selector_index, True)
+        vs.SetRightItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, self.kWidgetID_metaRoomLocationSelector, 0, 0)
+        vs.SetHelpText(self.dialog, self.kWidgetID_metaRoomLocationSelector, "Select the field for the room location.")
         # Artwork Source
         # -----------------------------------------------------------------------------------------
         vs.CreateStaticText(self.dialog, self.kWidgetID_metaArtworkSourceLabel, "Artwork Source: ", label_width)
-        vs.SetBelowItem(self.dialog, self.kWidgetID_metaArtworkMediaLabel, self.kWidgetID_metaArtworkSourceLabel, 0, 0)
+        vs.SetBelowItem(self.dialog, self.kWidgetID_metaRoomLocationLabel, self.kWidgetID_metaArtworkSourceLabel, 0, 0)
         vs.CreatePullDownMenu(self.dialog, self.kWidgetID_metaArtworkSourceSelector, 2 * input_field_width)
         selector_index = vs.GetPopUpChoiceIndex(self.dialog, self.kWidgetID_metaArtworkSourceSelector,
                                                 self.parameters.metaArtworkSourceSelector)
