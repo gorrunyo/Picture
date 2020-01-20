@@ -10,7 +10,7 @@ import vs
 from vs_constants import *
 from _import_settings import ImportSettings
 from _import_picture_database import ImportDatabase
-from _picture_settings import PictureParameters
+from _picture_settings import PictureParameters, PictureRecord
 from _picture import build_picture
 
 # import pydevd_pycharm
@@ -1927,6 +1927,7 @@ class ImportPicturesDialog:
         frame_message = ""
         matboard_message = ""
         glass_message = ""
+        metadata_message = ""
         changed = False
 
         # existing_picture = vs.GetObject(picture_parameters.pictureName)
@@ -2085,10 +2086,120 @@ class ImportPicturesDialog:
                     vs.SetRField(existing_picture, "Picture", "GlassClass", picture_parameters.glassClass)
                     changed = True
 
+        # Update Metadata information
+        existing_symbol = vs.GetObject("{} Picture Symbol".format(vs.GetName(existing_picture)))
+        if self.parameters.metaImportMetadata == "True" and self.parameters.importIgnoreExisting == "False" and existing_symbol:
+
+            if picture_parameters.withImage == "True":
+                vs.SetRField(existing_symbol, "Object list data", "Image size", "Height: {}, Width: {}".format(picture_parameters.imageHeight, picture_parameters.imageWidth))
+            if picture_parameters.withFrame == "True" or picture_parameters.withMatboard == "True":
+                vs.SetRField(existing_symbol, "Object list data", "Frame size", "Height: {}, Width: {}".format(picture_parameters.frameHeight, picture_parameters.frameWidth))
+            if picture_parameters.withMatboard == "True":
+                vs.SetRField(existing_symbol, "Object list data", "Window size", "Height: {}, Width: {}".format(picture_parameters.windowHeight, picture_parameters.windowWidth))
+
+            if self.parameters.metaArtworkTitleSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.artworkTitle is None:
+                    self.parameters.pictureRecord.artworkTitle = ""
+                if self.parameters.pictureRecord.artworkTitle != vs.GetRField(existing_symbol, "Object list data", "Artwork title"):
+                    metadata_message += "Artwork Title changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Artwork title"), self.parameters.pictureRecord.artworkTitle)
+                    vs.SetRField(existing_symbol, "Object list data", "Artwork title", self.parameters.pictureRecord.artworkTitle)
+                    changed = True
+
+            if self.parameters.metaAuthorNameSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.authorName is None:
+                    self.parameters.pictureRecord.authorName = ""
+                if self.parameters.pictureRecord.authorName != vs.GetRField(existing_symbol, "Object list data", "Author name"):
+                    metadata_message += "Author name changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Author name"), self.parameters.pictureRecord.authorName)
+                    vs.SetRField(existing_symbol, "Object list data", "Author name", self.parameters.pictureRecord.authorName)
+                    changed = True
+
+            if self.parameters.metaArtworkCreationDateSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.artworkCreationDate is None:
+                    self.parameters.pictureRecord.artworkCreationDate = ""
+                if self.parameters.pictureRecord.artworkCreationDate != vs.GetRField(existing_symbol, "Object list data", "Artwork creation date"):
+                    metadata_message += "Artwork creation date changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Artwork creation date"), self.parameters.pictureRecord.artworkCreationDate)
+                    vs.SetRField(existing_symbol, "Object list data", "Artwork creation date", self.parameters.pictureRecord.artworkCreationDate)
+                    changed = True
+
+            if self.parameters.metaArtworkMediaSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.artworkMedia is None:
+                    self.parameters.pictureRecord.artworkMedia = ""
+                if self.parameters.pictureRecord.artworkMedia != vs.GetRField(existing_symbol, "Object list data", "Artwork media"):
+                    metadata_message += "Artwork media changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Artwork media"), self.parameters.pictureRecord.artworkMedia)
+                    vs.SetRField(existing_symbol, "Object list data", "Artwork media", self.parameters.pictureRecord.artworkMedia)
+                    changed = True
+
+            # if self.settings.metaTypeSelector != "-- Don't Import":
+            #     self.settings.pictureRecord. = row[self.settings.metaTypeSelector.lower()]
+
+            if self.parameters.metaRoomLocationSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.roomLocation is None:
+                    self.parameters.pictureRecord.roomLocation = ""
+                if self.parameters.pictureRecord.roomLocation != vs.GetRField(existing_symbol, "Object list data", "Room Location"):
+                    metadata_message += "Room Location changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Room Location"), self.parameters.pictureRecord.roomLocation)
+                    vs.SetRField(existing_symbol, "Object list data", "Room Location", self.parameters.pictureRecord.roomLocation)
+                    changed = True
+
+            if self.parameters.metaArtworkSourceSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.artworkSource is None:
+                    self.parameters.pictureRecord.artworkSource = ""
+                if self.parameters.pictureRecord.artworkSource != vs.GetRField(existing_symbol, "Object list data", "Artwork source/lender"):
+                    metadata_message += "Artwork source/lender changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Artwork source/lender"), self.parameters.pictureRecord.artworkSource)
+                    vs.SetRField(existing_symbol, "Object list data", "Artwork source/lender", self.parameters.pictureRecord.artworkSource)
+                    changed = True
+
+            if self.parameters.metaRegistrationNumberSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.registrationNumber is None:
+                    self.parameters.pictureRecord.registrationNumber = ""
+                if self.parameters.pictureRecord.registrationNumber != vs.GetRField(existing_symbol, "Object list data", "WDFM registration number"):
+                    metadata_message += "WDFM registration number changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "WDFM registration number"), self.parameters.pictureRecord.registrationNumber)
+                    vs.SetRField(existing_symbol, "Object list data", "WDFM registration number", self.parameters.pictureRecord.registrationNumber)
+                    changed = True
+
+            if self.parameters.metaAuthorBirthCountrySelector != "-- Don't Import":
+                if self.parameters.pictureRecord.authorBirthCountry is None:
+                    self.parameters.pictureRecord.authorBirthCountry = ""
+                if self.parameters.pictureRecord.authorBirthCountry != vs.GetRField(existing_symbol, "Object list data", "Author birth country"):
+                    metadata_message += "Author birth country changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Author birth country"), self.parameters.pictureRecord.authorBirthCountry)
+                    vs.SetRField(existing_symbol, "Object list data", "Author birth country", self.parameters.pictureRecord.authorBirthCountry)
+                    changed = True
+
+            if self.parameters.metaAuthorBirthDateSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.authorBirthDate is None:
+                    self.parameters.pictureRecord.authorBirthDate = ""
+                if self.parameters.pictureRecord.authorBirthDate != vs.GetRField(existing_symbol, "Object list data", "Author date of birth"):
+                    metadata_message += "Author date of birth changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Author date of birth"), self.parameters.pictureRecord.authorBirthDate)
+                    vs.SetRField(existing_symbol, "Object list data", "Author date of birth", self.parameters.pictureRecord.authorBirthDate)
+                    changed = True
+
+            if self.parameters.metaAuthorDeathDateSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.authorDeathDate is None:
+                    self.parameters.pictureRecord.authorDeathDate = ""
+                if self.parameters.pictureRecord.authorDeathDate != vs.GetRField(existing_symbol, "Object list data", "Author date of death"):
+                    metadata_message += "Author date of death changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Author date of death"), self.parameters.pictureRecord.authorDeathDate)
+                    vs.SetRField(existing_symbol, "Object list data", "Author date of death", self.parameters.pictureRecord.authorDeathDate)
+                    changed = True
+
+            if self.parameters.metaDesignNotesSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.designNotes is None:
+                    self.parameters.pictureRecord.designNotes = ""
+                if self.parameters.pictureRecord.designNotes != vs.GetRField(existing_symbol, "Object list data", "Design notes"):
+                    metadata_message += "Design notes changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Design notes"), self.parameters.pictureRecord.designNotes)
+                    vs.SetRField(existing_symbol, "Object list data", "Design notes", self.parameters.pictureRecord.designNotes)
+                    changed = True
+
+            if self.parameters.metaExhibitionMediaSelector != "-- Don't Import":
+                if self.parameters.pictureRecord.exhibitionMedia is None:
+                    self.parameters.pictureRecord.exhibitionMedia = ""
+                if self.parameters.pictureRecord.exhibitionMedia != vs.GetRField(existing_symbol, "Object list data", "Exhibition media"):
+                    metadata_message += "Exhibition media changed ({} --> {}) ".format(vs.GetRField(existing_symbol, "Object list data", "Exhibition media"), self.parameters.pictureRecord.exhibitionMedia)
+                    vs.SetRField(existing_symbol, "Object list data", "Exhibition media", self.parameters.pictureRecord.exhibitionMedia)
+                    changed = True
+
         if changed:
             vs.ResetObject(existing_picture)
 
-            log_message = "{} * [Modified] ".format(picture_parameters.pictureName) + image_message + frame_message + matboard_message + glass_message + "\n"
+            log_message = "{} * [Modified] ".format(picture_parameters.pictureName) + image_message + frame_message + matboard_message + glass_message + metadata_message + "\n"
             self.importUpdatedCount += 1
         else:
             if self.parameters.importIgnoreUnmodified != "True":
