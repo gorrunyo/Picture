@@ -33,14 +33,14 @@ def dimension_strings(dimension_1: str, dimension_2: str) -> (str, str):
     valid1, value = vs.ValidNumStr(dimension_1)
     if valid1:
         dim1 = round(value, 3)
-        str1 = "{}".format(dim1)
+        str1 = str(dim1)
     else:
         str1 = "Invalid"
 
     valid2, value = vs.ValidNumStr(dimension_2)
     if valid2:
         dim2 = round(value, 3)
-        str2 = "{}".format(dim2)
+        str2 = str(dim2)
     else:
         str2 = "Invalid"
     return str1, str2
@@ -337,7 +337,9 @@ class ImportPicturesDialog:
             vs.EnableItem(self.dialog, self.kWidgetID_imagePosition, data == 0)
             self.parameters.imagePositionSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_imagePositionSelector, data)
         elif item == self.kWidgetID_imagePosition:
-            self.parameters.pictureParameters.imagePosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_imagePosition, 3))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_imagePosition, 3)
+            if valid:
+                self.parameters.pictureParameters.imagePosition = str(value)
         elif item == self.kWidgetID_withFrameSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withFrame, data == 0)
             self.parameters.withFrameSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withFrameSelector, data)
@@ -351,13 +353,16 @@ class ImportPicturesDialog:
             vs.EnableItem(self.dialog, self.kWidgetID_frameThickness, data == 0)
             self.parameters.frameThicknessSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameThicknessSelector, data)
         elif item == self.kWidgetID_frameThickness:
-            self.parameters.pictureParameters.frameThickness = str(vs.GetEditReal(
-                self.dialog, self.kWidgetID_frameThickness, 3))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_frameThickness, 3)
+            if valid:
+                self.parameters.pictureParameters.frameThickness = str(value)
         elif item == self.kWidgetID_frameDepthSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameDepth, data == 0)
             self.parameters.frameDepthSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameDepthSelector, data)
         elif item == self.kWidgetID_frameDepth:
-            self.parameters.pictureParameters.frameDepth = str(vs.GetEditReal(self.dialog, self.kWidgetID_frameDepth, 3))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_frameDepth, 3)
+            if valid:
+                self.parameters.pictureParameters.frameDepth = str(value)
         elif item == self.kWidgetID_frameClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameClass, data == 0)
             self.parameters.frameClassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameClassSelector, data)
@@ -367,12 +372,16 @@ class ImportPicturesDialog:
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureScale, data == 0)
             self.parameters.frameTextureScaleSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameTextureScaleSelector, data)
         elif item == self.kWidgetID_frameTextureScale:
-            self.parameters.pictureParameters.frameTextureScale = str(vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureScale, 1)
+            if valid:
+                self.parameters.pictureParameters.frameTextureScale = str(value)
         elif item == self.kWidgetID_frameTextureRotationSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_frameTextureRotation, data == 0)
             self.parameters.frameTextureRotationSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_frameTextureRotationSelector, data)
         elif item == self.kWidgetID_frameTextureRotation:
-            self.parameters.pictureParameters.frameTextureRotation = str(vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_frameTextureRotation, 1)
+            if valid:
+                self.parameters.pictureParameters.frameTextureRotation = str(value)
         elif item == self.kWidgetID_withMatboardSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withMatboard, data == 0)
             self.parameters.withMatboardSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withMatboardSelector, data)
@@ -386,7 +395,9 @@ class ImportPicturesDialog:
         elif item == self.kWidgetID_windowHeightSelector:
             self.parameters.windowHeightSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_windowHeightSelector, data)
         elif item == self.kWidgetID_matboardPosition:
-            self.parameters.pictureParameters.matboardPosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardPosition, 3))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_matboardPosition, 3)
+            if valid:
+                self.parameters.pictureParameters.matboardPosition = str(value)
         elif item == self.kWidgetID_matboardClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardClass, data == 0)
             self.parameters.matboardClassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardClassSelector, data)
@@ -396,12 +407,16 @@ class ImportPicturesDialog:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureScale, data == 0)
             self.parameters.matboardTextureScaleSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardTextureScaleSelector, data)
         elif item == self.kWidgetID_matboardTextureScale:
-            self.parameters.pictureParameters.matboardTextureScale = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureScale, 1)
+            if valid:
+                self.parameters.pictureParameters.matboardTextureScale = str(value)
         elif item == self.kWidgetID_matboardTextureRotatSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_matboardTextureRotat, data == 0)
             self.parameters.matboardTextureRotatSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_matboardTextureRotatSelector, data)
         elif item == self.kWidgetID_matboardTextureRotat:
-            self.parameters.pictureParameters.matboardTextureRotat = str(vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_matboardTextureRotat, 1)
+            if valid:
+                self.parameters.pictureParameters.matboardTextureRotat = str(value)
         elif item == self.kWidgetID_withGlassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_withGlass, data == 0)
             self.parameters.withGlassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_withGlassSelector, data)
@@ -412,7 +427,9 @@ class ImportPicturesDialog:
             self.parameters.glassPositionSelector = vs.GetChoiceText(
                 self.dialog, self.kWidgetID_glassPositionSelector, data)
         elif item == self.kWidgetID_glassPosition:
-            self.parameters.pictureParameters.glassPosition = str(vs.GetEditReal(self.dialog, self.kWidgetID_glassPosition, 3))
+            valid, value = vs.GetEditReal(self.dialog, self.kWidgetID_glassPosition, 3)
+            if valid:
+                self.parameters.pictureParameters.glassPosition = str(value)
         elif item == self.kWidgetID_glassClassSelector:
             vs.EnableItem(self.dialog, self.kWidgetID_glassClass, data == 0)
             self.parameters.glassClassSelector = vs.GetChoiceText(self.dialog, self.kWidgetID_glassClassSelector, data)
@@ -2228,6 +2245,9 @@ class ImportPicturesDialog:
                             break
                     if texture != 0:
                         break
+            if texture == 0:
+                texture_name = "{} Picture Texture".format(picture_parameters.pictureName)
+                texture = vs.GetObject(texture_name)
             if texture == 0:
                 picture_parameters.imageTexture = ""
                 log_message = "{} * [Could not find texture] \n".format(picture_parameters.pictureName)
