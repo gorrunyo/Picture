@@ -2060,8 +2060,9 @@ class ImportPicturesDialog:
 
             if self.parameters.matboardPositionSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if not same_dimension(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition):
-                    matboard_message = matboard_message + "- Matboard Position changed ({0[0]} --> {0[1]}) ".format(
-                        dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition))
+                    matboard_message = matboard_message + "- Matboard Position changed ({0[0]} --> {0[1]}) ".format(dimension_strings(vs.GetRField(existing_picture, "Picture", "MatboardPosition"), picture_parameters.matboardPosition))
+                    vs.SetRField(existing_picture, "Picture", "MatboardPosition", picture_parameters.matboardPosition)
+                    changed = True
 
             if self.parameters.matboardClassSelector != "-- Manual" or self.parameters.importIgnoreExisting == "False":
                 if picture_parameters.matboardClass != vs.GetRField(existing_picture, "Picture", "MatboardClass"):
