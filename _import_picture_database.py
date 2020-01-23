@@ -176,7 +176,7 @@ class ImportDatabase(object):
                         if picture.withImage == "True":
                             cell_value = row[self.settings.imageWidthSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.imageWidth = str(round(value, 3))
                             else:
                                 image_message += "- Invalid Image Width ({})".format(cell_value)
@@ -184,22 +184,22 @@ class ImportDatabase(object):
 
                             cell_value = row[self.settings.imageHeightSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.imageHeight = str(round(value, 3))
                             else:
                                 image_message += "- Invalid Image Height ({})".format(cell_value)
                                 valid_picture = False
 
                             if self.settings.imagePositionSelector == "-- Manual":
-                                picture.imagePosition = self.settings.pictureParameters.imagePosition
+                                cell_value = self.settings.pictureParameters.imagePosition
                             else:
                                 cell_value = row[self.settings.imagePositionSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.imagePosition = str(round(value, 3))
-                                else:
-                                    image_message += "- Invalid Image Position ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.imagePosition = str(round(value, 3))
+                            else:
+                                image_message += "- Invalid Image Position ({})".format(cell_value)
+                                valid_picture = False
 
                         # Obtain frame parameters
                         if self.settings.withFrameSelector == "-- Manual":
@@ -214,7 +214,7 @@ class ImportDatabase(object):
                         if picture.withFrame == "True":
                             cell_value = row[self.settings.frameWidthSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.frameWidth = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Width ({})".format(cell_value)
@@ -222,33 +222,33 @@ class ImportDatabase(object):
 
                             cell_value = row[self.settings.frameHeightSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.frameHeight = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Height ({})".format(cell_value)
                                 valid_picture = False
 
                             if self.settings.frameThicknessSelector == "-- Manual":
-                                picture.frameThickness = self.settings.pictureParameters.frameThickness
+                                cell_value = self.settings.pictureParameters.frameThickness
                             else:
                                 cell_value = row[self.settings.pictureParameters.frameThicknessSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.frameThickness = str(round(value, 3))
-                                else:
-                                    frame_message += "- Invalid Frame Thickness ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.frameThickness = str(round(value, 3))
+                            else:
+                                frame_message += "- Invalid Frame Thickness ({})".format(cell_value)
+                                valid_picture = False
 
                             if self.settings.frameDepthSelector == "-- Manual":
-                                picture.frameDepth = self.settings.pictureParameters.frameDepth
+                                cell_value = self.settings.pictureParameters.frameDepth
                             else:
                                 cell_value = row[self.settings.frameDepthSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.frameDepth = str(round(value, 3))
-                                else:
-                                    frame_message += "- Invalid Frame Depth ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.frameDepth = str(round(value, 3))
+                            else:
+                                frame_message += "- Invalid Frame Depth ({})".format(cell_value)
+                                valid_picture = False
 
                             if self.settings.frameClassSelector == "-- Manual":
                                 picture.frameClass = self.settings.pictureParameters.frameClass
@@ -268,26 +268,26 @@ class ImportDatabase(object):
                                     picture.frameClass = cell_value
 
                             if self.settings.frameTextureScaleSelector == "-- Manual":
-                                picture.frameTextureScale = self.settings.pictureParameters.frameTextureScale
+                                cell_value = self.settings.pictureParameters.frameTextureScale
                             else:
                                 cell_value = row[self.settings.frameTextureScaleSelector.lower()]
-                                valid, picture.frameTextureScale = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.frameTextureScale = str(round(value, 3))
-                                else:
-                                    frame_message += "- Invalid Frame Texture Scale ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.frameTextureScale = str(round(value, 3))
+                            else:
+                                frame_message += "- Invalid Frame Texture Scale ({})".format(cell_value)
+                                valid_picture = False
 
                             if self.settings.frameTextureRotationSelector == "-- Manual":
-                                picture.frameTextureRotation = self.settings.pictureParameters.frameTextureRotation
+                                cell_value = self.settings.pictureParameters.frameTextureRotation
                             else:
                                 cell_value = row[self.settings.frameTextureRotationSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.frameTextureRotation = str(round(value, 3))
-                                else:
-                                    frame_message += "- Invalid Frame Texture Rotation ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.frameTextureRotation = str(round(value, 3))
+                            else:
+                                frame_message += "- Invalid Frame Texture Rotation ({})".format(cell_value)
+                                valid_picture = False
 
                         # Obtain matboard parameters
                         if self.settings.withMatboardSelector == "-- Manual":
@@ -302,7 +302,7 @@ class ImportDatabase(object):
                         if picture.withMatboard == "True":
                             cell_value = row[self.settings.frameWidthSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.frameWidth = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Width (needed for Matboard) ({})".format(cell_value)
@@ -310,7 +310,7 @@ class ImportDatabase(object):
 
                             cell_value = row[self.settings.frameHeightSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.frameHeight = str(round(value, 3))
                             else:
                                 frame_message += "- Invalid Frame Height (needed for Matboard) ({})".format(cell_value)
@@ -318,7 +318,7 @@ class ImportDatabase(object):
 
                             cell_value = row[self.settings.windowWidthSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.windowWidth = str(round(value, 3))
                             else:
                                 if picture.withImage == "True":
@@ -330,7 +330,7 @@ class ImportDatabase(object):
 
                             cell_value = row[self.settings.windowHeightSelector.lower()]
                             valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                            if valid and value:
+                            if valid and value is not None:
                                 picture.windowHeight = str(round(value, 3))
                             else:
                                 if picture.withImage == "True":
@@ -341,15 +341,15 @@ class ImportDatabase(object):
                                     valid_picture = False
 
                             if self.settings.matboardPositionSelector == "-- Manual":
-                                picture.matboardPosition = self.settings.pictureParameters.matboardPosition
+                                cell_value = self.settings.pictureParameters.matboardPosition
                             else:
                                 cell_value = row[self.settings.matboardPositionSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.matboardPosition = str(round(value, 3))
-                                else:
-                                    matboard_message += "- Invalid Matboard Position ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.matboardPosition = str(round(value, 3))
+                            else:
+                                matboard_message += "- Invalid Matboard Position ({})".format(cell_value)
+                                valid_picture = False
 
                             if self.settings.matboardClassSelector == "-- Manual":
                                 picture.matboardClass = self.settings.pictureParameters.matboardClass
@@ -369,26 +369,26 @@ class ImportDatabase(object):
                                     picture.matboardClass = cell_value
 
                             if self.settings.matboardTextureScaleSelector == "-- Manual":
-                                picture.matboardTextureScale = self.settings.pictureParameters.matboardTextureScale
+                                cell_value = self.settings.pictureParameters.matboardTextureScale
                             else:
                                 cell_value = row[self.settings.matboardTextureScaleSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.matboardTextureScale = str(round(value, 3))
-                                else:
-                                    matboard_message += "- Invalid Matboard Texture Scale ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.matboardTextureScale = str(round(value, 3))
+                            else:
+                                matboard_message += "- Invalid Matboard Texture Scale ({})".format(cell_value)
+                                valid_picture = False
 
                             if self.settings.matboardTextureRotatSelector == "-- Manual":
-                                picture.matboardTextureRotat = self.settings.pictureParameters.matboardTextureRotat
+                                cell_value = self.settings.pictureParameters.matboardTextureRotat
                             else:
                                 cell_value = row[self.settings.matboardTextureRotatSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.matboardTextureRotat = str(round(value, 3))
-                                else:
-                                    matboard_message += "- Invalid Matboard Texture Rotation ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.matboardTextureRotat = str(round(value, 3))
+                            else:
+                                matboard_message += "- Invalid Matboard Texture Rotation ({})".format(cell_value)
+                                valid_picture = False
 
                         # Obtain glass parameters
                         if self.settings.withGlassSelector == "-- Manual":
@@ -402,15 +402,15 @@ class ImportDatabase(object):
 
                         if picture.withGlass == "True":
                             if self.settings.glassPositionSelector == "-- Manual":
-                                picture.glassPosition = self.settings.pictureParameters.glassPosition
+                                cell_value = self.settings.pictureParameters.glassPosition
                             else:
                                 cell_value = row[self.settings.glassPositionSelector.lower()]
-                                valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
-                                if valid and value:
-                                    picture.glassPosition = str(round(value, 3))
-                                else:
-                                    glass_message += "- Invalid Glass Position ({})".format(cell_value)
-                                    valid_picture = False
+                            valid, value = vs.ValidNumStr(cell_value) if isinstance(cell_value, str) else [True, cell_value]
+                            if valid and value is not None:
+                                picture.glassPosition = str(round(value, 3))
+                            else:
+                                glass_message += "- Invalid Glass Position ({})".format(cell_value)
+                                valid_picture = False
 
                             if self.settings.glassClassSelector == "-- Manual":
                                 picture.glassClass = self.settings.pictureParameters.glassClass
