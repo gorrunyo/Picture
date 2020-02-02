@@ -26,7 +26,7 @@ class PictureParameters:
         self.withGlass = "False"
         self.glassPosition = "0.75\""
         self.glassClass = "None"
-        self.pictureClass = "Picture"
+        self.pictureClass = "Artwork"
 
 
 class PictureRecord:
