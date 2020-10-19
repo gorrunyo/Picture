@@ -1,5 +1,6 @@
 from typing import Generator, IO
 import string
+import math
 import vs
 from _picture_settings import PictureParameters
 from _import_settings import ImportSettings
@@ -18,6 +19,20 @@ def make_year_string(source):
         return "Unknown"
 
 
+def to_string(var):
+    if isinstance(var, str):
+        return var
+    elif isinstance(var, int):
+        return str(var)
+    elif isinstance(var, float):
+        if math.modf(var)[0] == 0:
+            return str(int(var))
+        else:
+            return str(var)
+    else:
+        assert True
+
+
 class ImportDatabase(object):
     """ Picture import workbook Class
     """
@@ -32,7 +47,7 @@ class ImportDatabase(object):
 
         The name of the spreadsheet is specified
         in the settings class member
-        
+
         :returns: True on success. False on failure
         :rtype: bool
         """
@@ -151,9 +166,10 @@ class ImportDatabase(object):
                     glass_message = ""
                     valid_picture = True
 
-                    picture_name = row[self.settings.imageTextureSelector.lower()]
+                    name = row[self.settings.imageTextureSelector.lower()]
+                    picture_name = to_string(name)
                     if not picture_name:
-                        log_message = "UNKNOWN [Error] - Picture name not found"
+                        log_message = "UNKNOWN [Error] - Picture name not found\n"
                         log_file.write(log_message)
                         picture.pictureName = ""
                         yield picture
