@@ -57,8 +57,31 @@ class ImportDatabase(object):
             self.connected = False
 
         if self.settings.excelFileName:
+
+            # What OLEDB does is scan the first n rows (default=8) and determines a data type.
+            # If you leave out the IMEX=1 then it will return Null for any values that do not
+            # match that data type. If you include IMEX=1 and the scan encounters mixed data
+            # types then it will return text. If your sheet has a text header then you can help
+            # this process by specifying HDR=No and discarding the header.
+            # However OLEDB will always scan the first n rows to determine the data type and
+            # return results accordingly.
+            #
+            # The Rows to scan is determined by the value of TypeGuessRows.
+            #
+            # The older Microsoft.Jet.OLEDB.4.0 driver would allow you to specify TypeGuessRows
+            # in the connection string but Microsoft.ACE.OLEDB.12.0 does not.
+            # TypeGuessRows is now held in the registry under...
+            #
+            # Excel 2007: HKEY_LOCAL_MACHINE\Software\Microsoft\Office\12.0\Access Connectivity Engine\Engines\Excel\TypeGuessRows
+            # Excel 2010: HKEY_LOCAL_MACHINE\Software\Microsoft\Office\14.0\Access Connectivity Engine\Engines\Excel\TypeGuessRows
+            # Excel 2013: HKEY_LOCAL_MACHINE\Software\Microsoft\Office\15.0\Access Connectivity Engine\Engines\Excel\TypeGuessRows
+            #
+            # 32 Bit applications running on a 64 Bit Machine will find them under the Wow6432Node. E.g...
+            #
+            #HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Office\12.0\Access Connectivity Engine\Engines\Excel\TypeGuessRows
+
             connection_string = \
-                'Driver={{Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)}};DBQ={};ReadOnly=1;'.\
+                'Driver={{Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)}};DBQ={};ReadOnly=1;IMEX=1;'.\
                 format(self.settings.excelFileName)
             try:
                 self.workbook = pyodbc.connect(connection_string, autocommit=True)
